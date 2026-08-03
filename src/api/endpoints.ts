@@ -118,11 +118,31 @@ const ENDPOINTS = {
       "/dashboard/tasks-per-month",
   },
 
+  comments: {
+    list: (taskId: string) => `/comments/task/${taskId}`,
+    create: (taskId: string) => `/comments/task/${taskId}`,
+    update: (commentId: string) => `/comments/${commentId}`,
+    delete: (commentId: string) => `/comments/${commentId}`,
+    restore: (commentId: string) => `/comments/${commentId}/restore`,
+  },
+
   users: {
     me: "/users/me",
     list: "/users",
     detail: (id: string) => `/users/${id}`,
     update: (id: string) => `/users/${id}`,
+  },
+
+  notifications: {
+    list: "/notifications/",
+    read: (notificationId: string) => `/notifications/${notificationId}/read`,
+    readAll: "/notifications/read-all",
+    delete: (notificationId: string) => `/notifications/${notificationId}`,
+  },
+
+  activityLogs: {
+    list: (organizationId: string) =>
+      `/activity-logs/${organizationId}`,
   },
 };
 

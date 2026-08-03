@@ -1,9 +1,11 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
+import PageState from "@/components/PageState";
 import { useProject } from "../hooks";
 
 export default function ProjectPage() {
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const {
     data: project,
@@ -12,49 +14,35 @@ export default function ProjectPage() {
     error,
   } = useProject(id!);
 
-  if (isLoading) {
-    return <h2>Loading project...</h2>;
-  }
-
-  if (isError) {
-    return <pre>{String(error)}</pre>;
-  }
-
-  if (!project) {
-    return <h2>Project not found.</h2>;
-  }
-
   return (
-    <div style={{ padding: "2rem" }}>
-      <h1>{project.name}</h1>
+    <PageState
+      loading={isLoading}
+      error={isError ? error : undefined}
+      empty={!project}
+      loadingMessage="Loading project..."
+      emptyMessage="Project not found."
+    >
+      <div style={{ display: "grid", gap: "1rem" }}>
+        <div>
+          <h1>{project?.name}</h1>
+          <p>{project?.description}</p>
+        </div>
 
-      <p>{project.description}</p>
+        <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
+          <button onClick={() => navigate(`/projects/${project!.public_id}/tasks`)}>View Tasks</button>
+          <button onClick={() => navigate(`/organizations/${project!.organization_public_id}/activity-log`)}>View Activity Log</button>
+        </div>
 
-      <hr />
+        <div>
+          <h3>Public ID</h3>
+          <p>{project?.public_id}</p>
+        </div>
 
-      <h3>Public ID</h3>
-
-      <p>{project.public_id}</p>
-
-      <hr />
-
-      <h3>Status</h3>
-
-      <p>
-        {project.is_archived
-          ? "Archived"
-          : "Active"}
-      </p>
-
-      <hr />
-
-      <h3>Next Features</h3>
-
-      <ul>
-        <li>Tasks</li>
-        <li>Members</li>
-        <li>Activity Log</li>
-      </ul>
-    </div>
+        <div>
+          <h3>Status</h3>
+          <p>{project?.is_archived ? "Archived" : "Active"}</p>
+        </div>
+      </div>
+    </PageState>
   );
 }

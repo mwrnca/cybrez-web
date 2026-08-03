@@ -1,5 +1,7 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 
+import AppShell from "@/components/AppShell";
+
 import ProtectedRoute from "./ProtectedRoute";
 import GuestRoute from "./GuestRoute";
 
@@ -20,11 +22,14 @@ import AcceptInvitationPage from "@/features/invitations/pages/AcceptInvitationP
 
 import MembershipsPage from "@/features/memberships/pages/MembershipsPage";
 
+import ActivityLogPage from "@/features/activity-log/pages/ActivityLogPage";
+import { CommentsPage, CommentPage } from "@/features/comments/pages";
+import NotificationsPage from "@/features/notifications/pages";
+
 export default function AppRoutes() {
   return (
     <Routes>
-      {/* <Route path="/" element={<Navigate to="/dashboard" replace />} /> */}
-      <Route path="/" element={<Navigate to="/organizations" replace />} />
+      <Route path="/" element={<Navigate to="/dashboard" replace />} />
       <Route
         path="/login"
         element={
@@ -34,31 +39,27 @@ export default function AppRoutes() {
         }
       />
       <Route
-  path="/organizations"
-  element={
-    <ProtectedRoute>
-      <OrganizationsPage />
-    </ProtectedRoute>
-  }
-/>
-
-<Route
-  path="/organizations/:id"
-  element={
-    <ProtectedRoute>
-      <OrganizationPage />
-    </ProtectedRoute>
-  }
-/>
+        path="/organizations"
+        element={
+          <ProtectedRoute>
+            <AppShell>
+              <OrganizationsPage />
+            </AppShell>
+          </ProtectedRoute>
+        }
+      />
 
       <Route
-    path="/organizations"
-    element={
-        <ProtectedRoute>
-            <OrganizationsPage />
-        </ProtectedRoute>
-    }
-/>
+        path="/organizations/:id"
+        element={
+          <ProtectedRoute>
+            <AppShell>
+              <OrganizationPage />
+            </AppShell>
+          </ProtectedRoute>
+        }
+      />
+
 
       <Route
         path="/register"
@@ -73,52 +74,133 @@ export default function AppRoutes() {
         path="/dashboard"
         element={
           <ProtectedRoute>
-            <DashboardPage />
+            <AppShell>
+              <DashboardPage />
+            </AppShell>
+          </ProtectedRoute>
+        }
+      />
+
+      <Route path="/projects" element={<Navigate to="/organizations" replace />} />
+      <Route path="/tasks" element={<Navigate to="/dashboard" replace />} />
+      <Route path="/comments" element={<Navigate to="/dashboard" replace />} />
+      <Route
+        path="/notifications"
+        element={
+          <ProtectedRoute>
+            <AppShell>
+              <NotificationsPage />
+            </AppShell>
           </ProtectedRoute>
         }
       />
       <Route
-  path="/organizations/:organizationId/projects"
-  element={
-    <ProtectedRoute>
-      <ProjectsPage />
-    </ProtectedRoute>
-  }
-/>
+        path="/organizations/:organizationId/projects"
+        element={
+          <ProtectedRoute>
+            <AppShell>
+              <ProjectsPage />
+            </AppShell>
+          </ProtectedRoute>
+        }
+      />
 
-<Route
-  path="/projects/:id"
-  element={
-    <ProtectedRoute>
-      <ProjectPage />
-    </ProtectedRoute>
-  }
-/>
+      <Route
+        path="/projects/:id"
+        element={
+          <ProtectedRoute>
+            <AppShell>
+              <ProjectPage />
+            </AppShell>
+          </ProtectedRoute>
+        }
+      />
 
-<Route
-  path="/projects/:projectId/tasks"
-  element={<TasksPage />}
-/>
+      <Route
+        path="/projects/:projectId/tasks"
+        element={
+          <ProtectedRoute>
+            <AppShell>
+              <TasksPage />
+            </AppShell>
+          </ProtectedRoute>
+        }
+      />
 
-<Route
-  path="/tasks/:taskId"
-  element={<TaskPage />}
-/>
+      <Route
+        path="/tasks/:taskId"
+        element={
+          <ProtectedRoute>
+            <AppShell>
+              <TaskPage />
+            </AppShell>
+          </ProtectedRoute>
+        }
+      />
 
-<Route
-  path="/organizations/:organizationId/invitations"
-  element={<InvitationsPage />}
-/>
+      <Route
+        path="/organizations/:organizationId/invitations"
+        element={
+          <ProtectedRoute>
+            <AppShell>
+              <InvitationsPage />
+            </AppShell>
+          </ProtectedRoute>
+        }
+      />
 
-<Route
-  path="/invitations/accept/:token"
-  element={<AcceptInvitationPage />}
-/>
+      <Route
+        path="/invitations/accept/:token"
+        element={
+          <GuestRoute>
+            <AcceptInvitationPage />
+          </GuestRoute>
+        }
+      />
 
-<Route
-  path="/organizations/:organizationId/members"
-  element={<MembershipsPage />}
-/>
+      <Route
+        path="/organizations/:organizationId/members"
+        element={
+          <ProtectedRoute>
+            <AppShell>
+              <MembershipsPage />
+            </AppShell>
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/organizations/:organizationId/activity-log"
+        element={
+          <ProtectedRoute>
+            <AppShell>
+              <ActivityLogPage />
+            </AppShell>
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/tasks/:taskId/comments"
+        element={
+          <ProtectedRoute>
+            <AppShell>
+              <CommentsPage />
+            </AppShell>
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/comments/:commentId"
+        element={
+          <ProtectedRoute>
+            <AppShell>
+              <CommentPage />
+            </AppShell>
+          </ProtectedRoute>
+        }
+      />
 
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>

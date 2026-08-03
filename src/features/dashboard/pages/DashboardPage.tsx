@@ -1,5 +1,6 @@
 import DashboardStats from "../components/DashboardStats";
 import RecentActivity from "../components/RecentActivity";
+import PageState from "@/components/PageState";
 
 import {
   useDashboardStats,
@@ -13,27 +14,26 @@ export default function DashboardPage() {
     error,
   } = useDashboardStats();
 
-  if (isLoading) {
-    return <h2>Loading dashboard...</h2>;
-  }
-
-  if (isError) {
-    return <pre>{String(error)}</pre>;
-  }
-
-  if (!data) {
-    return <h2>No data.</h2>;
-  }
-
   return (
-    <div style={{ padding: "2rem" }}>
-      <h1>Dashboard</h1>
+    <PageState
+      loading={isLoading}
+      error={isError ? error : undefined}
+      empty={!data}
+      loadingMessage="Loading dashboard..."
+      emptyMessage="No dashboard data available yet."
+    >
+      <div style={{ display: "grid", gap: "1.5rem" }}>
+        <div>
+          <h1>Dashboard</h1>
+          <p style={{ color: "#6b7280", marginTop: "0.35rem" }}>
+            Keep your workspace moving from a single view.
+          </p>
+        </div>
 
-      <DashboardStats
-        stats={data}
-      />
+        <DashboardStats stats={data!} />
 
-      <RecentActivity />
-    </div>
+        <RecentActivity />
+      </div>
+    </PageState>
   );
 }

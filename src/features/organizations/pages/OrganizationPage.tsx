@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
+import PageState from "@/components/PageState";
 import { getOrganization } from "../api/organizationsApi";
 
 export default function OrganizationPage() {
@@ -17,53 +18,32 @@ export default function OrganizationPage() {
     enabled: !!id,
   });
 
-  if (isLoading) {
-    return <h2>Loading organization...</h2>;
-  }
-
-  if (isError) {
-    return <pre>{String(error)}</pre>;
-  }
-
-  if (!organization) {
-    return <h2>Organization not found.</h2>;
-  }
-
   return (
-    <div style={{ padding: "2rem" }}>
-      <h1>{organization.name}</h1>
+    <PageState
+      loading={isLoading}
+      error={isError ? error : undefined}
+      empty={!organization}
+      loadingMessage="Loading organization..."
+      emptyMessage="Organization not found."
+    >
+      <div style={{ display: "grid", gap: "1rem" }}>
+        <div>
+          <h1>{organization?.name}</h1>
+          <p>{organization?.description}</p>
+        </div>
 
-      <p>{organization.description}</p>
+        <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
+          <button onClick={() => navigate(`/organizations/${organization!.public_id}/projects`)}>View Projects</button>
+          <button onClick={() => navigate(`/organizations/${organization!.public_id}/members`)}>View Members</button>
+          <button onClick={() => navigate(`/organizations/${organization!.public_id}/invitations`)}>View Invitations</button>
+          <button onClick={() => navigate(`/organizations/${organization!.public_id}/activity-log`)}>View Activity Log</button>
+        </div>
 
-      <hr />
-
-      <h3>Public ID</h3>
-
-      <p>{organization.public_id}</p>
-
-      <hr />
-
-      <h3>Projects</h3>
-
-<button
-  onClick={() =>
-    navigate(
-      `/organizations/${organization.public_id}/projects`
-    )
-  }
->
-  View Projects
-</button>
-
-<hr />
-
-<h3>Next Features</h3>
-
-<ul>
-  <li>Members</li>
-  <li>Invitations</li>
-  <li>Activity Log</li>
-</ul>
-    </div>
+        <div>
+          <h3>Public ID</h3>
+          <p>{organization?.public_id}</p>
+        </div>
+      </div>
+    </PageState>
   );
 }

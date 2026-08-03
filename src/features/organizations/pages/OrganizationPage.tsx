@@ -1,11 +1,11 @@
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-
+import { useNavigate } from "react-router-dom";
 import { getOrganization } from "../api/organizationsApi";
 
 export default function OrganizationPage() {
   const { id } = useParams();
-
+  const navigate = useNavigate();
   const {
     data: organization,
     isLoading,
@@ -43,14 +43,27 @@ export default function OrganizationPage() {
 
       <hr />
 
-      <h3>Next Features</h3>
+      <h3>Projects</h3>
 
-      <ul>
-        <li>Projects</li>
-        <li>Members</li>
-        <li>Invitations</li>
-        <li>Activity Log</li>
-      </ul>
+<button
+  onClick={() =>
+    navigate(
+      `/organizations/${organization.public_id}/projects`
+    )
+  }
+>
+  View Projects
+</button>
+
+<hr />
+
+<h3>Next Features</h3>
+
+<ul>
+  <li>Members</li>
+  <li>Invitations</li>
+  <li>Activity Log</li>
+</ul>
     </div>
   );
 }

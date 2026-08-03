@@ -1,13 +1,3 @@
-export type TaskStatus =
-  | "todo"
-  | "in_progress"
-  | "done";
-
-export type TaskPriority =
-  | "low"
-  | "medium"
-  | "high";
-
 export interface Task {
   public_id: string;
   project_public_id: string;
@@ -15,8 +5,8 @@ export interface Task {
   title: string;
   description: string | null;
 
-  status: TaskStatus;
-  priority: TaskPriority;
+  status: string;
+  priority: string;
 
   assignee_id: number | null;
   due_date: string | null;
@@ -30,17 +20,21 @@ export interface Task {
 export interface CreateTaskRequest {
   title: string;
   description?: string;
-  status: TaskStatus;
-  priority: TaskPriority;
+
+  status: string;
+  priority: string;
+
   assignee_id?: number | null;
   due_date?: string | null;
 }
 
 export interface UpdateTaskRequest {
-  title: string;
+  title?: string;
   description?: string;
-  status: TaskStatus;
-  priority: TaskPriority;
+
+  status?: string;
+  priority?: string;
+
   assignee_id?: number | null;
   due_date?: string | null;
 }

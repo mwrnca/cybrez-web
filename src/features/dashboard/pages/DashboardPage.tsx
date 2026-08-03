@@ -1,17 +1,39 @@
-import { useAuth } from "@/contexts/useAuth";
+import DashboardStats from "../components/DashboardStats";
+import RecentActivity from "../components/RecentActivity";
+
+import {
+  useDashboardStats,
+} from "../hooks";
 
 export default function DashboardPage() {
-  const { user, logout } = useAuth();
+  const {
+    data,
+    isLoading,
+    isError,
+    error,
+  } = useDashboardStats();
+
+  if (isLoading) {
+    return <h2>Loading dashboard...</h2>;
+  }
+
+  if (isError) {
+    return <pre>{String(error)}</pre>;
+  }
+
+  if (!data) {
+    return <h2>No data.</h2>;
+  }
 
   return (
-    <div style={{ padding: 32 }}>
+    <div style={{ padding: "2rem" }}>
       <h1>Dashboard</h1>
 
-      <p>Welcome {user?.username}</p>
+      <DashboardStats
+        stats={data}
+      />
 
-      <button onClick={logout}>
-        Logout
-      </button>
+      <RecentActivity />
     </div>
   );
 }

@@ -14,35 +14,108 @@ const ENDPOINTS = {
   },
 
   projects: {
-    list: "/projects",
-    create: "/projects",
-    detail: (id: string) => `/projects/${id}`,
-    update: (id: string) => `/projects/${id}`,
-    delete: (id: string) => `/projects/${id}`,
+    list: (organizationId: string) =>
+      `/projects/organization/${organizationId}`,
+
+    create: (organizationId: string) =>
+      `/projects/${organizationId}`,
+
+    detail: (id: string) =>
+      `/projects/${id}`,
+
+    update: (id: string) =>
+      `/projects/${id}`,
+
+    delete: (id: string) =>
+      `/projects/${id}`,
+
+    restore: (id: string) =>
+      `/projects/${id}/restore`,
+
+    archive: (id: string) =>
+      `/projects/${id}/archive`,
+
+    unarchive: (id: string) =>
+      `/projects/${id}/unarchive`,
   },
 
   tasks: {
-    list: "/tasks",
-    create: "/tasks",
-    detail: (id: string) => `/tasks/${id}`,
-    update: (id: string) => `/tasks/${id}`,
-    delete: (id: string) => `/tasks/${id}`,
+    list: (projectId: string) =>
+      `/projects/${projectId}/tasks`,
+
+    create: (projectId: string) =>
+      `/projects/${projectId}/tasks`,
+
+    detail: (taskId: string) =>
+      `/projects/tasks/${taskId}`,
+
+    update: (taskId: string) =>
+      `/projects/tasks/${taskId}`,
+
+    delete: (
+      projectId: string,
+      taskId: string
+    ) =>
+      `/projects/${projectId}/tasks/${taskId}`,
+
+    restore: (taskId: string) =>
+      `/projects/tasks/${taskId}/restore`,
+
+    archive: (taskId: string) =>
+      `/projects/tasks/${taskId}/archive`,
+
+    unarchive: (taskId: string) =>
+      `/projects/tasks/${taskId}/unarchive`,
   },
 
   invitations: {
-    list: "/invitations",
-    create: "/invitations",
-    detail: (id: string) => `/invitations/${id}`,
-    accept: (id: string) => `/invitations/${id}/accept`,
-    decline: (id: string) => `/invitations/${id}/decline`,
-    delete: (id: string) => `/invitations/${id}`,
+    create: (organizationId: string) =>
+      `/invitations/${organizationId}/invite`,
+
+    accept: (token: string) =>
+      `/invitations/accept/${token}`,
+
+    delete: (id: string) =>
+      `/invitations/${id}`,
+
+    resend: (id: string) =>
+      `/invitations/${id}/resend`,
   },
 
   memberships: {
-    list: "/memberships",
-    detail: (id: string) => `/memberships/${id}`,
-    update: (id: string) => `/memberships/${id}`,
-    delete: (id: string) => `/memberships/${id}`,
+    list: (organizationId: string) =>
+      `/organizations/${organizationId}/members`,
+
+    create: (organizationId: string) =>
+      `/organizations/${organizationId}/members`,
+
+    update: (
+      organizationId: string,
+      userId: number
+    ) =>
+      `/organizations/${organizationId}/members/${userId}`,
+
+    delete: (
+      organizationId: string,
+      userId: number
+    ) =>
+      `/organizations/${organizationId}/members/${userId}`,
+
+    leave: (organizationId: string) =>
+      `/organizations/${organizationId}/leave`,
+  },
+
+  dashboard: {
+    stats: "/dashboard/stats",
+
+    tasksByStatus:
+      "/dashboard/tasks-by-status",
+
+    projectCounts:
+      "/dashboard/project-counts",
+
+    tasksPerMonth:
+      "/dashboard/tasks-per-month",
   },
 
   users: {

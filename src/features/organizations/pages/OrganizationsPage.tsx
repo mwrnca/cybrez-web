@@ -8,6 +8,7 @@ import type { Organization } from "@/types/organization";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import OrganizationForm from "../components/OrganizationForm";
+
 export default function OrganizationsPage() {
   const { data, isLoading, isError, error } =
     useOrganizations();
@@ -88,18 +89,18 @@ const [editingOrganization, setEditingOrganization] =
       View
     </button>
 
-    <button
-      onClick={() => handleEdit(organization)}
-      style={{ marginLeft: "8px" }}
-    >
-      Edit
-    </button>
-
-    <button
-      onClick={() =>
-        deleteOrganization.mutate(organization.public_id)
-      }
-      style={{ marginLeft: "8px" }}
+      <button
+        onClick={() => handleEdit(organization)}
+        style={{ marginLeft: "8px" }}
+      >
+        Edit
+      </button>
+    
+      <button
+        onClick={() =>
+          deleteOrganization.mutate(organization.public_id)
+        }
+        style={{ marginLeft: "8px" }}
     >
       Delete
     </button>

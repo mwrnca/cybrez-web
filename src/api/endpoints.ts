@@ -11,6 +11,9 @@ const ENDPOINTS = {
     detail: (id: string) => `/organizations/${id}`,
     update: (id: string) => `/organizations/${id}`,
     delete: (id: string) => `/organizations/${id}`,
+
+    overview: (id: string) =>
+      `/organizations/${id}/overview`,
   },
 
   projects: {

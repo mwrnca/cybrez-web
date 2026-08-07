@@ -1,5 +1,5 @@
 import { Link, NavLink, useNavigate } from "react-router-dom";
-
+import { useOrganization } from "@/hooks/useOrganization";
 import { useAuth } from "@/contexts/useAuth";
 import { ROUTES } from "@/routes/routes";
 
@@ -7,13 +7,41 @@ type Props = {
   children: React.ReactNode;
 };
 
+const { organization } = useOrganization();
+
 const navItems = [
-  { to: ROUTES.DASHBOARD, label: "Dashboard" },
-  { to: ROUTES.ORGANIZATIONS, label: "Organizations" },
-  { to: "/projects", label: "Projects" },
-  { to: "/tasks", label: "Tasks" },
-  { to: "/comments", label: "Comments" },
-  { to: "/notifications", label: "Notifications" },
+  {
+    to: ROUTES.DASHBOARD,
+    label: "Dashboard",
+  },
+  {
+    to: ROUTES.ORGANIZATIONS,
+    label: "Organizations",
+  },
+  ...(organization
+    ? [
+        {
+          to: `/organizations/${organization.public_id}/projects`,
+          label: "Projects",
+        },
+        {
+          to: `/organizations/${organization.public_id}/members`,
+          label: "Members",
+        },
+        {
+          to: `/organizations/${organization.public_id}/invitations`,
+          label: "Invitations",
+        },
+        {
+          to: `/organizations/${organization.public_id}/activity-log`,
+          label: "Activity Log",
+        },
+      ]
+    : []),
+  {
+    to: "/notifications",
+    label: "Notifications",
+  },
 ];
 
 export default function AppShell({ children }: Props) {
@@ -86,7 +114,7 @@ export default function AppShell({ children }: Props) {
             <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
               <Link to={ROUTES.DASHBOARD}>Dashboard</Link>
               <span style={{ color: "#6b7280" }}>•</span>
-              <span>{user?.full_name ?? "User"}</span>
+              <span>{user?.username ?? "User"}</span>
             </div>
           </header>
 

@@ -1,6 +1,6 @@
 import api from "@/lib/axios";
 import ENDPOINTS from "@/api/endpoints";
-
+import type { OrganizationOverview } from "../types/organizationOverview";
 import type {
   Organization,
   CreateOrganizationRequest,
@@ -13,6 +13,17 @@ export async function getOrganizations() {
   const response = await api.get(
     ENDPOINTS.organizations.list
   );
+
+  return response.data;
+}
+
+export async function getOrganizationOverview(
+  id: string
+) {
+  const response =
+    await api.get<OrganizationOverview>(
+      ENDPOINTS.organizations.overview(id)
+    );
 
   return response.data;
 }

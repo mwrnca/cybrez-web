@@ -8,6 +8,8 @@ import {
   useRemoveMember,
   useLeaveOrganization,
 } from "../hooks";
+import PermissionGate from "@/components/permissions/PermissionGate";
+import { PERMISSIONS } from "@/permissions/permissions";
 
 export default function MembershipsPage() {
   const { organizationId } =
@@ -41,6 +43,7 @@ export default function MembershipsPage() {
     <div style={{ padding: "2rem" }}>
       <h1>Members</h1>
 
+    <PermissionGate minimumRole={PERMISSIONS.manageMembers}>
       <button
         onClick={() =>
           addMember.mutate({
@@ -55,7 +58,9 @@ export default function MembershipsPage() {
       >
         Add Demo Member
       </button>
-
+    </PermissionGate>
+      
+    
       <button
         style={{ marginLeft: "10px" }}
         onClick={() =>
@@ -66,6 +71,8 @@ export default function MembershipsPage() {
       >
         Leave Organization
       </button>
+    
+      
 
       <hr />
 

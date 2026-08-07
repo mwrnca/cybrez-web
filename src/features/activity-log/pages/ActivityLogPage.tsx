@@ -4,8 +4,11 @@ import { ActivityLogList } from "../components";
 import { useActivityLogs } from "../hooks";
 
 export default function ActivityLogPage() {
-  const { organizationId } =
-    useParams();
+ 
+
+const { organizationId } = useParams();
+
+console.log("ActivityLogPage organizationId:", organizationId);
 
   const {
     data,

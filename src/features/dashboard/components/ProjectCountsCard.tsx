@@ -21,14 +21,14 @@ export default function ProjectCountsCard({
 
       {data.map((item) => (
         <div
-          key={item.name}
+          key={item.status}
           style={{
             display: "flex",
             justifyContent:
               "space-between",
           }}
         >
-          <span>{item.name}</span>
+          <span>{item.status}</span>
 
           <strong>{item.count}</strong>
         </div>

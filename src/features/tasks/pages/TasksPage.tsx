@@ -5,6 +5,8 @@ import {
   useCreateTask,
   useDeleteTask,
 } from "../hooks";
+import PermissionGate from "@/components/permissions/PermissionGate";
+import { PERMISSIONS } from "@/permissions/permissions";
 
 export default function TasksPage() {
   const { projectId } = useParams();
@@ -29,6 +31,7 @@ export default function TasksPage() {
     <div style={{ padding: "2rem" }}>
       <h1>Tasks</h1>
 
+    <PermissionGate minimumRole={PERMISSIONS.manageTasks}>
       <button
         onClick={async () => {
           const task =
@@ -47,6 +50,8 @@ export default function TasksPage() {
       >
         Create Task
       </button>
+    </PermissionGate>
+      
 
       <hr />
 
@@ -82,7 +87,8 @@ export default function TasksPage() {
             View
           </button>
 
-          <button
+      <PermissionGate minimumRole={PERMISSIONS.deleteTasks}>
+        <button
             style={{ marginLeft: "8px" }}
             onClick={() =>
               deleteTask.mutate({
@@ -93,6 +99,8 @@ export default function TasksPage() {
           >
             Delete
           </button>
+      </PermissionGate>
+          
         </div>
       ))}
     </div>

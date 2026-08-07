@@ -9,14 +9,13 @@ export interface DashboardStats {
   members: number;
 }
 
-export interface TasksByStatus {
+export interface StatusCount {
   status: string;
   count: number;
 }
 
 export interface ProjectCount {
   status: string;
-
   count: number;
 }
 

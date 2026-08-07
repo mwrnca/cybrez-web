@@ -5,6 +5,8 @@ import { useRecentActivity } from "@/features/activity-log/hooks";
 export default function RecentActivity() {
   const { organizationId } = useParams();
 
+console.log("RecentActivity organizationId:", organizationId);
+
   const {
     data,
     isLoading,

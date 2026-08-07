@@ -5,6 +5,8 @@ import {
   useCreateProject,
   useDeleteProject,
 } from "../hooks";
+import PermissionGate from "@/components/permissions/PermissionGate";
+import { PERMISSIONS } from "@/permissions/permissions";
 
 export default function ProjectsPage() {
   const { organizationId } = useParams();
@@ -29,6 +31,7 @@ export default function ProjectsPage() {
     <div style={{ padding: "2rem" }}>
       <h1>Projects</h1>
 
+    <PermissionGate minimumRole={PERMISSIONS.manageProjects}>
       <ProjectForm
         loading={createProject.isPending}
         onSubmit={async (data) => {
@@ -41,6 +44,8 @@ export default function ProjectsPage() {
     navigate(`/projects/${project.public_id}`);
   }}
 />
+    </PermissionGate>
+      
 
       <hr />
 
@@ -74,14 +79,16 @@ export default function ProjectsPage() {
             View
           </button>
 
-          <button
-            style={{ marginLeft: "8px" }}
-            onClick={() =>
-              deleteProject.mutate(project.public_id)
-            }
-          >
-            Delete
-          </button>
+          <PermissionGate minimumRole={PERMISSIONS.deleteProjects}>
+  <button
+    style={{ marginLeft: "8px" }}
+    onClick={() =>
+      deleteProject.mutate(project.public_id)
+    }
+  >
+    Delete
+  </button>
+</PermissionGate>
         </div>
       ))}
     </div>

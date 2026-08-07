@@ -23,6 +23,8 @@ export async function getTasksByStatus() {
       ENDPOINTS.dashboard.tasksByStatus
     );
 
+    console.log(response.data);
+
   return response.data;
 }
 

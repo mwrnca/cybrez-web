@@ -10,6 +10,8 @@ import {
 } from "../hooks";
 
 import TaskForm from "../components/TaskForm";
+import PermissionGate from "@/components/permissions/PermissionGate";
+import { PERMISSIONS } from "@/permissions/permissions";
 
 export default function TaskPage() {
   const { taskId } = useParams();
@@ -58,12 +60,19 @@ export default function TaskPage() {
 
         <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
           {!task?.is_archived ? (
+          <PermissionGate minimumRole={PERMISSIONS.manageTasks}>
             <button onClick={() => archiveTask.mutate(task!.public_id)}>Archive</button>
+          </PermissionGate>
+            
           ) : (
+          <PermissionGate minimumRole={PERMISSIONS.manageTasks}>
             <button onClick={() => unarchiveTask.mutate(task!.public_id)}>Unarchive</button>
+          </PermissionGate>
           )}
 
-          <button onClick={() => restoreTask.mutate(task!.public_id)}>Restore</button>
+          <PermissionGate minimumRole={PERMISSIONS.manageTasks}>
+            <button onClick={() => restoreTask.mutate(task!.public_id)}>Restore</button>
+          </PermissionGate>
           <button onClick={() => navigate(`/tasks/${task!.public_id}/comments`)}>View Comments</button>
           <button onClick={() => navigate(-1)}>Back</button>
         </div>

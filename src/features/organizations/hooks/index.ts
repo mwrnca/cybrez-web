@@ -3,4 +3,5 @@ export * from "./useOrganization";
 export * from "./useCreateOrganization";
 export * from "./useUpdateOrganization";
 export * from "./useDeleteOrganization";
-export * from "./useRestoreOrganization"
+export * from "./useRestoreOrganization";
+export * from "./useOrganizationOverview";

@@ -3,10 +3,14 @@ import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import PageState from "@/components/PageState";
 import { getOrganization } from "../api/organizationsApi";
+import { useEffect } from "react";
+import { useOrganization } from "@/hooks/useOrganization";
 
 export default function OrganizationPage() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { setOrganization } = useOrganization();
+
   const {
     data: organization,
     isLoading,
@@ -17,6 +21,15 @@ export default function OrganizationPage() {
     queryFn: () => getOrganization(id!),
     enabled: !!id,
   });
+
+  useEffect(() => {
+  if (organization) {
+    setOrganization({
+      public_id: organization.public_id,
+      name: organization.name,
+    });
+  }
+}, [organization]);
 
   return (
     <PageState

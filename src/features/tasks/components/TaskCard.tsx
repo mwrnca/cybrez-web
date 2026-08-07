@@ -1,17 +1,17 @@
 import { useNavigate } from "react-router-dom";
 
-import type { Project } from "@/types/project";
+import type { Task } from "../types/task";
 
 import PermissionGate from "@/components/permissions/PermissionGate";
 import { PERMISSIONS } from "@/permissions/permissions";
 
 type Props = {
-  project: Project;
-  onDelete: (projectId: string) => void;
+  task: Task;
+  onDelete: (taskId: string) => void;
 };
 
-export default function ProjectCard({
-  project,
+export default function TaskCard({
+  task,
   onDelete,
 }: Props) {
   const navigate = useNavigate();
@@ -25,36 +25,44 @@ export default function ProjectCard({
         marginBottom: "1rem",
       }}
     >
-      <h3>{project.name}</h3>
+      <h3>{task.title}</h3>
 
-      <p>{project.description ?? "No description."}</p>
+      <p>{task.description ?? "No description."}</p>
 
       <p>
-        <strong>Status:</strong>{" "}
-        {project.is_archived ? "Archived" : "Active"}
+        <strong>Status:</strong> {task.status}
       </p>
 
-      <small>{project.public_id}</small>
+      <p>
+        <strong>Priority:</strong> {task.priority}
+      </p>
+
+      <p>
+        <strong>Archived:</strong>{" "}
+        {task.is_archived ? "Yes" : "No"}
+      </p>
+
+      <small>{task.public_id}</small>
 
       <div
         style={{
-          marginTop: "1rem",
           display: "flex",
           gap: "0.75rem",
+          marginTop: "1rem",
         }}
       >
         <button
           onClick={() =>
-            navigate(`/projects/${project.public_id}`)
+            navigate(`/tasks/${task.public_id}`)
           }
         >
           View
         </button>
 
-        <PermissionGate minimumRole={PERMISSIONS.deleteProjects}>
+        <PermissionGate minimumRole={PERMISSIONS.deleteTasks}>
           <button
             onClick={() =>
-              onDelete(project.public_id)
+              onDelete(task.public_id)
             }
           >
             Delete

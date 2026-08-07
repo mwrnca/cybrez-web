@@ -50,3 +50,11 @@ export async function restoreComment(commentId: string) {
 
   return response.data;
 }
+
+export async function getComment(commentId: string) {
+  const response = await api.get<Comment>(
+    ENDPOINTS.comments.detail(commentId)
+  );
+
+  return response.data;
+}

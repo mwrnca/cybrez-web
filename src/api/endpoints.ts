@@ -7,7 +7,7 @@ const ENDPOINTS = {
 
   organizations: {
     list: "/organizations/",
-    create: "/organizations/",
+    create: "/organizations",
     detail: (id: string) => `/organizations/${id}`,
     update: (id: string) => `/organizations/${id}`,
     delete: (id: string) => `/organizations/${id}`,
@@ -127,6 +127,8 @@ const ENDPOINTS = {
     update: (commentId: string) => `/comments/${commentId}`,
     delete: (commentId: string) => `/comments/${commentId}`,
     restore: (commentId: string) => `/comments/${commentId}/restore`,
+    detail: (commentId: string) =>
+      `/comments/${commentId}`,
   },
 
   users: {
@@ -137,7 +139,7 @@ const ENDPOINTS = {
   },
 
   notifications: {
-    list: "/notifications/",
+    list: "/notifications",
     read: (notificationId: string) => `/notifications/${notificationId}/read`,
     readAll: "/notifications/read-all",
     delete: (notificationId: string) => `/notifications/${notificationId}`,

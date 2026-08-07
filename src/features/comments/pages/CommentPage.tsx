@@ -1,7 +1,11 @@
 import { useNavigate, useParams } from "react-router-dom";
 
 import PageState from "@/components/PageState";
-import { useComments, useUpdateComment, useDeleteComment } from "../hooks";
+import {
+  useComment,
+  useUpdateComment,
+  useDeleteComment,
+} from "../hooks";
 import { CommentForm } from "../components";
 import PermissionGate from "@/components/permissions/PermissionGate";
 import { PERMISSIONS } from "@/permissions/permissions";
@@ -13,9 +17,12 @@ export default function CommentPage() {
   const updateComment = useUpdateComment();
   const deleteComment = useDeleteComment();
 
-  const { data, isLoading, isError, error } = useComments(commentId!);
-
-  const comment = data?.find((item) => item.public_id === commentId);
+  const {
+  data: comment,
+  isLoading,
+  isError,
+  error,
+} = useComment(commentId!);
 
   return (
     <PageState
@@ -41,7 +48,7 @@ export default function CommentPage() {
 
         <div style={{ display: "flex", gap: "0.75rem" }}>
           
-        <PermissionGate minimumRole={PERMISSIONS.manageProjects}>
+        <PermissionGate minimumRole={PERMISSIONS.manageComments}>
           <button
             onClick={() => {
               if (window.confirm("Delete this comment?")) {
@@ -54,7 +61,7 @@ export default function CommentPage() {
         </PermissionGate>
           
 
-        <PermissionGate minimumRole={PERMISSIONS.manageProjects}>
+        <PermissionGate minimumRole={PERMISSIONS.manageComments}>
           <button onClick={() => navigate(-1)}>Back</button>
         </PermissionGate>
           

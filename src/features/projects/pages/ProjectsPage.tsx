@@ -7,6 +7,7 @@ import {
 } from "../hooks";
 import PermissionGate from "@/components/permissions/PermissionGate";
 import { PERMISSIONS } from "@/permissions/permissions";
+import ProjectCard from "../components/ProjectCard";
 
 export default function ProjectsPage() {
   const { organizationId } = useParams();
@@ -52,45 +53,14 @@ export default function ProjectsPage() {
       <h2>Total: {data?.length ?? 0}</h2>
 
       {data?.map((project) => (
-        <div
-          key={project.public_id}
-          style={{
-            border: "1px solid gray",
-            padding: "1rem",
-            marginBottom: "1rem",
-          }}
-        >
-          <h3>{project.name}</h3>
-
-          <p>{project.description}</p>
-
-          <small>{project.public_id}</small>
-
-          <br />
-          <br />
-
-          <button
-            onClick={() =>
-              navigate(
-                `/projects/${project.public_id}`
-              )
-            }
-          >
-            View
-          </button>
-
-          <PermissionGate minimumRole={PERMISSIONS.deleteProjects}>
-  <button
-    style={{ marginLeft: "8px" }}
-    onClick={() =>
-      deleteProject.mutate(project.public_id)
+  <ProjectCard
+    key={project.public_id}
+    project={project}
+    onDelete={(id) =>
+      deleteProject.mutate(id)
     }
-  >
-    Delete
-  </button>
-</PermissionGate>
-        </div>
-      ))}
+  />
+))}
     </div>
   );
 }

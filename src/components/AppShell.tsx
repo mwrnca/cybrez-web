@@ -7,6 +7,12 @@ type Props = {
   children: React.ReactNode;
 };
 
+
+
+
+export default function AppShell({ children }: Props) {
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
 const { organization } = useOrganization();
 
 const navItems = [
@@ -43,10 +49,6 @@ const navItems = [
     label: "Notifications",
   },
 ];
-
-export default function AppShell({ children }: Props) {
-  const { user, logout } = useAuth();
-  const navigate = useNavigate();
 
   function handleLogout() {
     logout();

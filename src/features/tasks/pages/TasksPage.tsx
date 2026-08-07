@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
-
+import TaskCard from "../components/TaskCard";
 import {
   useTasks,
   useCreateTask,
@@ -57,52 +57,18 @@ export default function TasksPage() {
 
       <h2>Total: {data?.length ?? 0}</h2>
 
-      {data?.map((task) => (
-        <div
-          key={task.public_id}
-          style={{
-            border: "1px solid gray",
-            padding: "1rem",
-            marginBottom: "1rem",
-          }}
-        >
-          <h3>{task.title}</h3>
-
-          <p>{task.description}</p>
-
-          <p>Status: {task.status}</p>
-
-          <p>Priority: {task.priority}</p>
-
-          <small>{task.public_id}</small>
-
-          <br />
-          <br />
-
-          <button
-            onClick={() =>
-              navigate(`/tasks/${task.public_id}`)
-            }
-          >
-            View
-          </button>
-
-      <PermissionGate minimumRole={PERMISSIONS.deleteTasks}>
-        <button
-            style={{ marginLeft: "8px" }}
-            onClick={() =>
-              deleteTask.mutate({
-                projectId: projectId!,
-                taskId: task.public_id,
-              })
-            }
-          >
-            Delete
-          </button>
-      </PermissionGate>
-          
-        </div>
-      ))}
+     {data?.map((task) => (
+  <TaskCard
+    key={task.public_id}
+    task={task}
+    onDelete={(id) =>
+      deleteTask.mutate({
+        projectId: projectId!,
+        taskId: id,
+      })
+    }
+  />
+))}
     </div>
   );
 }

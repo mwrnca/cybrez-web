@@ -17,9 +17,13 @@ export function useUpdateProject() {
       data: any;
     }) => updateProject(id, data),
 
-    onSuccess: () => {
+    onSuccess: (_, variables) => {
       queryClient.invalidateQueries({
         queryKey: ["projects"],
+      });
+
+      queryClient.invalidateQueries({
+        queryKey: ["project", variables.id],
       });
     },
   });

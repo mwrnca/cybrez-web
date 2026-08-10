@@ -11,9 +11,13 @@ export function useRestoreProject() {
   return useMutation({
     mutationFn: restoreProject,
 
-    onSuccess: () => {
+    onSuccess: (_, projectId) => {
       queryClient.invalidateQueries({
         queryKey: ["projects"],
+      });
+
+      queryClient.invalidateQueries({
+        queryKey: ["project", projectId],
       });
     },
   });

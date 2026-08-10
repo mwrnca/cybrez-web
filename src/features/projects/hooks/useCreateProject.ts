@@ -5,6 +5,15 @@ import {
 
 import { createProject } from "../api/projectsApi";
 
+import type {
+  CreateProjectRequest,
+} from "@/types/project";
+
+type CreateProjectVariables = {
+  organizationId: string;
+  data: CreateProjectRequest;
+};
+
 export function useCreateProject() {
   const queryClient = useQueryClient();
 
@@ -12,14 +21,8 @@ export function useCreateProject() {
     mutationFn: ({
       organizationId,
       data,
-    }: {
-      organizationId: string;
-      data: any;
-    }) =>
-      createProject(
-        organizationId,
-        data
-      ),
+    }: CreateProjectVariables) =>
+      createProject(organizationId, data),
 
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({

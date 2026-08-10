@@ -15,19 +15,16 @@ type Props = {
 
 export default function ProjectForm({
   initialData,
-  loading,
+  loading = false,
   onSubmit,
 }: Props) {
   const [name, setName] = useState("");
-  const [description, setDescription] =
-    useState("");
+  const [description, setDescription] = useState("");
 
   useEffect(() => {
     if (initialData) {
       setName(initialData.name);
-      setDescription(
-        initialData.description ?? ""
-      );
+      setDescription(initialData.description ?? "");
     }
   }, [initialData]);
 
@@ -48,36 +45,40 @@ export default function ProjectForm({
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form
+      onSubmit={handleSubmit}
+      style={{
+        display: "grid",
+        gap: "0.75rem",
+        maxWidth: "500px",
+      }}
+    >
       <input
+        type="text"
         placeholder="Project name"
         value={name}
-        onChange={(e) =>
-          setName(e.target.value)
-        }
+        onChange={(e) => setName(e.target.value)}
+        required
       />
-
-      <br />
-      <br />
 
       <textarea
         placeholder="Description"
         value={description}
-        onChange={(e) =>
-          setDescription(e.target.value)
-        }
+        onChange={(e) => setDescription(e.target.value)}
+        rows={5}
       />
-
-      <br />
-      <br />
 
       <button
         type="submit"
-        disabled={loading}
+        disabled={loading || !name.trim()}
       >
-        {initialData
-          ? "Update"
-          : "Create"}
+        {loading
+          ? initialData
+            ? "Updating..."
+            : "Creating..."
+          : initialData
+            ? "Update"
+            : "Create"}
       </button>
     </form>
   );

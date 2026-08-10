@@ -11,9 +11,13 @@ export function useUnarchiveProject() {
   return useMutation({
     mutationFn: unarchiveProject,
 
-    onSuccess: () => {
+    onSuccess: (_, projectId) => {
       queryClient.invalidateQueries({
         queryKey: ["projects"],
+      });
+
+      queryClient.invalidateQueries({
+        queryKey: ["project", projectId],
       });
     },
   });

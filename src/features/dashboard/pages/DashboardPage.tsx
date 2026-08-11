@@ -2,7 +2,7 @@ import PageState from "@/components/PageState";
 
 import {
   DashboardStats,
-  RecentActivity,
+  // RecentActivity,
   TasksByStatusCard,
   ProjectCountsCard,
   TasksPerMonthCard,
@@ -80,7 +80,7 @@ export default function DashboardPage() {
           }
         />
 
-        <RecentActivity />
+        {/* <RecentActivity /> */}
       </div>
     </PageState>
   );

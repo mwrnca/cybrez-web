@@ -8,7 +8,7 @@ import type { Role } from "@/constants/roles";
 export function usePermissions() {
   const { user } = useAuth();
   const { organization } = useOrganization();
-  const currentUserId = user?.public_id;
+  
   const { data: memberships = [] } = useMembers(
     organization?.public_id ?? ""
   );

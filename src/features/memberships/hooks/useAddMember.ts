@@ -17,7 +17,7 @@ export function useAddMember() {
       organizationId: string;
 
       data: {
-        user_id: number;
+        user_id: string;
         role: string;
       };
     }) =>

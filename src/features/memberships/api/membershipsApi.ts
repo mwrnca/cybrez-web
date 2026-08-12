@@ -35,7 +35,7 @@ export async function addMember(
 
 export async function updateMemberRole(
   organizationId: string,
-  userId: number,
+  userId: string,
   data: UpdateMembershipRoleRequest
 ) {
   const response = await api.patch<Membership>(
@@ -51,7 +51,7 @@ export async function updateMemberRole(
 
 export async function removeMember(
   organizationId: string,
-  userId: number
+  userId: string
 ) {
   await api.delete(
     ENDPOINTS.memberships.delete(

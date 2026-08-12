@@ -16,7 +16,7 @@ export function useRemoveMember() {
     }: {
       organizationId: string;
 
-      userId: number;
+      userId: string;
     }) =>
       removeMember(
         organizationId,

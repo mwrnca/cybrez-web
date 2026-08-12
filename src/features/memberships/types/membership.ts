@@ -1,18 +1,13 @@
 export interface Membership {
   public_id: string;
-
-  organization_id: number;
-
-  user_id: number;
-
+  organization_id: string;
+  user_id: string;
   role: string;
-
   created_at: string;
 }
 
 export interface CreateMembershipRequest {
-  user_id: number;
-
+  user_id: string;
   role: string;
 }
 

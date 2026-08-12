@@ -42,8 +42,9 @@ export function AuthProvider({
     try {
       const me = await getCurrentUser();
       setUser(me);
-    } catch {
+    } catch (error) {
       removeToken();
+      console.error("LOAD USER FAILED:", error);
       setUser(null);
     } finally {
       setLoading(false);

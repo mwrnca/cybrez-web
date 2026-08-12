@@ -3,7 +3,7 @@ import type { Membership } from "../types/membership";
 type Props = {
   members: Membership[];
 
-  onRemove: (userId: number) => void;
+  onRemove: (userId: string) => void;
 };
 
 export default function MembershipList({

@@ -17,7 +17,7 @@ export function useUpdateMemberRole() {
     }: {
       organizationId: string;
 
-      userId: number;
+      userId: string;
 
       data: {
         role: string;

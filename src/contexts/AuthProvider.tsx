@@ -68,7 +68,7 @@ export function AuthProvider({
     await registerRequest(data);
 
     await login({
-      username: data.username,
+      email: data.email,
       password: data.password,
     });
   }

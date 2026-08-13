@@ -9,7 +9,7 @@ import type {
 export async function login(data: LoginRequest) {
   const body = new URLSearchParams();
 
-  body.append("username", data.username);
+  body.append("username", data.email);
   body.append("password", data.password);
 
   const response = await api.post(

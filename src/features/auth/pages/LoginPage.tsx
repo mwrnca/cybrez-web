@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { Navigate } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 
 import { useAuth } from "@/contexts/useAuth";
 
 export default function LoginPage() {
   const { login, authenticated } = useAuth();
 
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -25,11 +25,11 @@ export default function LoginPage() {
 
     try {
       await login({
-        username,
+        email,
         password,
       });
     } catch {
-      setError("Invalid username or password.");
+      setError("Invalid email or password.");
     } finally {
       setLoading(false);
     }
@@ -57,25 +57,26 @@ export default function LoginPage() {
         {error && <p>{error}</p>}
 
         <input
-          placeholder="Username"
-          value={username}
-          onChange={(e) =>
-            setUsername(e.target.value)
-          }
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
         />
 
         <input
           type="password"
           placeholder="Password"
           value={password}
-          onChange={(e) =>
-            setPassword(e.target.value)
-          }
+          onChange={(e) => setPassword(e.target.value)}
         />
 
         <button disabled={loading}>
           {loading ? "Logging in..." : "Login"}
         </button>
+
+        <p>
+          Don't have an account?{" "}
+          <Link to="/register">Sign up</Link>
+        </p>
       </form>
     </div>
   );

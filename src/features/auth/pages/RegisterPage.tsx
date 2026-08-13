@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { Navigate } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 
 import { useAuth } from "@/contexts/useAuth";
 
 export default function RegisterPage() {
   const { register, authenticated } = useAuth();
 
-  const [username, setUsername] = useState("");
+  const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -25,7 +25,7 @@ export default function RegisterPage() {
 
     try {
       await register({
-        username,
+        full_name: fullName,
         email,
         password,
       });
@@ -54,10 +54,10 @@ export default function RegisterPage() {
         <h1>Create Account</h1>
 
         <input
-          placeholder="Username"
-          value={username}
+          placeholder="Full name"
+          value={fullName}
           onChange={(e) =>
-            setUsername(e.target.value)
+            setFullName(e.target.value)
           }
         />
 
@@ -81,6 +81,11 @@ export default function RegisterPage() {
         <button disabled={loading}>
           {loading ? "Creating..." : "Register"}
         </button>
+
+        <p style={{ textAlign: "center" }}>
+          Already have an account?{" "}
+          <Link to="/login">Log in</Link>
+        </p>
       </form>
     </div>
   );

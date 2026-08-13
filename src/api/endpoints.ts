@@ -94,13 +94,13 @@ const ENDPOINTS = {
 
     update: (
       organizationId: string,
-      userId: number
+      userId: string
     ) =>
       `/organizations/${organizationId}/members/${userId}`,
 
     delete: (
       organizationId: string,
-      userId: number
+      userId: string
     ) =>
       `/organizations/${organizationId}/members/${userId}`,
 

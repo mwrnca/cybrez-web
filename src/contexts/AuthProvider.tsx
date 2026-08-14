@@ -24,6 +24,8 @@ import {
   removeToken,
   setToken,
 } from "@/services/storage";
+import queryClient from "@/lib/queryClient";
+import { useOrganizationStore } from "@/store/organizationStore";
 
 type Props = {
   children: ReactNode;
@@ -76,6 +78,10 @@ export function AuthProvider({
   function logout() {
     removeToken();
     setUser(null);
+
+    useOrganizationStore.getState().clearOrganization();
+
+    queryClient.clear();
   }
 
   async function refreshUser() {

@@ -1,0 +1,53 @@
+/* ========================================
+   DEFAULT THEME
+   ======================================== */
+
+:root {
+  color-scheme: dark;
+}
+
+/* ========================================
+   LIGHT THEME
+   ======================================== */
+
+[data-theme="light"] {
+  color-scheme: light;
+
+  --color-background: #f5f6f8;
+  --color-background-secondary: #ffffff;
+
+  --color-surface: #ffffff;
+  --color-surface-secondary: #f8f9fb;
+  --color-surface-muted: #f1f2f4;
+  --color-surface-hover: #eceef2;
+
+  --gradient-background:
+    radial-gradient(
+      circle at 15% 10%,
+      rgba(1, 1, 104, 0.08),
+      transparent 38%
+    ),
+    #f5f6f8;
+
+  --gradient-surface:
+    linear-gradient(
+      145deg,
+      #ffffff,
+      #f4f5f7
+    );
+
+  --color-text: #111318;
+  --color-text-secondary: #8a6d12;
+  --color-text-muted: #6b7280;
+  --color-text-subtle: #9ca3af;
+
+  --color-border: rgba(0, 0, 0, 0.08);
+  --color-border-strong: rgba(184, 134, 11, 0.45);
+
+  --color-sidebar: #101217;
+  --color-sidebar-hover: #1b1e24;
+  --color-sidebar-active: #282c33;
+
+  --color-sidebar-text: #a1a1aa;
+  --color-sidebar-text-active: #ffffff;
+}

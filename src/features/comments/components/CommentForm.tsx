@@ -1,6 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
+import type { Comment } from "../types/comment";
 
 type Props = {
+  initialData?: Comment;
   loading?: boolean;
   onSubmit: (
     data: {
@@ -10,10 +13,17 @@ type Props = {
 };
 
 export default function CommentForm({
+  initialData,
   loading = false,
   onSubmit,
 }: Props) {
-  const [content, setContent] = useState("");
+  const [content, setContent] = useState(
+    initialData?.content ?? ""
+  );
+
+  useEffect(() => {
+    setContent(initialData?.content ?? "");
+  }, [initialData]);
 
   async function handleSubmit(
     e: React.FormEvent<HTMLFormElement>
@@ -30,8 +40,12 @@ export default function CommentForm({
       content: trimmed,
     });
 
-    setContent("");
+    if (!initialData) {
+      setContent("");
+    }
   }
+
+  const editing = Boolean(initialData);
 
   return (
     <form
@@ -41,7 +55,9 @@ export default function CommentForm({
         gap: "0.75rem",
       }}
     >
-      <h2>Add Comment</h2>
+      <h2>
+        {editing ? "Edit Comment" : "Add Comment"}
+      </h2>
 
       <textarea
         value={content}
@@ -61,8 +77,12 @@ export default function CommentForm({
         }
       >
         {loading
-          ? "Posting..."
-          : "Add Comment"}
+          ? editing
+            ? "Saving..."
+            : "Posting..."
+          : editing
+            ? "Save Changes"
+            : "Add Comment"}
       </button>
     </form>
   );

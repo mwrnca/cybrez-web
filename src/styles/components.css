@@ -4,11 +4,8 @@
 
 .cybrez-card {
   background: var(--gradient-surface);
-
   border: 1px solid var(--color-border);
-
   border-radius: var(--radius-lg);
-
   box-shadow: var(--shadow-md);
 
   transition:
@@ -18,12 +15,57 @@
 }
 
 .cybrez-card:hover {
-  border-color: var(--color-border-strong);
+  border-color: var(--color-border-hover);
 
   box-shadow:
     var(--shadow-md),
     var(--shadow-gold);
 }
+
+
+/* ========================================
+   BUTTON BASE
+   ======================================== */
+
+.cybrez-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+
+  min-height: 40px;
+  padding: 0 var(--space-4);
+
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+
+  font-family: var(--font-family);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+
+  cursor: pointer;
+
+  transition:
+    background var(--transition-normal),
+    border-color var(--transition-normal),
+    color var(--transition-normal),
+    box-shadow var(--transition-normal),
+    transform var(--transition-fast);
+}
+
+.cybrez-button:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.cybrez-button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.cybrez-button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
 
 /* ========================================
    PRIMARY BUTTON
@@ -33,26 +75,17 @@
   background: var(--gradient-primary);
   color: var(--color-primary-foreground);
 
-  padding: 10px 16px;
+  border-color: var(--color-primary);
 
-  font-weight: var(--font-weight-semibold);
-
-  box-shadow:
-    0 4px 12px rgba(212, 175, 55, 0.12);
+  box-shadow: var(--shadow-sm);
 }
 
-.cybrez-button-primary:hover {
+.cybrez-button-primary:hover:not(:disabled) {
   background: var(--gradient-primary-hover);
 
-  transform: translateY(-1px);
-
-  box-shadow:
-    0 6px 20px rgba(212, 175, 55, 0.25);
+  box-shadow: var(--shadow-gold);
 }
 
-.cybrez-button-primary:active {
-  transform: translateY(0);
-}
 
 /* ========================================
    SECONDARY BUTTON
@@ -62,14 +95,14 @@
   background: var(--color-surface-secondary);
   color: var(--color-text);
 
-  border: 1px solid var(--color-border);
-  padding: 10px 16px;
+  border-color: var(--color-border);
 }
 
-.cybrez-button-secondary:hover {
+.cybrez-button-secondary:hover:not(:disabled) {
   background: var(--gradient-hover);
   border-color: var(--color-border-hover);
 }
+
 
 /* ========================================
    GHOST BUTTON
@@ -79,13 +112,14 @@
   background: transparent;
   color: var(--color-text-muted);
 
-  padding: 8px 12px;
+  border-color: transparent;
 }
 
-.cybrez-button-ghost:hover {
+.cybrez-button-ghost:hover:not(:disabled) {
   background: var(--gradient-hover);
   color: var(--color-text);
 }
+
 
 /* ========================================
    DANGER BUTTON
@@ -93,65 +127,70 @@
 
 .cybrez-button-danger {
   background: var(--color-danger-soft);
-  color: #f87171;
+  color: var(--color-danger);
 
-  border: 1px solid rgba(239, 68, 68, 0.25);
-
-  padding: 10px 16px;
+  border-color: rgb(239 68 68 / 0.25);
 }
 
-.cybrez-button-danger:hover {
-  background: rgba(239, 68, 68, 0.18);
-  border-color: rgba(239, 68, 68, 0.5);
+.cybrez-button-danger:hover:not(:disabled) {
+  background: rgb(239 68 68 / 0.18);
+  border-color: rgb(239 68 68 / 0.5);
 }
+
 
 /* ========================================
    INPUT
    ======================================== */
 
-.cybrez-input {
+.cybrez-input,
+.cybrez-textarea,
+.cybrez-select {
   width: 100%;
+
   padding: 10px 12px;
 
-  background:
-    linear-gradient(
-      145deg,
-      var(--color-surface),
-      var(--color-surface-muted)
-    );
+  background: var(--gradient-surface);
+  color: var(--color-text);
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+
+  font-family: var(--font-family);
+  font-size: var(--font-size-sm);
+
+  transition:
+    border-color var(--transition-normal),
+    box-shadow var(--transition-normal),
+    background var(--transition-normal);
 }
 
-/* ========================================
-   SECTION / HERO
-   ======================================== */
-
-.cybrez-hero {
-  position: relative;
-  overflow: hidden;
-
-  background:
-    radial-gradient(
-      circle at 85% 20%,
-      rgba(212, 175, 55, 0.14),
-      transparent 30%
-    ),
-    radial-gradient(
-      circle at 15% 80%,
-      rgba(1, 1, 104, 0.45),
-      transparent 45%
-    ),
-    linear-gradient(
-      135deg,
-      #15181e,
-      #090b10
-    );
-
-  border: 1px solid rgba(212, 175, 55, 0.20);
-
-  border-radius: var(--radius-xl);
-
-  box-shadow: var(--shadow-lg);
+.cybrez-input::placeholder,
+.cybrez-textarea::placeholder {
+  color: var(--color-text-subtle);
 }
+
+.cybrez-input:hover,
+.cybrez-textarea:hover,
+.cybrez-select:hover {
+  border-color: var(--color-border-strong);
+}
+
+.cybrez-input:focus,
+.cybrez-textarea:focus,
+.cybrez-select:focus {
+  outline: none;
+
+  border-color: var(--color-primary);
+
+  box-shadow:
+    0 0 0 3px var(--color-primary-soft);
+}
+
+.cybrez-textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
 
 /* ========================================
    BADGE
@@ -168,11 +207,12 @@
   background: var(--color-primary-soft);
   color: var(--color-primary);
 
-  border: 1px solid rgba(212, 175, 55, 0.20);
+  border: 1px solid rgb(212 175 55 / 0.20);
 
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-semibold);
 }
+
 
 /* ========================================
    GOLD TEXT
@@ -181,6 +221,7 @@
 .cybrez-gold {
   color: var(--color-primary);
 }
+
 
 /* ========================================
    GRADIENT TEXT
@@ -193,4 +234,1233 @@
   background-clip: text;
 
   color: transparent;
+}
+
+
+/* ========================================
+   HERO
+   ======================================== */
+
+.cybrez-hero {
+  position: relative;
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+      circle at 85% 20%,
+      rgb(212 175 55 / 0.14),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 15% 80%,
+      rgb(1 1 104 / 0.45),
+      transparent 45%
+    ),
+    linear-gradient(
+      135deg,
+      #15181e,
+      #090b10
+    );
+
+  border: 1px solid rgb(212 175 55 / 0.20);
+  border-radius: var(--radius-xl);
+
+  box-shadow: var(--shadow-lg);
+}
+
+/* ========================================
+   DASHBOARD
+   ======================================== */
+
+.cybrez-dashboard {
+  display: grid;
+  gap: var(--space-6);
+}
+
+
+/* ========================================
+   DASHBOARD HEADER
+   ======================================== */
+
+.cybrez-dashboard-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.cybrez-dashboard-header h1 {
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: -0.02em;
+}
+
+.cybrez-dashboard-header p {
+  margin-top: var(--space-2);
+  color: var(--color-text-muted);
+}
+
+
+/* ========================================
+   STAT GRID
+   ======================================== */
+
+.cybrez-dashboard-stats {
+  display: grid;
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
+
+  gap: var(--space-4);
+}
+
+
+/* ========================================
+   STAT CARD
+   ======================================== */
+
+.cybrez-stat-card {
+  position: relative;
+  overflow: hidden;
+
+  min-height: 130px;
+  padding: var(--space-5);
+
+  background:
+    linear-gradient(
+      145deg,
+      var(--color-surface),
+      var(--color-surface-muted)
+    );
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+
+  box-shadow: var(--shadow-sm);
+
+  transition:
+    transform var(--transition-normal),
+    border-color var(--transition-normal),
+    box-shadow var(--transition-normal);
+}
+
+.cybrez-stat-card::before {
+  content: "";
+
+  position: absolute;
+  inset: 0 auto 0 0;
+
+  width: 3px;
+
+  background: var(--color-primary);
+}
+
+.cybrez-stat-card:hover {
+  transform: translateY(-2px);
+
+  border-color: var(--color-border-hover);
+
+  box-shadow:
+    var(--shadow-md),
+    var(--shadow-gold);
+}
+
+.cybrez-stat-card.success::before {
+  background: var(--color-success);
+}
+
+.cybrez-stat-card.warning::before {
+  background: var(--color-warning);
+}
+
+.cybrez-stat-card.muted::before {
+  background: var(--color-text-subtle);
+}
+
+.cybrez-stat-card-label {
+  color: var(--color-text-muted);
+
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+}
+
+.cybrez-stat-card-value {
+  margin-top: var(--space-3);
+
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+
+  color: var(--color-text);
+}
+
+
+/* ========================================
+   DASHBOARD CARDS
+   ======================================== */
+
+.cybrez-dashboard-card {
+  min-width: 0;
+
+  padding: var(--space-5);
+
+  background: var(--gradient-surface);
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+
+  box-shadow: var(--shadow-sm);
+
+  transition:
+    border-color var(--transition-normal),
+    box-shadow var(--transition-normal);
+}
+
+.cybrez-dashboard-card:hover {
+  border-color: var(--color-border-hover);
+
+  box-shadow:
+    var(--shadow-md),
+    var(--shadow-gold);
+}
+
+.cybrez-dashboard-card-wide {
+  width: 100%;
+}
+
+
+/* ========================================
+   CARD HEADER
+   ======================================== */
+
+.cybrez-dashboard-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: var(--space-4);
+
+  margin-bottom: var(--space-5);
+}
+
+.cybrez-dashboard-card-header h2 {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+}
+
+.cybrez-dashboard-card-header p {
+  margin-top: var(--space-1);
+
+  color: var(--color-text-muted);
+
+  font-size: var(--font-size-sm);
+}
+
+
+/* ========================================
+   METRIC LIST
+   ======================================== */
+
+.cybrez-dashboard-list {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.cybrez-metric-row {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.cybrez-metric-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  color: var(--color-text-secondary);
+
+  font-size: var(--font-size-sm);
+}
+
+.cybrez-metric-top strong {
+  color: var(--color-text);
+}
+
+
+/* ========================================
+   PROGRESS
+   ======================================== */
+
+.cybrez-progress {
+  width: 100%;
+  height: 7px;
+
+  overflow: hidden;
+
+  background: var(--color-surface-muted);
+
+  border-radius: var(--radius-full);
+}
+
+.cybrez-progress-value {
+  height: 100%;
+
+  min-width: 0;
+
+  background: var(--gradient-primary);
+
+  border-radius: inherit;
+
+  transition:
+    width var(--transition-slow);
+}
+
+
+/* ========================================
+   MONTH CHART
+   ======================================== */
+
+.cybrez-month-chart {
+  display: flex;
+  align-items: flex-end;
+
+  gap: var(--space-3);
+
+  min-height: 260px;
+
+  padding-top: var(--space-4);
+
+  overflow-x: auto;
+}
+
+.cybrez-month-column {
+  flex: 1;
+
+  min-width: 48px;
+
+  height: 230px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+
+  gap: var(--space-2);
+}
+
+.cybrez-month-value {
+  min-height: 18px;
+
+  color: var(--color-text-secondary);
+
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+}
+
+.cybrez-month-bar-container {
+  width: 100%;
+  max-width: 42px;
+
+  height: 175px;
+
+  display: flex;
+  align-items: flex-end;
+
+  background: var(--color-surface-muted);
+
+  border-radius:
+    var(--radius-sm)
+    var(--radius-sm)
+    0
+    0;
+
+  overflow: hidden;
+}
+
+.cybrez-month-bar {
+  width: 100%;
+
+  min-height: 0;
+
+  background: var(--gradient-primary);
+
+  border-radius:
+    var(--radius-sm)
+    var(--radius-sm)
+    0
+    0;
+
+  transition:
+    height var(--transition-slow);
+}
+
+.cybrez-month-label {
+  color: var(--color-text-muted);
+
+  font-size: var(--font-size-xs);
+
+  white-space: nowrap;
+}
+
+
+/* ========================================
+   DASHBOARD RESPONSIVE
+   ======================================== */
+
+@media (max-width: 1100px) {
+  .cybrez-dashboard-stats {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 700px) {
+  .cybrez-dashboard-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .cybrez-dashboard-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .cybrez-dashboard-card {
+    padding: var(--space-4);
+  }
+
+  .cybrez-month-chart {
+    gap: var(--space-2);
+  }
+}
+
+/* ========================================
+   DASHBOARD CONTENT GRID
+   ======================================== */
+
+.cybrez-dashboard-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: var(--space-6);
+}
+
+@media (max-width: 850px) {
+  .cybrez-dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ========================================
+   APP SHELL
+   ======================================== */
+
+.cybrez-app-shell {
+  min-height: 100vh;
+  display: flex;
+
+  background: var(--gradient-background);
+  color: var(--color-text);
+}
+
+
+/* ========================================
+   SIDEBAR
+   ======================================== */
+
+.cybrez-sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+
+  width: var(--sidebar-width);
+
+  display: flex;
+  flex-direction: column;
+
+  padding: var(--space-6) var(--space-4);
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(1, 1, 104, 0.18),
+      transparent 30%
+    ),
+    var(--gradient-sidebar);
+
+  border-right: 1px solid var(--color-border);
+
+  overflow-y: auto;
+  z-index: 100;
+}
+
+
+/* ========================================
+   SIDEBAR BRAND
+   ======================================== */
+
+.cybrez-sidebar-brand {
+  margin-bottom: var(--space-8);
+}
+
+.cybrez-sidebar-brand a {
+  display: block;
+
+  color: var(--color-text);
+  text-decoration: none;
+
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: -0.03em;
+
+  transition:
+    color var(--transition-normal),
+    transform var(--transition-normal);
+}
+
+.cybrez-sidebar-brand a:hover {
+  color: var(--color-primary);
+  transform: translateX(2px);
+}
+
+
+/* ========================================
+   SIDEBAR NAVIGATION
+   ======================================== */
+
+.cybrez-sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+
+/* ========================================
+   NAV ITEMS
+   ======================================== */
+
+.cybrez-nav-item {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+
+  min-height: 44px;
+
+  padding: 0 var(--space-4);
+
+  color: var(--color-sidebar-text);
+  text-decoration: none;
+
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+
+  transition:
+    background var(--transition-normal),
+    color var(--transition-normal),
+    border-color var(--transition-normal),
+    transform var(--transition-normal);
+}
+
+.cybrez-nav-item:hover {
+  color: var(--color-text);
+  background: var(--gradient-hover);
+
+  border-color: rgba(212, 175, 55, 0.15);
+
+  transform: translateX(2px);
+}
+
+.cybrez-nav-item.active {
+  color: var(--color-sidebar-text-active);
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(212, 175, 55, 0.18),
+      rgba(1, 1, 104, 0.28)
+    );
+
+  border-color: rgba(212, 175, 55, 0.45);
+
+  box-shadow:
+    0 4px 18px rgba(212, 175, 55, 0.08);
+}
+
+.cybrez-nav-item.active::before {
+  content: "";
+
+  position: absolute;
+  left: 0;
+  top: 8px;
+  bottom: 8px;
+
+  width: 3px;
+
+  background: var(--gradient-primary);
+
+  border-radius: 0 var(--radius-full) var(--radius-full) 0;
+}
+
+
+/* ========================================
+   ORGANIZATION SECTION
+   ======================================== */
+
+.cybrez-sidebar-section {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+
+  margin-top: var(--space-6);
+  margin-bottom: var(--space-2);
+
+  padding:
+    var(--space-3)
+    var(--space-4);
+}
+
+.cybrez-sidebar-section span {
+  color: var(--color-text-subtle);
+
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.cybrez-sidebar-section strong {
+  color: var(--color-primary);
+
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+/* ========================================
+   NESTED NAVIGATION
+   ======================================== */
+
+.cybrez-nav-item-nested {
+  margin-left: var(--space-2);
+
+  padding-left: var(--space-4);
+
+  font-size: var(--font-size-sm);
+}
+
+
+/* ========================================
+   SIDEBAR FOOTER
+   ======================================== */
+
+.cybrez-sidebar-footer {
+  margin-top: auto;
+
+  padding-top: var(--space-6);
+
+  border-top: 1px solid var(--color-border);
+}
+
+
+/* ========================================
+   USER
+   ======================================== */
+
+.cybrez-user {
+  min-width: 0;
+
+  margin-bottom: var(--space-3);
+}
+
+.cybrez-user-name {
+  color: var(--color-text);
+
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cybrez-user-email {
+  margin-top: 2px;
+
+  color: var(--color-text-muted);
+
+  font-size: var(--font-size-xs);
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+/* ========================================
+   LOGOUT
+   ======================================== */
+
+.cybrez-logout-button {
+  width: 100%;
+
+  padding: 9px 12px;
+
+  color: var(--color-text-muted);
+
+  background: transparent;
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+
+  transition:
+    background var(--transition-normal),
+    color var(--transition-normal),
+    border-color var(--transition-normal);
+}
+
+.cybrez-logout-button:hover {
+  color: var(--color-text);
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(220, 38, 38, 0.10),
+      rgba(1, 1, 104, 0.12)
+    );
+
+  border-color: rgba(220, 38, 38, 0.35);
+}
+
+
+/* ========================================
+   MAIN AREA
+   ======================================== */
+
+.cybrez-main {
+  min-width: 0;
+
+  width: calc(100% - var(--sidebar-width));
+
+  margin-left: var(--sidebar-width);
+
+  min-height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+}
+
+
+/* ========================================
+   TOPBAR
+   ======================================== */
+
+.cybrez-topbar {
+  position: sticky;
+  top: 0;
+
+  min-height: var(--topbar-height);
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding:
+    0 var(--space-8);
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(1, 1, 104, 0.14),
+      transparent 45%
+    ),
+    rgba(7, 9, 16, 0.88);
+
+  border-bottom: 1px solid var(--color-border);
+
+  backdrop-filter: blur(14px);
+
+  z-index: 50;
+}
+
+
+/* ========================================
+   TOPBAR CONTEXT
+   ======================================== */
+
+.cybrez-topbar-context {
+  color: var(--color-text);
+
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+}
+
+.cybrez-topbar-user {
+  display: flex;
+  align-items: center;
+
+  gap: var(--space-3);
+
+  color: var(--color-text-muted);
+
+  font-size: var(--font-size-sm);
+}
+
+.cybrez-topbar-user a {
+  color: var(--color-text-muted);
+
+  text-decoration: none;
+
+  transition: color var(--transition-normal);
+}
+
+.cybrez-topbar-user a:hover {
+  color: var(--color-primary);
+}
+
+.cybrez-topbar-divider {
+  color: var(--color-primary);
+}
+
+
+/* ========================================
+   PAGE CONTENT
+   ======================================== */
+
+.cybrez-content {
+  flex: 1;
+
+  width: 100%;
+  max-width: var(--content-max-width);
+
+  margin: 0 auto;
+
+  padding: var(--space-8);
+}
+
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+
+@media (max-width: 900px) {
+  .cybrez-sidebar {
+    width: 220px;
+  }
+
+  .cybrez-main {
+    width: calc(100% - 220px);
+    margin-left: 220px;
+  }
+
+  .cybrez-content {
+    padding: var(--space-6);
+  }
+}
+
+@media (max-width: 700px) {
+  .cybrez-sidebar {
+    position: relative;
+
+    width: 100%;
+    height: auto;
+
+    border-right: none;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .cybrez-app-shell {
+    flex-direction: column;
+  }
+
+  .cybrez-main {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .cybrez-sidebar-footer {
+    margin-top: var(--space-6);
+  }
+
+  .cybrez-topbar {
+    padding: 0 var(--space-4);
+  }
+
+  .cybrez-content {
+    padding: var(--space-4);
+  }
+}
+
+/* ========================================
+   DASHBOARD STAT CARDS
+   ======================================== */
+
+.cybrez-dashboard-stats {
+  display: grid;
+
+  grid-template-columns:
+    repeat(auto-fill, minmax(220px, 1fr));
+
+  gap: 1rem;
+}
+
+
+/* Base card */
+
+.cybrez-dashboard-stat-card {
+  position: relative;
+  overflow: hidden;
+
+  padding: 1.5rem;
+
+  background:
+    linear-gradient(
+      145deg,
+      var(--color-surface),
+      var(--color-surface-muted)
+    );
+
+  border: 1px solid var(--color-primary);
+
+  border-radius: var(--radius-lg);
+
+  box-shadow: var(--shadow-md);
+
+  transition:
+    border-color var(--transition-normal),
+    background var(--transition-normal),
+    box-shadow var(--transition-normal),
+    transform var(--transition-normal);
+}
+
+
+/* Remove the old permanent left accent */
+
+.cybrez-dashboard-stat-card::before {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+  top: 0;
+  bottom: 0;
+
+  width: 4px;
+
+  opacity: 0;
+
+  transition:
+    opacity var(--transition-normal),
+    background var(--transition-normal);
+}
+
+
+/* Hover */
+
+.cybrez-dashboard-stat-card:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    var(--shadow-md),
+    var(--shadow-gold);
+}
+
+
+/* ========================================
+   GOLD
+   ======================================== */
+
+.cybrez-dashboard-stat-card-gold:hover {
+  border-color: var(--color-primary);
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(212, 175, 55, 0.16),
+      var(--color-surface) 55%,
+      var(--color-surface-muted)
+    );
+
+  box-shadow:
+    var(--shadow-md),
+    0 0 24px rgba(212, 175, 55, 0.16);
+}
+
+.cybrez-dashboard-stat-card-gold:hover::before {
+  opacity: 1;
+
+  background:
+    linear-gradient(
+      180deg,
+      #d4af37,
+      #f0d878,
+      #9c7c19
+    );
+}
+
+
+/* ========================================
+   GREEN
+   ======================================== */
+
+.cybrez-dashboard-stat-card-green:hover {
+  border-color: #22c55e;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(34, 197, 94, 0.14),
+      var(--color-surface) 55%,
+      var(--color-surface-muted)
+    );
+
+  box-shadow:
+    var(--shadow-md),
+    0 0 24px rgba(34, 197, 94, 0.14);
+}
+
+.cybrez-dashboard-stat-card-green:hover::before {
+  opacity: 1;
+
+  background:
+    linear-gradient(
+      180deg,
+      #22c55e,
+      #4ade80,
+      #15803d
+    );
+}
+
+
+/* ========================================
+   ORANGE
+   ======================================== */
+
+.cybrez-dashboard-stat-card-orange:hover {
+  border-color: #f59e0b;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(245, 158, 11, 0.14),
+      var(--color-surface) 55%,
+      var(--color-surface-muted)
+    );
+
+  box-shadow:
+    var(--shadow-md),
+    0 0 24px rgba(245, 158, 11, 0.14);
+}
+
+.cybrez-dashboard-stat-card-orange:hover::before {
+  opacity: 1;
+
+  background:
+    linear-gradient(
+      180deg,
+      #f59e0b,
+      #fbbf24,
+      #b45309
+    );
+}
+
+
+/* ========================================
+   GRAY
+   ======================================== */
+
+.cybrez-dashboard-stat-card-gray:hover {
+  border-color: #9ca3af;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(156, 163, 175, 0.12),
+      var(--color-surface) 55%,
+      var(--color-surface-muted)
+    );
+
+  box-shadow:
+    var(--shadow-md),
+    0 0 24px rgba(156, 163, 175, 0.10);
+}
+
+.cybrez-dashboard-stat-card-gray:hover::before {
+  opacity: 1;
+
+  background:
+    linear-gradient(
+      180deg,
+      #9ca3af,
+      #d1d5db,
+      #6b7280
+    );
+}
+
+
+/* ========================================
+   STAT TYPOGRAPHY
+   ======================================== */
+
+.cybrez-dashboard-stat-card h3 {
+  margin: 0;
+
+  color: var(--color-text-muted);
+
+  font-size: var(--font-size-md);
+
+  font-weight: var(--font-weight-semibold);
+}
+
+.cybrez-dashboard-stat-card h2 {
+  margin: 1.25rem 0 0;
+
+  color: var(--color-text);
+
+  font-size: 2.25rem;
+
+  line-height: 1;
+
+  font-weight: var(--font-weight-bold);
+}
+
+/* ========================================
+   DASHBOARD STAT CARDS
+   ======================================== */
+
+.cybrez-dashboard-stats {
+  display: grid;
+  grid-template-columns:
+    repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.cybrez-dashboard-stat-card {
+  position: relative;
+
+  padding: 1.35rem;
+
+  background:
+    linear-gradient(
+      145deg,
+      var(--color-surface),
+      var(--color-surface-muted)
+    );
+
+  border: 1px solid rgba(212, 175, 55, 0.45);
+
+  border-radius: 10px;
+
+  box-shadow:
+    0 0 0 rgba(212, 175, 55, 0);
+
+  transition:
+    border-color 180ms ease,
+    background 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease;
+}
+
+.cybrez-dashboard-stat-card h3 {
+  margin: 0;
+
+  color: var(--color-text-muted);
+
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+}
+
+.cybrez-dashboard-stat-card h2 {
+  margin: 1rem 0 0;
+
+  color: var(--color-text);
+
+  font-size: 2.1rem;
+  font-weight: 700;
+}
+
+/* ----------------------------------------
+   GOLD
+   ---------------------------------------- */
+
+.cybrez-dashboard-stat-card-gold {
+  --stat-accent: #d4af37;
+  --stat-accent-bright: #f4d35e;
+}
+
+/* ----------------------------------------
+   GREEN
+   ---------------------------------------- */
+
+.cybrez-dashboard-stat-card-green {
+  --stat-accent: #22c55e;
+  --stat-accent-bright: #4ade80;
+}
+
+/* ----------------------------------------
+   ORANGE
+   ---------------------------------------- */
+
+.cybrez-dashboard-stat-card-orange {
+  --stat-accent: #f59e0b;
+  --stat-accent-bright: #fbbf24;
+}
+
+/* ----------------------------------------
+   GRAY
+   ---------------------------------------- */
+
+.cybrez-dashboard-stat-card-gray {
+  --stat-accent: #9ca3af;
+  --stat-accent-bright: #d1d5db;
+}
+
+/* ----------------------------------------
+   HOVER
+   ---------------------------------------- */
+
+.cybrez-dashboard-stat-card:hover {
+  border-color: var(--stat-accent-bright);
+
+  background:
+    radial-gradient(
+      circle at 85% 15%,
+      color-mix(
+        in srgb,
+        var(--stat-accent-bright) 13%,
+        transparent
+      ),
+      transparent 42%
+    ),
+    linear-gradient(
+      145deg,
+      var(--color-surface),
+      var(--color-surface-muted)
+    );
+
+  box-shadow:
+    0 0 0 1px
+      color-mix(
+        in srgb,
+        var(--stat-accent-bright) 18%,
+        transparent
+      ),
+    0 8px 28px
+      color-mix(
+        in srgb,
+        var(--stat-accent) 16%,
+        transparent
+      );
+
+  transform: translateY(-2px);
 }

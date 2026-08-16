@@ -51,3 +51,35 @@
   --color-sidebar-text: #a1a1aa;
   --color-sidebar-text-active: #ffffff;
 }
+
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --color-surface-secondary: #1f2329;
+
+  --gradient-surface:
+    linear-gradient(
+      145deg,
+      #171a1f,
+      #1f2329
+    );
+
+  --gradient-hover:
+    linear-gradient(
+      145deg,
+      #22272e,
+      #1f2329
+    );
+
+  --gradient-sidebar:
+    linear-gradient(
+      180deg,
+      #08090b,
+      #0b0d10
+    );
+
+  --color-border-hover: #b8860b;
+
+  --shadow-gold:
+    0 4px 20px rgb(212 175 55 / 0.16);
+}

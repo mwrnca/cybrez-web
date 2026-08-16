@@ -2,7 +2,6 @@ import PageState from "@/components/PageState";
 
 import {
   DashboardStats,
-  // RecentActivity,
   TasksByStatusCard,
   ProjectCountsCard,
   TasksPerMonthCard,
@@ -18,14 +17,9 @@ import {
 export default function DashboardPage() {
   const stats = useDashboardStats();
 
-  const tasksByStatus =
-    useTasksByStatus();
-
-  const projectCounts =
-    useProjectCounts();
-
-  const tasksPerMonth =
-    useTasksPerMonth();
+  const tasksByStatus = useTasksByStatus();
+  const projectCounts = useProjectCounts();
+  const tasksPerMonth = useTasksPerMonth();
 
   return (
     <PageState
@@ -39,48 +33,37 @@ export default function DashboardPage() {
       loadingMessage="Loading dashboard..."
       emptyMessage="No dashboard data available yet."
     >
-      <div
-        style={{
-          display: "grid",
-          gap: "1.5rem",
-        }}
-      >
-        <div>
-          <h1>Dashboard</h1>
+      <div className="cybrez-dashboard">
+        <header className="cybrez-dashboard-header">
+          <div>
+            <h1>Dashboard</h1>
 
-          <p
-            style={{
-              color: "#6b7280",
-              marginTop: "0.35rem",
-            }}
-          >
-            Keep your workspace moving from a single view.
-          </p>
-        </div>
+            <p>
+              Keep your workspace moving from a
+              single view.
+            </p>
+          </div>
+        </header>
 
         <DashboardStats
           stats={stats.data!}
         />
 
-        <TasksByStatusCard
-          data={
-            tasksByStatus.data ?? []
-          }
-        />
+        <div
+          className="cybrez-dashboard-grid"
+        >
+          <TasksByStatusCard
+            data={tasksByStatus.data ?? []}
+          />
 
-        <ProjectCountsCard
-          data={
-            projectCounts.data ?? []
-          }
-        />
+          <ProjectCountsCard
+            data={projectCounts.data ?? []}
+          />
+        </div>
 
         <TasksPerMonthCard
-          data={
-            tasksPerMonth.data ?? []
-          }
+          data={tasksPerMonth.data ?? []}
         />
-
-        {/* <RecentActivity /> */}
       </div>
     </PageState>
   );

@@ -28,9 +28,7 @@ export default function OrganizationForm({
     }
   }, [initialData]);
 
-  async function handleSubmit(
-    e: React.FormEvent
-  ) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
     await onSubmit({
@@ -45,33 +43,90 @@ export default function OrganizationForm({
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        placeholder="Organization name"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-      />
+    <form
+      onSubmit={handleSubmit}
+      className="cybrez-card"
+      style={{
+        padding: "1.5rem",
+        display: "grid",
+        gap: "1rem",
+      }}
+    >
+      <div>
+        <h2>
+          {initialData
+            ? "Edit Organization"
+            : "Create Organization"}
+        </h2>
 
-      <br />
-      <br />
+        <p
+          className="cybrez-muted"
+          style={{ marginTop: "0.35rem" }}
+        >
+          {initialData
+            ? "Update your organization details."
+            : "Create a workspace for your team."}
+        </p>
+      </div>
 
-      <textarea
-        placeholder="Description"
-        value={description}
-        onChange={(e) =>
-          setDescription(e.target.value)
-        }
-      />
+      <div>
+        <label
+          htmlFor="organization-name"
+          style={{
+            display: "block",
+            marginBottom: "0.4rem",
+            fontWeight: 600,
+          }}
+        >
+          Name
+        </label>
 
-      <br />
-      <br />
+        <input
+          id="organization-name"
+          className="cybrez-input"
+          placeholder="Organization name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          required
+        />
+      </div>
 
-      <button
-        type="submit"
-        disabled={loading}
-      >
-        {initialData ? "Update" : "Create"}
-      </button>
+      <div>
+        <label
+          htmlFor="organization-description"
+          style={{
+            display: "block",
+            marginBottom: "0.4rem",
+            fontWeight: 600,
+          }}
+        >
+          Description
+        </label>
+
+        <textarea
+          id="organization-description"
+          className="cybrez-textarea"
+          placeholder="Description"
+          value={description}
+          onChange={(e) =>
+            setDescription(e.target.value)
+          }
+        />
+      </div>
+
+      <div>
+        <button
+          type="submit"
+          className="cybrez-button cybrez-button-primary"
+          disabled={loading}
+        >
+          {loading
+            ? "Saving..."
+            : initialData
+              ? "Update Organization"
+              : "Create Organization"}
+        </button>
+      </div>
     </form>
   );
 }

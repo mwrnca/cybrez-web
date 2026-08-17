@@ -24,7 +24,7 @@
 
 
 /* ========================================
-   BUTTON BASE
+   BUTTONS
    ======================================== */
 
 .cybrez-button {
@@ -66,35 +66,21 @@
   cursor: not-allowed;
 }
 
-
-/* ========================================
-   PRIMARY BUTTON
-   ======================================== */
-
 .cybrez-button-primary {
   background: var(--gradient-primary);
   color: var(--color-primary-foreground);
-
   border-color: var(--color-primary);
-
   box-shadow: var(--shadow-sm);
 }
 
 .cybrez-button-primary:hover:not(:disabled) {
   background: var(--gradient-primary-hover);
-
   box-shadow: var(--shadow-gold);
 }
-
-
-/* ========================================
-   SECONDARY BUTTON
-   ======================================== */
 
 .cybrez-button-secondary {
   background: var(--color-surface-secondary);
   color: var(--color-text);
-
   border-color: var(--color-border);
 }
 
@@ -103,15 +89,9 @@
   border-color: var(--color-border-hover);
 }
 
-
-/* ========================================
-   GHOST BUTTON
-   ======================================== */
-
 .cybrez-button-ghost {
   background: transparent;
   color: var(--color-text-muted);
-
   border-color: transparent;
 }
 
@@ -120,15 +100,9 @@
   color: var(--color-text);
 }
 
-
-/* ========================================
-   DANGER BUTTON
-   ======================================== */
-
 .cybrez-button-danger {
   background: var(--color-danger-soft);
   color: var(--color-danger);
-
   border-color: rgb(239 68 68 / 0.25);
 }
 
@@ -139,14 +113,13 @@
 
 
 /* ========================================
-   INPUT
+   INPUTS
    ======================================== */
 
 .cybrez-input,
 .cybrez-textarea,
 .cybrez-select {
   width: 100%;
-
   padding: 10px 12px;
 
   background: var(--gradient-surface);
@@ -215,17 +188,12 @@
 
 
 /* ========================================
-   GOLD TEXT
+   TEXT
    ======================================== */
 
 .cybrez-gold {
   color: var(--color-primary);
 }
-
-
-/* ========================================
-   GRADIENT TEXT
-   ======================================== */
 
 .cybrez-gradient-text {
   background: var(--gradient-primary);
@@ -268,386 +236,6 @@
   box-shadow: var(--shadow-lg);
 }
 
-/* ========================================
-   DASHBOARD
-   ======================================== */
-
-.cybrez-dashboard {
-  display: grid;
-  gap: var(--space-6);
-}
-
-
-/* ========================================
-   DASHBOARD HEADER
-   ======================================== */
-
-.cybrez-dashboard-header {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: var(--space-4);
-}
-
-.cybrez-dashboard-header h1 {
-  font-size: var(--font-size-3xl);
-  font-weight: var(--font-weight-bold);
-  letter-spacing: -0.02em;
-}
-
-.cybrez-dashboard-header p {
-  margin-top: var(--space-2);
-  color: var(--color-text-muted);
-}
-
-
-/* ========================================
-   STAT GRID
-   ======================================== */
-
-.cybrez-dashboard-stats {
-  display: grid;
-  grid-template-columns:
-    repeat(4, minmax(0, 1fr));
-
-  gap: var(--space-4);
-}
-
-
-/* ========================================
-   STAT CARD
-   ======================================== */
-
-.cybrez-stat-card {
-  position: relative;
-  overflow: hidden;
-
-  min-height: 130px;
-  padding: var(--space-5);
-
-  background:
-    linear-gradient(
-      145deg,
-      var(--color-surface),
-      var(--color-surface-muted)
-    );
-
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-
-  box-shadow: var(--shadow-sm);
-
-  transition:
-    transform var(--transition-normal),
-    border-color var(--transition-normal),
-    box-shadow var(--transition-normal);
-}
-
-.cybrez-stat-card::before {
-  content: "";
-
-  position: absolute;
-  inset: 0 auto 0 0;
-
-  width: 3px;
-
-  background: var(--color-primary);
-}
-
-.cybrez-stat-card:hover {
-  transform: translateY(-2px);
-
-  border-color: var(--color-border-hover);
-
-  box-shadow:
-    var(--shadow-md),
-    var(--shadow-gold);
-}
-
-.cybrez-stat-card.success::before {
-  background: var(--color-success);
-}
-
-.cybrez-stat-card.warning::before {
-  background: var(--color-warning);
-}
-
-.cybrez-stat-card.muted::before {
-  background: var(--color-text-subtle);
-}
-
-.cybrez-stat-card-label {
-  color: var(--color-text-muted);
-
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-medium);
-}
-
-.cybrez-stat-card-value {
-  margin-top: var(--space-3);
-
-  font-size: var(--font-size-3xl);
-  font-weight: var(--font-weight-bold);
-
-  color: var(--color-text);
-}
-
-
-/* ========================================
-   DASHBOARD CARDS
-   ======================================== */
-
-.cybrez-dashboard-card {
-  min-width: 0;
-
-  padding: var(--space-5);
-
-  background: var(--gradient-surface);
-
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-
-  box-shadow: var(--shadow-sm);
-
-  transition:
-    border-color var(--transition-normal),
-    box-shadow var(--transition-normal);
-}
-
-.cybrez-dashboard-card:hover {
-  border-color: var(--color-border-hover);
-
-  box-shadow:
-    var(--shadow-md),
-    var(--shadow-gold);
-}
-
-.cybrez-dashboard-card-wide {
-  width: 100%;
-}
-
-
-/* ========================================
-   CARD HEADER
-   ======================================== */
-
-.cybrez-dashboard-card-header {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-
-  gap: var(--space-4);
-
-  margin-bottom: var(--space-5);
-}
-
-.cybrez-dashboard-card-header h2 {
-  font-size: var(--font-size-lg);
-  font-weight: var(--font-weight-semibold);
-}
-
-.cybrez-dashboard-card-header p {
-  margin-top: var(--space-1);
-
-  color: var(--color-text-muted);
-
-  font-size: var(--font-size-sm);
-}
-
-
-/* ========================================
-   METRIC LIST
-   ======================================== */
-
-.cybrez-dashboard-list {
-  display: grid;
-  gap: var(--space-4);
-}
-
-.cybrez-metric-row {
-  display: grid;
-  gap: var(--space-2);
-}
-
-.cybrez-metric-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  color: var(--color-text-secondary);
-
-  font-size: var(--font-size-sm);
-}
-
-.cybrez-metric-top strong {
-  color: var(--color-text);
-}
-
-
-/* ========================================
-   PROGRESS
-   ======================================== */
-
-.cybrez-progress {
-  width: 100%;
-  height: 7px;
-
-  overflow: hidden;
-
-  background: var(--color-surface-muted);
-
-  border-radius: var(--radius-full);
-}
-
-.cybrez-progress-value {
-  height: 100%;
-
-  min-width: 0;
-
-  background: var(--gradient-primary);
-
-  border-radius: inherit;
-
-  transition:
-    width var(--transition-slow);
-}
-
-
-/* ========================================
-   MONTH CHART
-   ======================================== */
-
-.cybrez-month-chart {
-  display: flex;
-  align-items: flex-end;
-
-  gap: var(--space-3);
-
-  min-height: 260px;
-
-  padding-top: var(--space-4);
-
-  overflow-x: auto;
-}
-
-.cybrez-month-column {
-  flex: 1;
-
-  min-width: 48px;
-
-  height: 230px;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-end;
-
-  gap: var(--space-2);
-}
-
-.cybrez-month-value {
-  min-height: 18px;
-
-  color: var(--color-text-secondary);
-
-  font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-semibold);
-}
-
-.cybrez-month-bar-container {
-  width: 100%;
-  max-width: 42px;
-
-  height: 175px;
-
-  display: flex;
-  align-items: flex-end;
-
-  background: var(--color-surface-muted);
-
-  border-radius:
-    var(--radius-sm)
-    var(--radius-sm)
-    0
-    0;
-
-  overflow: hidden;
-}
-
-.cybrez-month-bar {
-  width: 100%;
-
-  min-height: 0;
-
-  background: var(--gradient-primary);
-
-  border-radius:
-    var(--radius-sm)
-    var(--radius-sm)
-    0
-    0;
-
-  transition:
-    height var(--transition-slow);
-}
-
-.cybrez-month-label {
-  color: var(--color-text-muted);
-
-  font-size: var(--font-size-xs);
-
-  white-space: nowrap;
-}
-
-
-/* ========================================
-   DASHBOARD RESPONSIVE
-   ======================================== */
-
-@media (max-width: 1100px) {
-  .cybrez-dashboard-stats {
-    grid-template-columns:
-      repeat(2, minmax(0, 1fr));
-  }
-}
-
-@media (max-width: 700px) {
-  .cybrez-dashboard-stats {
-    grid-template-columns: 1fr;
-  }
-
-  .cybrez-dashboard-header {
-    align-items: flex-start;
-    flex-direction: column;
-  }
-
-  .cybrez-dashboard-card {
-    padding: var(--space-4);
-  }
-
-  .cybrez-month-chart {
-    gap: var(--space-2);
-  }
-}
-
-/* ========================================
-   DASHBOARD CONTENT GRID
-   ======================================== */
-
-.cybrez-dashboard-grid {
-  display: grid;
-
-  grid-template-columns:
-    repeat(2, minmax(0, 1fr));
-
-  gap: var(--space-6);
-}
-
-@media (max-width: 850px) {
-  .cybrez-dashboard-grid {
-    grid-template-columns: 1fr;
-  }
-}
 
 /* ========================================
    APP SHELL
@@ -655,6 +243,7 @@
 
 .cybrez-app-shell {
   min-height: 100vh;
+
   display: flex;
 
   background: var(--gradient-background);
@@ -668,6 +257,7 @@
 
 .cybrez-sidebar {
   position: fixed;
+
   top: 0;
   left: 0;
   bottom: 0;
@@ -690,6 +280,7 @@
   border-right: 1px solid var(--color-border);
 
   overflow-y: auto;
+
   z-index: 100;
 }
 
@@ -710,6 +301,7 @@
 
   font-size: var(--font-size-2xl);
   font-weight: var(--font-weight-bold);
+
   letter-spacing: -0.03em;
 
   transition:
@@ -732,11 +324,6 @@
   flex-direction: column;
   gap: var(--space-2);
 }
-
-
-/* ========================================
-   NAV ITEMS
-   ======================================== */
 
 .cybrez-nav-item {
   position: relative;
@@ -766,6 +353,7 @@
 
 .cybrez-nav-item:hover {
   color: var(--color-text);
+
   background: var(--gradient-hover);
 
   border-color: rgba(212, 175, 55, 0.15);
@@ -793,6 +381,7 @@
   content: "";
 
   position: absolute;
+
   left: 0;
   top: 8px;
   bottom: 8px;
@@ -801,12 +390,16 @@
 
   background: var(--gradient-primary);
 
-  border-radius: 0 var(--radius-full) var(--radius-full) 0;
+  border-radius:
+    0
+    var(--radius-full)
+    var(--radius-full)
+    0;
 }
 
 
 /* ========================================
-   ORGANIZATION SECTION
+   SIDEBAR SECTION
    ======================================== */
 
 .cybrez-sidebar-section {
@@ -850,7 +443,6 @@
 
 .cybrez-nav-item-nested {
   margin-left: var(--space-2);
-
   padding-left: var(--space-4);
 
   font-size: var(--font-size-sm);
@@ -863,7 +455,6 @@
 
 .cybrez-sidebar-footer {
   margin-top: auto;
-
   padding-top: var(--space-6);
 
   border-top: 1px solid var(--color-border);
@@ -876,7 +467,6 @@
 
 .cybrez-user {
   min-width: 0;
-
   margin-bottom: var(--space-3);
 }
 
@@ -914,7 +504,6 @@
   padding: 9px 12px;
 
   color: var(--color-text-muted);
-
   background: transparent;
 
   border: 1px solid var(--color-border);
@@ -975,8 +564,7 @@
   align-items: center;
   justify-content: space-between;
 
-  padding:
-    0 var(--space-8);
+  padding: 0 var(--space-8);
 
   background:
     linear-gradient(
@@ -992,11 +580,6 @@
 
   z-index: 50;
 }
-
-
-/* ========================================
-   TOPBAR CONTEXT
-   ======================================== */
 
 .cybrez-topbar-context {
   color: var(--color-text);
@@ -1050,59 +633,38 @@
 
 
 /* ========================================
-   RESPONSIVE
+   DASHBOARD
    ======================================== */
 
-@media (max-width: 900px) {
-  .cybrez-sidebar {
-    width: 220px;
-  }
-
-  .cybrez-main {
-    width: calc(100% - 220px);
-    margin-left: 220px;
-  }
-
-  .cybrez-content {
-    padding: var(--space-6);
-  }
+.cybrez-dashboard {
+  display: grid;
+  gap: var(--space-6);
 }
 
-@media (max-width: 700px) {
-  .cybrez-sidebar {
-    position: relative;
+.cybrez-dashboard-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
 
-    width: 100%;
-    height: auto;
-
-    border-right: none;
-    border-bottom: 1px solid var(--color-border);
-  }
-
-  .cybrez-app-shell {
-    flex-direction: column;
-  }
-
-  .cybrez-main {
-    width: 100%;
-    margin-left: 0;
-  }
-
-  .cybrez-sidebar-footer {
-    margin-top: var(--space-6);
-  }
-
-  .cybrez-topbar {
-    padding: 0 var(--space-4);
-  }
-
-  .cybrez-content {
-    padding: var(--space-4);
-  }
+  gap: var(--space-4);
 }
+
+.cybrez-dashboard-header h1 {
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+
+  letter-spacing: -0.02em;
+}
+
+.cybrez-dashboard-header p {
+  margin-top: var(--space-2);
+
+  color: var(--color-text-muted);
+}
+
 
 /* ========================================
-   DASHBOARD STAT CARDS
+   DASHBOARD STATS
    ======================================== */
 
 .cybrez-dashboard-stats {
@@ -1111,244 +673,14 @@
   grid-template-columns:
     repeat(auto-fill, minmax(220px, 1fr));
 
-  gap: 1rem;
+  gap: var(--space-4);
 }
-
-
-/* Base card */
 
 .cybrez-dashboard-stat-card {
   position: relative;
   overflow: hidden;
 
-  padding: 1.5rem;
-
-  background:
-    linear-gradient(
-      145deg,
-      var(--color-surface),
-      var(--color-surface-muted)
-    );
-
-  border: 1px solid var(--color-primary);
-
-  border-radius: var(--radius-lg);
-
-  box-shadow: var(--shadow-md);
-
-  transition:
-    border-color var(--transition-normal),
-    background var(--transition-normal),
-    box-shadow var(--transition-normal),
-    transform var(--transition-normal);
-}
-
-
-/* Remove the old permanent left accent */
-
-.cybrez-dashboard-stat-card::before {
-  content: "";
-
-  position: absolute;
-
-  left: 0;
-  top: 0;
-  bottom: 0;
-
-  width: 4px;
-
-  opacity: 0;
-
-  transition:
-    opacity var(--transition-normal),
-    background var(--transition-normal);
-}
-
-
-/* Hover */
-
-.cybrez-dashboard-stat-card:hover {
-  transform: translateY(-2px);
-
-  box-shadow:
-    var(--shadow-md),
-    var(--shadow-gold);
-}
-
-
-/* ========================================
-   GOLD
-   ======================================== */
-
-.cybrez-dashboard-stat-card-gold:hover {
-  border-color: var(--color-primary);
-
-  background:
-    linear-gradient(
-      135deg,
-      rgba(212, 175, 55, 0.16),
-      var(--color-surface) 55%,
-      var(--color-surface-muted)
-    );
-
-  box-shadow:
-    var(--shadow-md),
-    0 0 24px rgba(212, 175, 55, 0.16);
-}
-
-.cybrez-dashboard-stat-card-gold:hover::before {
-  opacity: 1;
-
-  background:
-    linear-gradient(
-      180deg,
-      #d4af37,
-      #f0d878,
-      #9c7c19
-    );
-}
-
-
-/* ========================================
-   GREEN
-   ======================================== */
-
-.cybrez-dashboard-stat-card-green:hover {
-  border-color: #22c55e;
-
-  background:
-    linear-gradient(
-      135deg,
-      rgba(34, 197, 94, 0.14),
-      var(--color-surface) 55%,
-      var(--color-surface-muted)
-    );
-
-  box-shadow:
-    var(--shadow-md),
-    0 0 24px rgba(34, 197, 94, 0.14);
-}
-
-.cybrez-dashboard-stat-card-green:hover::before {
-  opacity: 1;
-
-  background:
-    linear-gradient(
-      180deg,
-      #22c55e,
-      #4ade80,
-      #15803d
-    );
-}
-
-
-/* ========================================
-   ORANGE
-   ======================================== */
-
-.cybrez-dashboard-stat-card-orange:hover {
-  border-color: #f59e0b;
-
-  background:
-    linear-gradient(
-      135deg,
-      rgba(245, 158, 11, 0.14),
-      var(--color-surface) 55%,
-      var(--color-surface-muted)
-    );
-
-  box-shadow:
-    var(--shadow-md),
-    0 0 24px rgba(245, 158, 11, 0.14);
-}
-
-.cybrez-dashboard-stat-card-orange:hover::before {
-  opacity: 1;
-
-  background:
-    linear-gradient(
-      180deg,
-      #f59e0b,
-      #fbbf24,
-      #b45309
-    );
-}
-
-
-/* ========================================
-   GRAY
-   ======================================== */
-
-.cybrez-dashboard-stat-card-gray:hover {
-  border-color: #9ca3af;
-
-  background:
-    linear-gradient(
-      135deg,
-      rgba(156, 163, 175, 0.12),
-      var(--color-surface) 55%,
-      var(--color-surface-muted)
-    );
-
-  box-shadow:
-    var(--shadow-md),
-    0 0 24px rgba(156, 163, 175, 0.10);
-}
-
-.cybrez-dashboard-stat-card-gray:hover::before {
-  opacity: 1;
-
-  background:
-    linear-gradient(
-      180deg,
-      #9ca3af,
-      #d1d5db,
-      #6b7280
-    );
-}
-
-
-/* ========================================
-   STAT TYPOGRAPHY
-   ======================================== */
-
-.cybrez-dashboard-stat-card h3 {
-  margin: 0;
-
-  color: var(--color-text-muted);
-
-  font-size: var(--font-size-md);
-
-  font-weight: var(--font-weight-semibold);
-}
-
-.cybrez-dashboard-stat-card h2 {
-  margin: 1.25rem 0 0;
-
-  color: var(--color-text);
-
-  font-size: 2.25rem;
-
-  line-height: 1;
-
-  font-weight: var(--font-weight-bold);
-}
-
-/* ========================================
-   DASHBOARD STAT CARDS
-   ======================================== */
-
-.cybrez-dashboard-stats {
-  display: grid;
-  grid-template-columns:
-    repeat(auto-fill, minmax(220px, 1fr));
-  gap: 1rem;
-}
-
-.cybrez-dashboard-stat-card {
-  position: relative;
-
-  padding: 1.35rem;
+  padding: var(--space-5);
 
   background:
     linear-gradient(
@@ -1359,16 +691,15 @@
 
   border: 1px solid rgba(212, 175, 55, 0.45);
 
-  border-radius: 10px;
+  border-radius: var(--radius-lg);
 
-  box-shadow:
-    0 0 0 rgba(212, 175, 55, 0);
+  box-shadow: var(--shadow-sm);
 
   transition:
-    border-color 180ms ease,
-    background 180ms ease,
-    box-shadow 180ms ease,
-    transform 180ms ease;
+    border-color var(--transition-normal),
+    background var(--transition-normal),
+    box-shadow var(--transition-normal),
+    transform var(--transition-normal);
 }
 
 .cybrez-dashboard-stat-card h3 {
@@ -1386,48 +717,33 @@
   color: var(--color-text);
 
   font-size: 2.1rem;
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
 }
 
-/* ----------------------------------------
-   GOLD
-   ---------------------------------------- */
+
+/* ========================================
+   DASHBOARD STAT COLORS
+   ======================================== */
 
 .cybrez-dashboard-stat-card-gold {
   --stat-accent: #d4af37;
   --stat-accent-bright: #f4d35e;
 }
 
-/* ----------------------------------------
-   GREEN
-   ---------------------------------------- */
-
 .cybrez-dashboard-stat-card-green {
   --stat-accent: #22c55e;
   --stat-accent-bright: #4ade80;
 }
-
-/* ----------------------------------------
-   ORANGE
-   ---------------------------------------- */
 
 .cybrez-dashboard-stat-card-orange {
   --stat-accent: #f59e0b;
   --stat-accent-bright: #fbbf24;
 }
 
-/* ----------------------------------------
-   GRAY
-   ---------------------------------------- */
-
 .cybrez-dashboard-stat-card-gray {
   --stat-accent: #9ca3af;
   --stat-accent-bright: #d1d5db;
 }
-
-/* ----------------------------------------
-   HOVER
-   ---------------------------------------- */
 
 .cybrez-dashboard-stat-card:hover {
   border-color: var(--stat-accent-bright);
@@ -1463,4 +779,1156 @@
       );
 
   transform: translateY(-2px);
+}
+
+
+/* ========================================
+   DASHBOARD CARDS
+   ======================================== */
+
+.cybrez-dashboard-card {
+  min-width: 0;
+
+  padding: var(--space-5);
+
+  background: var(--gradient-surface);
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+
+  box-shadow: var(--shadow-sm);
+
+  transition:
+    border-color var(--transition-normal),
+    box-shadow var(--transition-normal);
+}
+
+.cybrez-dashboard-card:hover {
+  border-color: var(--color-border-hover);
+
+  box-shadow:
+    var(--shadow-md),
+    var(--shadow-gold);
+}
+
+.cybrez-dashboard-card-wide {
+  width: 100%;
+}
+
+.cybrez-dashboard-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: var(--space-4);
+
+  margin-bottom: var(--space-5);
+}
+
+.cybrez-dashboard-card-header h2 {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+}
+
+.cybrez-dashboard-card-header p {
+  margin-top: var(--space-1);
+
+  color: var(--color-text-muted);
+
+  font-size: var(--font-size-sm);
+}
+
+
+/* ========================================
+   DASHBOARD CONTENT GRID
+   ======================================== */
+
+.cybrez-dashboard-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: var(--space-6);
+}
+
+
+/* ========================================
+   METRICS
+   ======================================== */
+
+.cybrez-dashboard-list {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.cybrez-metric-row {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.cybrez-metric-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  color: var(--color-text-secondary);
+
+  font-size: var(--font-size-sm);
+}
+
+.cybrez-metric-top strong {
+  color: var(--color-text);
+}
+
+
+/* ========================================
+   PROGRESS
+   ======================================== */
+
+.cybrez-progress {
+  width: 100%;
+  height: 7px;
+
+  overflow: hidden;
+
+  background: var(--color-surface-muted);
+
+  border-radius: var(--radius-full);
+}
+
+.cybrez-progress-value {
+  height: 100%;
+  min-width: 0;
+
+  background: var(--gradient-primary);
+
+  border-radius: inherit;
+
+  transition: width var(--transition-slow);
+}
+
+
+/* ========================================
+   MONTH CHART
+   ======================================== */
+
+.cybrez-month-chart {
+  display: flex;
+  align-items: flex-end;
+
+  gap: var(--space-3);
+
+  min-height: 260px;
+
+  padding-top: var(--space-4);
+
+  overflow-x: auto;
+}
+
+.cybrez-month-column {
+  flex: 1;
+
+  min-width: 48px;
+  height: 230px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+
+  gap: var(--space-2);
+}
+
+.cybrez-month-value {
+  min-height: 18px;
+
+  color: var(--color-text-secondary);
+
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+}
+
+.cybrez-month-bar-container {
+  width: 100%;
+  max-width: 42px;
+  height: 175px;
+
+  display: flex;
+  align-items: flex-end;
+
+  background: var(--color-surface-muted);
+
+  border-radius:
+    var(--radius-sm)
+    var(--radius-sm)
+    0
+    0;
+
+  overflow: hidden;
+}
+
+.cybrez-month-bar {
+  width: 100%;
+  min-height: 0;
+
+  background: var(--gradient-primary);
+
+  border-radius:
+    var(--radius-sm)
+    var(--radius-sm)
+    0
+    0;
+
+  transition: height var(--transition-slow);
+}
+
+.cybrez-month-label {
+  color: var(--color-text-muted);
+
+  font-size: var(--font-size-xs);
+
+  white-space: nowrap;
+}
+
+
+/* ========================================
+   ORGANIZATIONS PAGE
+   ======================================== */
+
+.cybrez-organizations-page {
+  display: grid;
+  gap: var(--space-6);
+}
+
+.cybrez-page-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+
+  gap: var(--space-6);
+}
+
+.cybrez-page-header h1 {
+  margin-top: var(--space-2);
+
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+
+  letter-spacing: -0.02em;
+}
+
+.cybrez-page-header p {
+  max-width: 650px;
+
+  margin-top: var(--space-1);
+
+  color: var(--color-text-muted);
+}
+
+.cybrez-page-header-stat {
+  min-width: 150px;
+
+  padding: var(--space-4);
+
+  background: var(--gradient-surface);
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+
+  text-align: right;
+}
+
+.cybrez-page-header-stat span {
+  display: block;
+
+  color: var(--color-text-muted);
+
+  font-size: var(--font-size-xs);
+}
+
+.cybrez-page-header-stat strong {
+  display: block;
+
+  margin-top: var(--space-1);
+
+  color: var(--color-primary);
+
+  font-size: var(--font-size-2xl);
+}
+
+
+/* ========================================
+   ORGANIZATION FORM
+   ======================================== */
+
+.cybrez-organization-form {
+  display: grid;
+  gap: var(--space-6);
+
+  padding: var(--space-6);
+}
+
+.cybrez-form-header h2 {
+  margin-top: var(--space-3);
+
+  font-size: var(--font-size-xl);
+}
+
+.cybrez-form-header p {
+  margin-top: var(--space-1);
+
+  color: var(--color-text-muted);
+
+  font-size: var(--font-size-sm);
+}
+
+.cybrez-form-fields {
+  display: grid;
+  gap: var(--space-5);
+}
+
+.cybrez-form-field {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.cybrez-form-field > span {
+  color: var(--color-text);
+
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+}
+
+.cybrez-form-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.cybrez-organization-cancel {
+  justify-self: start;
+}
+
+
+/* ========================================
+   SECTION HEADER
+   ======================================== */
+
+.cybrez-section-header {
+  margin-bottom: var(--space-4);
+}
+
+.cybrez-section-header h2 {
+  font-size: var(--font-size-xl);
+}
+
+.cybrez-section-header p {
+  margin-top: var(--space-1);
+
+  color: var(--color-text-muted);
+
+  font-size: var(--font-size-sm);
+}
+
+
+/* ========================================
+   ORGANIZATION GRID
+   ======================================== */
+
+.cybrez-organizations-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(auto-fill, minmax(300px, 1fr));
+
+  gap: var(--space-4);
+}
+
+
+/* ========================================
+   ORGANIZATION CARD
+   ======================================== */
+
+.cybrez-organization-card {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: var(--space-4);
+
+  padding: var(--space-5);
+
+  background: var(--gradient-surface);
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+
+  box-shadow: var(--shadow-sm);
+
+  transition:
+    transform var(--transition-normal),
+    border-color var(--transition-normal),
+    box-shadow var(--transition-normal);
+}
+
+.cybrez-organization-card:hover {
+  transform: translateY(-3px);
+
+  border-color: var(--color-border-hover);
+
+  box-shadow:
+    var(--shadow-md),
+    var(--shadow-gold);
+}
+
+.cybrez-organization-card-header {
+  display: flex;
+  align-items: center;
+
+  gap: var(--space-3);
+}
+
+.cybrez-organization-card-header h3 {
+  margin-bottom: var(--space-2);
+
+  font-size: var(--font-size-lg);
+}
+
+.cybrez-organization-card-icon {
+  width: 48px;
+  height: 48px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: var(--gradient-primary);
+
+  color: var(--color-primary-foreground);
+
+  border-radius: var(--radius-md);
+
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+}
+
+.cybrez-organization-card-description {
+  min-height: 48px;
+
+  color: var(--color-text-muted);
+
+  font-size: var(--font-size-sm);
+
+  line-height: 1.6;
+}
+
+.cybrez-organization-card-id {
+  display: grid;
+  gap: var(--space-1);
+
+  padding-top: var(--space-3);
+
+  border-top: 1px solid var(--color-border);
+}
+
+.cybrez-organization-card-id span {
+  color: var(--color-text-subtle);
+
+  font-size: var(--font-size-xs);
+
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.cybrez-organization-card-id code {
+  color: var(--color-primary);
+
+  font-size: var(--font-size-xs);
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cybrez-organization-card-actions {
+  display: flex;
+  flex-wrap: wrap;
+
+  gap: var(--space-2);
+
+  margin-top: auto;
+}
+
+.cybrez-organization-card-actions .cybrez-button {
+  flex: 1;
+  min-width: 80px;
+}
+
+
+/* ========================================
+   ORGANIZATION DETAIL PAGE
+   ======================================== */
+
+.cybrez-organization-page {
+  display: grid;
+  gap: var(--space-6);
+}
+
+.cybrez-organization-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+
+  gap: var(--space-6);
+}
+
+.cybrez-organization-heading {
+  display: flex;
+  align-items: center;
+
+  gap: var(--space-4);
+}
+
+.cybrez-organization-heading h1,
+.cybrez-organization-header h1 {
+  margin-top: var(--space-2);
+
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+
+  letter-spacing: -0.02em;
+}
+
+.cybrez-organization-heading p,
+.cybrez-organization-header p {
+  max-width: 700px;
+
+  margin-top: var(--space-2);
+
+  color: var(--color-text-muted);
+}
+
+.cybrez-organization-large-icon {
+  width: 64px;
+  height: 64px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: var(--gradient-primary);
+
+  color: var(--color-primary-foreground);
+
+  border-radius: var(--radius-lg);
+
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+
+  box-shadow: var(--shadow-gold);
+}
+
+
+/* ========================================
+   ORGANIZATION INFO
+   ======================================== */
+
+.cybrez-organization-info {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: var(--space-6);
+
+  padding: var(--space-5);
+}
+
+.cybrez-info-label {
+  display: block;
+
+  margin-bottom: var(--space-2);
+
+  color: var(--color-text-subtle);
+
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+}
+
+.cybrez-info-value {
+  color: var(--color-text);
+
+  font-size: var(--font-size-sm);
+}
+
+code.cybrez-info-value {
+  display: block;
+
+  padding: var(--space-3);
+
+  overflow: hidden;
+
+  color: var(--color-primary);
+
+  background: var(--color-surface-muted);
+
+  border: 1px solid var(--color-border);
+
+  border-radius: var(--radius-md);
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+/* ========================================
+   ORGANIZATION ACTIONS
+   ======================================== */
+
+.cybrez-organization-actions {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: var(--space-4);
+}
+
+.cybrez-organization-action {
+  width: 100%;
+
+  padding: var(--space-5);
+
+  display: flex;
+  align-items: flex-start;
+
+  gap: var(--space-4);
+
+  color: var(--color-text);
+
+  text-align: left;
+
+  cursor: pointer;
+}
+
+.cybrez-organization-action:hover {
+  transform: translateY(-2px);
+}
+
+.cybrez-organization-action h3 {
+  font-size: var(--font-size-lg);
+}
+
+.cybrez-organization-action p {
+  margin-top: var(--space-1);
+
+  color: var(--color-text-muted);
+
+  font-size: var(--font-size-sm);
+}
+
+.cybrez-action-icon {
+  width: 44px;
+  height: 44px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: var(--color-primary-soft);
+
+  color: var(--color-primary);
+
+  border: 1px solid rgba(212, 175, 55, 0.25);
+
+  border-radius: var(--radius-md);
+
+  font-weight: var(--font-weight-bold);
+}
+
+
+/* ========================================
+   MEMBERS PAGE
+   ======================================== */
+
+.cybrez-members-page {
+  display: grid;
+  gap: var(--space-6);
+}
+
+.cybrez-members-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: var(--space-5);
+
+  padding: var(--space-5);
+}
+
+.cybrez-members-toolbar h2 {
+  font-size: var(--font-size-lg);
+}
+
+.cybrez-members-toolbar p {
+  margin-top: var(--space-1);
+
+  color: var(--color-text-muted);
+
+  font-size: var(--font-size-sm);
+}
+
+.cybrez-members-list {
+  display: grid;
+  gap: var(--space-3);
+}
+
+
+/* ========================================
+   MEMBER CARD
+   ======================================== */
+
+.cybrez-member-card {
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1fr)
+    auto
+    auto;
+
+  align-items: center;
+
+  gap: var(--space-5);
+
+  padding: var(--space-4);
+
+  background: var(--gradient-surface);
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+
+  box-shadow: var(--shadow-sm);
+}
+
+.cybrez-member-info,
+.cybrez-member-identity {
+  min-width: 0;
+
+  display: flex;
+  align-items: center;
+
+  gap: var(--space-3);
+}
+
+.cybrez-member-info h3,
+.cybrez-member-identity h3 {
+  font-size: var(--font-size-md);
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cybrez-member-info p,
+.cybrez-member-identity p {
+  margin-top: 2px;
+
+  color: var(--color-text-muted);
+
+  font-size: var(--font-size-xs);
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cybrez-member-avatar {
+  width: 44px;
+  height: 44px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: var(--gradient-primary);
+
+  color: var(--color-primary-foreground);
+
+  border-radius: var(--radius-full);
+
+  font-weight: var(--font-weight-bold);
+}
+
+
+/* ========================================
+   MEMBER ROLE
+   ======================================== */
+
+.cybrez-member-role {
+  min-width: 100px;
+
+  display: grid;
+
+  gap: 2px;
+}
+
+.cybrez-member-role span {
+  color: var(--color-text-subtle);
+
+  font-size: var(--font-size-xs);
+
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.cybrez-member-role strong {
+  color: var(--color-primary);
+
+  font-size: var(--font-size-sm);
+
+  text-transform: capitalize;
+}
+
+
+/* ========================================
+   MEMBERS DANGER ZONE
+   ======================================== */
+
+.cybrez-members-danger-zone {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: var(--space-4);
+
+  padding: var(--space-5);
+
+  border-color: rgba(239, 68, 68, 0.25);
+}
+
+.cybrez-members-danger-zone h2 {
+  font-size: var(--font-size-lg);
+}
+
+.cybrez-members-danger-zone p {
+  margin-top: var(--space-1);
+
+  color: var(--color-text-muted);
+
+  font-size: var(--font-size-sm);
+}
+
+
+/* ========================================
+   EMPTY STATES
+   ======================================== */
+
+.cybrez-empty-state {
+  min-height: 260px;
+
+  padding: var(--space-8);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+}
+
+.cybrez-empty-state-icon {
+  width: 52px;
+  height: 52px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: var(--space-4);
+
+  background: var(--color-primary-soft);
+
+  color: var(--color-primary);
+
+  border: 1px solid rgba(212, 175, 55, 0.25);
+
+  border-radius: var(--radius-full);
+
+  font-weight: var(--font-weight-bold);
+}
+
+.cybrez-empty-state h3 {
+  font-size: var(--font-size-lg);
+}
+
+.cybrez-empty-state p {
+  max-width: 450px;
+
+  margin-top: var(--space-2);
+
+  color: var(--color-text-muted);
+
+  font-size: var(--font-size-sm);
+}
+
+
+/* ========================================
+   PAGE STATES
+   ======================================== */
+
+.cybrez-page-state {
+  min-height: 300px;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: var(--space-3);
+
+  color: var(--color-text-muted);
+
+  text-align: center;
+}
+
+.cybrez-page-state h2 {
+  color: var(--color-text);
+}
+
+.cybrez-page-state p {
+  color: var(--color-text-muted);
+}
+
+.cybrez-page-state-error {
+  color: var(--color-danger);
+}
+
+.cybrez-page-state-error p {
+  max-width: 700px;
+
+  color: var(--color-danger);
+
+  overflow-wrap: anywhere;
+}
+
+
+/* ========================================
+   LOADING
+   ======================================== */
+
+.cybrez-loading-indicator {
+  width: 28px;
+  height: 28px;
+
+  border: 3px solid var(--color-border);
+
+  border-top-color: var(--color-primary);
+
+  border-radius: var(--radius-full);
+
+  animation: cybrez-spin 0.8s linear infinite;
+}
+
+@keyframes cybrez-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+
+@media (max-width: 1100px) {
+  .cybrez-dashboard-stats {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .cybrez-sidebar {
+    width: 220px;
+  }
+
+  .cybrez-main {
+    width: calc(100% - 220px);
+    margin-left: 220px;
+  }
+
+  .cybrez-content {
+    padding: var(--space-6);
+  }
+}
+
+@media (max-width: 850px) {
+  .cybrez-dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 800px) {
+  .cybrez-organization-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .cybrez-organization-header .cybrez-button {
+    width: 100%;
+  }
+
+  .cybrez-organization-info {
+    grid-template-columns: 1fr;
+  }
+
+  .cybrez-organization-actions {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+  .cybrez-dashboard-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .cybrez-dashboard-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .cybrez-dashboard-card {
+    padding: var(--space-4);
+  }
+
+  .cybrez-month-chart {
+    gap: var(--space-2);
+  }
+
+  .cybrez-sidebar {
+    position: relative;
+
+    width: 100%;
+    height: auto;
+
+    border-right: none;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .cybrez-app-shell {
+    flex-direction: column;
+  }
+
+  .cybrez-main {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .cybrez-sidebar-footer {
+    margin-top: var(--space-6);
+  }
+
+  .cybrez-topbar {
+    padding: 0 var(--space-4);
+  }
+
+  .cybrez-content {
+    padding: var(--space-4);
+  }
+
+  .cybrez-page-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .cybrez-page-header-stat {
+    width: 100%;
+    text-align: left;
+  }
+
+  .cybrez-section-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .cybrez-organizations-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cybrez-organization-card-actions {
+    display: grid;
+
+    grid-template-columns: 1fr;
+  }
+
+  .cybrez-organization-card-actions .cybrez-button {
+    width: 100%;
+  }
+
+  .cybrez-members-toolbar {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .cybrez-members-toolbar .cybrez-button {
+    width: 100%;
+  }
+
+  .cybrez-member-card {
+    grid-template-columns: 1fr;
+
+    gap: var(--space-4);
+  }
+
+  .cybrez-member-role {
+    min-width: 0;
+
+    padding-top: var(--space-3);
+
+    border-top: 1px solid var(--color-border);
+  }
+
+  .cybrez-member-card .cybrez-button {
+    width: 100%;
+  }
+
+  .cybrez-members-danger-zone {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .cybrez-members-danger-zone .cybrez-button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 500px) {
+  .cybrez-organization-heading {
+    align-items: flex-start;
+  }
+
+  .cybrez-organization-large-icon {
+    width: 48px;
+    height: 48px;
+
+    font-size: var(--font-size-lg);
+  }
+
+  .cybrez-organization-heading h1 {
+    font-size: var(--font-size-2xl);
+  }
 }

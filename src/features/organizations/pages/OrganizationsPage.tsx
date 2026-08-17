@@ -1,111 +1,278 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+import type {
+  Organization,
+  CreateOrganizationRequest,
+} from "@/types/organization";
+
+import OrganizationForm from "../components/OrganizationForm";
+
 import {
   useOrganizations,
   useCreateOrganization,
   useUpdateOrganization,
   useDeleteOrganization,
 } from "../hooks";
-import type { Organization } from "@/types/organization";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import OrganizationForm from "../components/OrganizationForm";
 
 export default function OrganizationsPage() {
-  const { data, isLoading, isError, error } =
-    useOrganizations();
-
-  const createOrganization = useCreateOrganization();
-
   const navigate = useNavigate();
-  const updateOrganization = useUpdateOrganization();
-  const deleteOrganization = useDeleteOrganization();
-  const [editingId, setEditingId] = useState<string | null>(null);
 
-const [editingOrganization, setEditingOrganization] =
-  useState<Organization | undefined>();
+  const {
+    data,
+    isLoading,
+    isError,
+    error,
+  } = useOrganizations();
+
+  const createOrganization =
+    useCreateOrganization();
+
+  const updateOrganization =
+    useUpdateOrganization();
+
+  const deleteOrganization =
+    useDeleteOrganization();
+
+  const [editingId, setEditingId] =
+    useState<string | null>(null);
+
+  const [editingOrganization, setEditingOrganization] =
+    useState<Organization | undefined>();
+
   if (isLoading) {
-    return <h2>Loading organizations...</h2>;
+    return (
+      <div className="cybrez-page">
+        <div className="cybrez-page-state">
+          <div className="cybrez-loading-indicator" />
+          <p>Loading organizations...</p>
+        </div>
+      </div>
+    );
   }
 
   if (isError) {
-    return <pre>{String(error)}</pre>;
+    return (
+      <div className="cybrez-page">
+        <div className="cybrez-page-state cybrez-page-state-error">
+          <h2>Unable to load organizations</h2>
+          <p>{String(error)}</p>
+        </div>
+      </div>
+    );
   }
 
-
-  function handleEdit(organization: Organization) {
-  setEditingId(organization.public_id);
-  setEditingOrganization(organization);
-}
-  return (
-    <div style={{ padding: "2rem" }}>
-      <h1>Organizations</h1>
-
-      <OrganizationForm
-      initialData={editingOrganization}
-  loading={
-    createOrganization.isPending ||
-    updateOrganization.isPending
+  function handleEdit(
+    organization: Organization
+  ) {
+    setEditingId(organization.public_id);
+    setEditingOrganization(organization);
   }
-  onSubmit={async (data) => {
+
+  function cancelEdit() {
+    setEditingId(null);
+    setEditingOrganization(undefined);
+  }
+
+  async function handleDelete(
+    organization: Organization
+  ) {
+    const confirmed = window.confirm(
+      `Delete "${organization.name}"? This action cannot be undone.`
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
+    await deleteOrganization.mutateAsync(
+      organization.public_id
+    );
+  }
+
+  async function handleSubmit(
+    formData: CreateOrganizationRequest
+  ) {
     if (editingId) {
       await updateOrganization.mutateAsync({
         id: editingId,
-        data,
+        data: formData,
       });
 
-      setEditingId(null);
-    } else {
-      await createOrganization.mutateAsync(data);
+      cancelEdit();
+      return;
     }
-  }}
-/>
 
-      <hr />
+    await createOrganization.mutateAsync(
+      formData
+    );
+  }
 
-      <h2>Total: {data?.length ?? 0}</h2>
+  const isSaving =
+    createOrganization.isPending ||
+    updateOrganization.isPending;
 
-      {data?.map((organization) => (
-  <div
-    key={organization.public_id}
-    style={{
-      border: "1px solid gray",
-      padding: "1rem",
-      marginBottom: "1rem",
-    }}
-  >
-    <h3>{organization.name}</h3>
+  return (
+    <div className="cybrez-page">
+      <div className="cybrez-organizations-page">
 
-    <p>{organization.description}</p>
+        {/* PAGE HEADER */}
 
-    <small>{organization.public_id}</small>
+        <header className="cybrez-page-header">
+          <div>
+            <span className="cybrez-badge">
+              Workspace management
+            </span>
 
-    <br />
-    <br />
+            <h1>Organizations</h1>
 
-    <button
-      onClick={() =>
-        navigate(`/organizations/${organization.public_id}`)
-      }
-    >
-      View
-    </button>
+            <p>
+              Create and manage the organizations
+              connected to your account.
+            </p>
+          </div>
 
-      <button
-        onClick={() => handleEdit(organization)}
-        style={{ marginLeft: "8px" }}
-      >
-        Edit
-      </button>
-    
-      <button
-        onClick={() =>
-          deleteOrganization.mutate(organization.public_id)
-        }
-        style={{ marginLeft: "8px" }}
-    >
-      Delete
-    </button>
-  </div>
-))}
+          <div className="cybrez-page-header-stat">
+            <span>Total organizations</span>
+
+            <strong>
+              {data?.length ?? 0}
+            </strong>
+          </div>
+        </header>
+
+        {/* CREATE / EDIT FORM */}
+
+        <section>
+          <OrganizationForm
+            initialData={editingOrganization}
+            loading={isSaving}
+            onSubmit={handleSubmit}
+          />
+
+          {editingOrganization && (
+            <div
+              style={{
+                marginTop: "0.75rem",
+              }}
+            >
+              <button
+                type="button"
+                className="cybrez-button cybrez-button-ghost"
+                onClick={cancelEdit}
+                disabled={isSaving}
+              >
+                Cancel editing
+              </button>
+            </div>
+          )}
+        </section>
+
+        {/* ORGANIZATION LIST */}
+
+        <section className="cybrez-organizations-section">
+          <div className="cybrez-section-header">
+            <div>
+              <h2>Your organizations</h2>
+
+              <p>
+                Select an organization to manage
+                its projects, members, and
+                activity.
+              </p>
+            </div>
+          </div>
+
+          {data && data.length > 0 ? (
+            <div className="cybrez-organizations-grid">
+              {data.map((organization) => (
+                <article
+                  key={organization.public_id}
+                  className="cybrez-organization-card cybrez-card"
+                >
+                  <div className="cybrez-organization-card-header">
+                    <div className="cybrez-organization-card-icon">
+                      {organization.name
+                        .charAt(0)
+                        .toUpperCase()}
+                    </div>
+
+                    <div>
+                      <h3>
+                        {organization.name}
+                      </h3>
+
+                      <span className="cybrez-badge">
+                        Organization
+                      </span>
+                    </div>
+                  </div>
+
+                  <p className="cybrez-organization-card-description">
+                    {organization.description ||
+                      "No description provided."}
+                  </p>
+
+                  <div className="cybrez-organization-card-id">
+                    <span>Public ID</span>
+
+                    <code>
+                      {organization.public_id}
+                    </code>
+                  </div>
+
+                  <div className="cybrez-organization-card-actions">
+                    <button
+                      className="cybrez-button cybrez-button-primary"
+                      onClick={() =>
+                        navigate(
+                          `/organizations/${organization.public_id}`
+                        )
+                      }
+                    >
+                      Open
+                    </button>
+
+                    <button
+                      className="cybrez-button cybrez-button-secondary"
+                      onClick={() =>
+                        handleEdit(organization)
+                      }
+                    >
+                      Edit
+                    </button>
+
+                    <button
+                      className="cybrez-button cybrez-button-danger"
+                      onClick={() =>
+                        handleDelete(organization)
+                      }
+                      disabled={
+                        deleteOrganization.isPending
+                      }
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </article>
+              ))}
+            </div>
+          ) : (
+            <div className="cybrez-empty-state cybrez-card">
+              <div className="cybrez-empty-state-icon">
+                O
+              </div>
+
+              <h3>No organizations yet</h3>
+
+              <p>
+                Create your first organization
+                using the form above.
+              </p>
+            </div>
+          )}
+        </section>
+      </div>
     </div>
   );
 }

@@ -4,16 +4,12 @@ import MembershipList from "../components/MembershipList";
 
 import {
   useMembers,
-  // useAddMember,
   useRemoveMember,
   useLeaveOrganization,
 } from "../hooks";
-// import PermissionGate from "@/components/permissions/PermissionGate";
-// import { PERMISSIONS } from "@/permissions/permissions";
 
 export default function MembershipsPage() {
-  const { organizationId } =
-    useParams();
+  const { organizationId } = useParams();
 
   const {
     data,
@@ -22,9 +18,6 @@ export default function MembershipsPage() {
     error,
   } = useMembers(organizationId!);
 
-  // const addMember =
-  //   useAddMember();
-
   const removeMember =
     useRemoveMember();
 
@@ -32,60 +25,135 @@ export default function MembershipsPage() {
     useLeaveOrganization();
 
   if (isLoading) {
-    return <h2>Loading members...</h2>;
+    return (
+      <div className="cybrez-page">
+        <div className="cybrez-page-state">
+          <div className="cybrez-loading-indicator" />
+          <p>Loading members...</p>
+        </div>
+      </div>
+    );
   }
 
   if (isError) {
-    return <pre>{String(error)}</pre>;
+    return (
+      <div className="cybrez-page">
+        <div className="cybrez-page-state cybrez-page-state-error">
+          <h2>Unable to load members</h2>
+          <p>{String(error)}</p>
+        </div>
+      </div>
+    );
+  }
+
+  async function handleRemove(
+    userId: string
+  ) {
+    const confirmed = window.confirm(
+      "Remove this member from the organization?"
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
+    await removeMember.mutateAsync({
+      organizationId: organizationId!,
+      userId,
+    });
+  }
+
+  async function handleLeave() {
+    const confirmed = window.confirm(
+      "Are you sure you want to leave this organization?"
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
+    await leaveOrganization.mutateAsync(
+      organizationId!
+    );
   }
 
   return (
-    <div style={{ padding: "2rem" }}>
-      <h1>Members</h1>
+    <div className="cybrez-page">
+      <div className="cybrez-members-page">
 
-    {/* <PermissionGate minimumRole={PERMISSIONS.manageMembers}>
-      <button
-        onClick={() =>
-          addMember.mutate({
-            organizationId:
-              organizationId!,
-            data: {
-              user_id: 1,
-              role: "viewer",
-            },
-          })
-        }
-      >
-        Add Demo Member
-      </button>
-    </PermissionGate> */}
-      
-    
-      <button
-        style={{ marginLeft: "10px" }}
-        onClick={() =>
-          leaveOrganization.mutate(
-            organizationId!
-          )
-        }
-      >
-        Leave Organization
-      </button>
-    
-      
+        {/* HEADER */}
 
-      <hr />
+        <header className="cybrez-page-header">
+          <div>
+            <span className="cybrez-badge">
+              Organization
+            </span>
 
-      <MembershipList
-        members={data ?? []}
-        onRemove={(userId) =>
-          removeMember.mutate({
-            organizationId:
-              organizationId!,
-            userId,
-          })
-        }
-      />
+            <h1>Members</h1>
+
+            <p>
+              Manage the people who belong to
+              this organization.
+            </p>
+          </div>
+
+          <div className="cybrez-page-header-stat">
+            <span>Total members</span>
+
+            <strong>
+              {data?.length ?? 0}
+            </strong>
+          </div>
+        </header>
+
+        {/* MEMBER LIST */}
+
+        <section>
+          <div className="cybrez-section-header">
+            <div>
+              <h2>Organization members</h2>
+
+              <p>
+                Members and their assigned
+                organization roles.
+              </p>
+            </div>
+          </div>
+
+          <MembershipList
+            members={data ?? []}
+            onRemove={handleRemove}
+            removing={
+              removeMember.isPending
+            }
+          />
+        </section>
+
+        {/* LEAVE ORGANIZATION */}
+
+        <section className="cybrez-members-danger-zone cybrez-card">
+          <div>
+            <h2>Leave organization</h2>
+
+            <p>
+              Remove yourself from this
+              organization.
+            </p>
+          </div>
+
+          <button
+            className="cybrez-button cybrez-button-danger"
+            onClick={handleLeave}
+            disabled={
+              leaveOrganization.isPending
+            }
+          >
+            {leaveOrganization.isPending
+              ? "Leaving..."
+              : "Leave Organization"}
+          </button>
+        </section>
+      </div>
     </div>
   );
 }

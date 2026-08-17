@@ -1,7 +1,7 @@
 export interface Invitation {
   public_id: string;
 
-  organization_id: number;
+  organization_id: string;
 
   email: string;
 

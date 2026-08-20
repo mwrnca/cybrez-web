@@ -61,97 +61,81 @@ export default function TaskForm({
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label>
-          Title
-          <br />
+    <form onSubmit={handleSubmit} className="cybrez-organization-form cybrez-card">
+      <div className="cybrez-form-header">
+        <span className="cybrez-badge">
+          {initialData ? "Task Configuration" : "New Task"}
+        </span>
+        <h2>{initialData ? "Edit Task" : "Create New Task"}</h2>
+        <p>Define task title, description, workflow status, and priority level.</p>
+      </div>
+
+      <div className="cybrez-form-fields">
+        <div className="cybrez-form-field">
+          <span>Task Title</span>
           <input
             type="text"
-            placeholder="Task title"
+            className="cybrez-input"
+            placeholder="e.g. Implement API rate limiting"
             value={title}
-            onChange={(e) =>
-              setTitle(e.target.value)
-            }
+            onChange={(e) => setTitle(e.target.value)}
             required
           />
-        </label>
-      </div>
+        </div>
 
-      <br />
-
-      <div>
-        <label>
-          Description
-          <br />
+        <div className="cybrez-form-field">
+          <span>Description</span>
           <textarea
-            placeholder="Description"
+            className="cybrez-textarea"
+            placeholder="Provide task details and acceptance criteria..."
             value={description}
-            onChange={(e) =>
-              setDescription(e.target.value)
-            }
+            onChange={(e) => setDescription(e.target.value)}
+            rows={4}
           />
-        </label>
+        </div>
+
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "var(--space-4)" }}>
+          <div className="cybrez-form-field">
+            <span>Status</span>
+            <select
+              className="cybrez-select"
+              value={status}
+              onChange={(e) => setStatus(e.target.value as TaskStatus)}
+            >
+              <option value="todo">To Do</option>
+              <option value="in_progress">In Progress</option>
+              <option value="done">Done</option>
+            </select>
+          </div>
+
+          <div className="cybrez-form-field">
+            <span>Priority</span>
+            <select
+              className="cybrez-select"
+              value={priority}
+              onChange={(e) => setPriority(e.target.value as TaskPriority)}
+            >
+              <option value="low">Low Priority</option>
+              <option value="medium">Medium Priority</option>
+              <option value="high">High Priority</option>
+            </select>
+          </div>
+        </div>
       </div>
 
-      <br />
-
-      <div>
-        <label>
-          Status
-          <br />
-          <select
-            value={status}
-            onChange={(e) =>
-              setStatus(
-                e.target.value as TaskStatus
-              )
-            }
-          >
-            <option value="todo">Todo</option>
-            <option value="in_progress">
-              In Progress
-            </option>
-            <option value="done">Done</option>
-          </select>
-        </label>
+      <div className="cybrez-form-actions">
+        <button
+          type="submit"
+          className="cybrez-button cybrez-button-primary"
+          disabled={loading || !title.trim()}
+        >
+          {loading
+            ? "Saving..."
+            : initialData
+              ? "Update Task"
+              : "Create Task"}
+        </button>
       </div>
-
-      <br />
-
-      <div>
-        <label>
-          Priority
-          <br />
-          <select
-            value={priority}
-            onChange={(e) =>
-              setPriority(
-                e.target.value as TaskPriority
-              )
-            }
-          >
-            <option value="low">Low</option>
-            <option value="medium">
-              Medium
-            </option>
-            <option value="high">High</option>
-          </select>
-        </label>
-      </div>
-
-      <br />
-
-      <button
-        type="submit"
-        disabled={loading}
-      >
-        {loading
-          ? "Saving..."
-          : initialData
-            ? "Update Task"
-            : "Create Task"}
-      </button>
     </form>
   );
 }

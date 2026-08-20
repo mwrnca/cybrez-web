@@ -16,59 +16,82 @@ export default function TaskCard({
 }: Props) {
   const navigate = useNavigate();
 
+  const statusColor =
+    task.status === "done"
+      ? "var(--color-success)"
+      : task.status === "in_progress"
+        ? "var(--color-primary)"
+        : "var(--color-text-muted)";
+
   return (
-    <div
-      style={{
-        border: "1px solid #d1d5db",
-        borderRadius: "8px",
-        padding: "1rem",
-        marginBottom: "1rem",
-      }}
-    >
-      <h3>{task.title}</h3>
-
-      <p>{task.description ?? "No description."}</p>
-
-      <p>
-        <strong>Status:</strong> {task.status}
-      </p>
-
-      <p>
-        <strong>Priority:</strong> {task.priority}
-      </p>
-
-      <p>
-        <strong>Archived:</strong>{" "}
-        {task.is_archived ? "Yes" : "No"}
-      </p>
-
-      <small>{task.public_id}</small>
-
-      <div
-        style={{
-          display: "flex",
-          gap: "0.75rem",
-          marginTop: "1rem",
-        }}
-      >
-        <button
-          onClick={() =>
-            navigate(`/tasks/${task.public_id}`)
-          }
+    <article className="cybrez-organization-card cybrez-card">
+      <div className="cybrez-organization-card-header">
+        <div
+          className="cybrez-organization-card-icon"
+          style={{ fontSize: "var(--font-size-md)" }}
         >
-          View
+          ✓
+        </div>
+
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <h3 style={{ margin: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+            {task.title}
+          </h3>
+
+          <div style={{ display: "flex", gap: "var(--space-2)", marginTop: "var(--space-2)", flexWrap: "wrap" }}>
+            <span
+              className="cybrez-badge"
+              style={{ borderColor: statusColor, color: statusColor }}
+            >
+              {task.status.replace("_", " ")}
+            </span>
+
+            <span className="cybrez-badge">
+              Priority: {task.priority}
+            </span>
+
+            {task.is_archived && (
+              <span className="cybrez-badge" style={{ color: "var(--color-warning)", borderColor: "var(--color-warning)" }}>
+                Archived
+              </span>
+            )}
+          </div>
+        </div>
+      </div>
+
+      <p className="cybrez-organization-card-description">
+        {task.description || "No description provided."}
+      </p>
+
+      <div className="cybrez-organization-card-id">
+        <span>Task Public ID</span>
+        <code>{task.public_id}</code>
+      </div>
+
+      <div className="cybrez-organization-card-actions">
+        <button
+          className="cybrez-button cybrez-button-primary"
+          onClick={() => navigate(`/tasks/${task.public_id}`)}
+        >
+          View Details
+        </button>
+
+        <button
+          className="cybrez-button cybrez-button-secondary"
+          onClick={() => navigate(`/tasks/${task.public_id}/comments`)}
+        >
+          Comments
         </button>
 
         <PermissionGate minimumRole={PERMISSIONS.deleteTasks}>
           <button
-            onClick={() =>
-              onDelete(task.public_id)
-            }
+            className="cybrez-button cybrez-button-danger"
+            onClick={() => onDelete(task.public_id)}
           >
             Delete
           </button>
         </PermissionGate>
       </div>
-    </div>
+    </article>
   );
 }

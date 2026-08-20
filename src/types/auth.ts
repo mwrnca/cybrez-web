@@ -12,6 +12,11 @@ export interface RegisterRequest {
 export interface LoginResponse {
   access_token: string;
   token_type: string;
+  refresh_token?: string;
+}
+
+export interface RefreshTokenRequest {
+  refresh_token: string;
 }
 
 export interface User {

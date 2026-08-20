@@ -20,8 +20,10 @@ import type {
 } from "@/types/auth";
 
 import {
+  clearTokens,
+  getRefreshToken,
   getToken,
-  removeToken,
+  setRefreshToken,
   setToken,
 } from "@/services/storage";
 import queryClient from "@/lib/queryClient";
@@ -35,7 +37,6 @@ export function AuthProvider({
   children,
 }: Props) {
   const [user, setUser] = useState<User | null>(null);
-
   const [loading, setLoading] = useState(true);
 
   async function loadUser() {
@@ -45,7 +46,7 @@ export function AuthProvider({
       const me = await getCurrentUser();
       setUser(me);
     } catch (error) {
-      removeToken();
+      clearTokens();
       console.error("LOAD USER FAILED:", error);
       setUser(null);
     } finally {
@@ -56,10 +57,12 @@ export function AuthProvider({
   async function login(
     credentials: LoginRequest
   ) {
-    const { access_token } =
-      await loginRequest(credentials);
+    const data = await loginRequest(credentials);
 
-    setToken(access_token);
+    setToken(data.access_token);
+    if (data.refresh_token) {
+      setRefreshToken(data.refresh_token);
+    }
 
     await loadUser();
   }
@@ -76,11 +79,9 @@ export function AuthProvider({
   }
 
   function logout() {
-    removeToken();
+    clearTokens();
     setUser(null);
-
     useOrganizationStore.getState().clearOrganization();
-
     queryClient.clear();
   }
 
@@ -89,11 +90,21 @@ export function AuthProvider({
   }
 
   useEffect(() => {
-    if (getToken()) {
+    function handleSessionExpired() {
+      logout();
+    }
+
+    window.addEventListener("cybrez:auth-session-expired", handleSessionExpired);
+
+    if (getToken() || getRefreshToken()) {
       loadUser();
     } else {
       setLoading(false);
     }
+
+    return () => {
+      window.removeEventListener("cybrez:auth-session-expired", handleSessionExpired);
+    };
   }, []);
 
   const value = useMemo(

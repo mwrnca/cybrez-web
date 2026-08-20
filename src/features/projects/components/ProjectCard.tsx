@@ -17,33 +17,37 @@ export default function ProjectCard({
   const navigate = useNavigate();
 
   return (
-    <div
-      style={{
-        border: "1px solid #d1d5db",
-        borderRadius: "8px",
-        padding: "1rem",
-        marginBottom: "1rem",
-      }}
-    >
-      <h3>{project.name}</h3>
+    <article className="cybrez-project-card">
+      <div className="cybrez-project-card-header">
+        <div>
+          <h3>{project.name}</h3>
 
-      <p>{project.description ?? "No description."}</p>
+          <span
+            className={
+              project.is_archived
+                ? "cybrez-project-status-badge cybrez-project-status-badge-archived"
+                : "cybrez-project-status-badge cybrez-project-status-badge-active"
+            }
+          >
+            {project.is_archived ? "Archived" : "Active"}
+          </span>
+        </div>
+      </div>
 
-      <p>
-        <strong>Status:</strong>{" "}
-        {project.is_archived ? "Archived" : "Active"}
+      <p className="cybrez-project-card-description">
+        {project.description ?? "No description."}
       </p>
 
-      <small>{project.public_id}</small>
+      <div className="cybrez-project-card-id">
+        <span>Project ID</span>
 
-      <div
-        style={{
-          marginTop: "1rem",
-          display: "flex",
-          gap: "0.75rem",
-        }}
-      >
+        <code>{project.public_id}</code>
+      </div>
+
+      <div className="cybrez-project-card-actions">
         <button
+          type="button"
+          className="cybrez-button cybrez-button-primary"
           onClick={() =>
             navigate(`/projects/${project.public_id}`)
           }
@@ -51,8 +55,12 @@ export default function ProjectCard({
           View
         </button>
 
-        <PermissionGate minimumRole={PERMISSIONS.deleteProjects}>
+        <PermissionGate
+          minimumRole={PERMISSIONS.deleteProjects}
+        >
           <button
+            type="button"
+            className="cybrez-button cybrez-button-danger"
             onClick={() =>
               onDelete(project.public_id)
             }
@@ -61,6 +69,6 @@ export default function ProjectCard({
           </button>
         </PermissionGate>
       </div>
-    </div>
+    </article>
   );
 }

@@ -1799,6 +1799,23 @@ code.cybrez-info-value {
   .cybrez-organization-actions {
     grid-template-columns: 1fr;
   }
+
+    .cybrez-project-info-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cybrez-project-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .cybrez-project-management-row {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .cybrez-project-management-row .cybrez-button {
+    width: 100%;
+  }
 }
 
 @media (max-width: 700px) {
@@ -1930,5 +1947,727 @@ code.cybrez-info-value {
 
   .cybrez-organization-heading h1 {
     font-size: var(--font-size-2xl);
+  }
+}
+
+/* ========================================
+   PROJECT PAGE
+   ======================================== */
+
+.cybrez-project-page {
+  display: grid;
+  gap: var(--space-6);
+}
+
+
+/* ========================================
+   PROJECT STATUS
+   ======================================== */
+
+.cybrez-project-status-active {
+  color: var(--color-success) !important;
+}
+
+.cybrez-project-status-archived {
+  color: var(--color-warning) !important;
+}
+
+
+/* ========================================
+   PROJECT INFORMATION
+   ======================================== */
+
+.cybrez-project-info {
+  padding: var(--space-6);
+}
+
+.cybrez-project-info-header {
+  margin-bottom: var(--space-5);
+}
+
+.cybrez-project-info-header h2 {
+  font-size: var(--font-size-xl);
+}
+
+.cybrez-project-info-header p {
+  margin-top: var(--space-1);
+
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
+.cybrez-project-info-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: var(--space-5);
+}
+
+.cybrez-project-id {
+  display: block;
+
+  padding: var(--space-3);
+
+  overflow: hidden;
+
+  color: var(--color-primary);
+
+  background: var(--color-surface-muted);
+
+  border: 1px solid var(--color-border);
+
+  border-radius: var(--radius-md);
+
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: var(--font-size-xs);
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+/* ========================================
+   PROJECT STATUS BADGE
+   ======================================== */
+
+.cybrez-project-status-badge {
+  display: inline-flex;
+  align-items: center;
+
+  padding: 4px 10px;
+
+  border-radius: var(--radius-full);
+
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+}
+
+.cybrez-project-status-badge-active {
+  color: var(--color-success);
+
+  background: var(--color-success-soft);
+
+  border: 1px solid rgb(34 197 94 / 0.25);
+}
+
+.cybrez-project-status-badge-archived {
+  color: var(--color-warning);
+
+  background: var(--color-warning-soft);
+
+  border: 1px solid rgb(245 158 11 / 0.25);
+}
+
+
+/* ========================================
+   PROJECT FORM
+   ======================================== */
+
+.cybrez-project-form-card {
+  padding: var(--space-6);
+}
+
+.cybrez-project-form-card .cybrez-section-header {
+  margin-bottom: var(--space-5);
+}
+
+
+/* ========================================
+   PROJECT ACTIONS
+   ======================================== */
+
+.cybrez-project-actions {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: var(--space-4);
+}
+
+.cybrez-project-action {
+  width: 100%;
+
+  padding: var(--space-5);
+
+  display: flex;
+  align-items: flex-start;
+
+  gap: var(--space-4);
+
+  color: var(--color-text);
+
+  text-align: left;
+
+  cursor: pointer;
+}
+
+.cybrez-project-action:hover {
+  transform: translateY(-2px);
+}
+
+.cybrez-project-action h3 {
+  font-size: var(--font-size-lg);
+}
+
+.cybrez-project-action p {
+  margin-top: var(--space-1);
+
+  color: var(--color-text-muted);
+
+  font-size: var(--font-size-sm);
+}
+
+
+/* ========================================
+   PROJECT MANAGEMENT
+   ======================================== */
+
+.cybrez-project-management {
+  overflow: hidden;
+}
+
+.cybrez-project-management-row {
+  min-height: 90px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: var(--space-5);
+
+  padding: var(--space-5);
+}
+
+.cybrez-project-management-row + .cybrez-project-management-row {
+  border-top: 1px solid var(--color-border);
+}
+
+.cybrez-project-management-row h3 {
+  font-size: var(--font-size-md);
+}
+
+.cybrez-project-management-row p {
+  max-width: 700px;
+
+  margin-top: var(--space-1);
+
+  color: var(--color-text-muted);
+
+  font-size: var(--font-size-sm);
+}
+
+
+/* ========================================
+   PROJECT DANGER ZONE
+   ======================================== */
+
+.cybrez-project-danger-zone {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: var(--space-4);
+
+  padding: var(--space-5);
+
+  border-color: rgb(239 68 68 / 0.25);
+}
+
+.cybrez-project-danger-zone h2 {
+  font-size: var(--font-size-lg);
+}
+
+.cybrez-project-danger-zone p {
+  margin-top: var(--space-1);
+
+  color: var(--color-text-muted);
+
+  font-size: var(--font-size-sm);
+}
+
+
+/* ========================================
+   PROJECT BACK
+   ======================================== */
+
+.cybrez-project-back {
+  display: flex;
+
+  justify-content: flex-start;
+}
+
+/* ========================================
+   PROJECT PAGE
+   ======================================== */
+
+.cybrez-project-page {
+  display: grid;
+  gap: var(--space-6);
+}
+
+
+/* ========================================
+   PROJECT STATUS
+   ======================================== */
+
+.cybrez-project-status-active {
+  color: var(--color-success) !important;
+}
+
+.cybrez-project-status-archived {
+  color: var(--color-warning) !important;
+}
+
+.cybrez-project-status-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 4px 10px;
+
+  border-radius: var(--radius-full);
+
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+}
+
+.cybrez-project-status-badge-active {
+  color: var(--color-success);
+
+  background: var(--color-success-soft);
+
+  border: 1px solid rgba(34, 197, 94, 0.25);
+}
+
+.cybrez-project-status-badge-archived {
+  color: var(--color-warning);
+
+  background: var(--color-warning-soft);
+
+  border: 1px solid rgba(245, 158, 11, 0.25);
+}
+
+
+/* ========================================
+   PROJECT INFORMATION
+   ======================================== */
+
+.cybrez-project-info {
+  padding: var(--space-6);
+}
+
+.cybrez-project-info-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: var(--space-6);
+
+  padding-top: var(--space-2);
+}
+
+.cybrez-project-id {
+  display: block;
+
+  padding: var(--space-3);
+
+  overflow: hidden;
+
+  color: var(--color-primary);
+
+  background: var(--color-surface-muted);
+
+  border: 1px solid var(--color-border);
+
+  border-radius: var(--radius-md);
+
+  font-family:
+    ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    Monaco,
+    Consolas,
+    monospace;
+
+  font-size: var(--font-size-xs);
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+/* ========================================
+   PROJECT FORM
+   ======================================== */
+
+.cybrez-project-form-card {
+  padding: var(--space-6);
+}
+
+
+/* ========================================
+   PROJECT ACTIONS
+   ======================================== */
+
+.cybrez-project-actions {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: var(--space-4);
+}
+
+.cybrez-project-action {
+  width: 100%;
+
+  padding: var(--space-5);
+
+  display: flex;
+  align-items: flex-start;
+
+  gap: var(--space-4);
+
+  color: var(--color-text);
+
+  text-align: left;
+
+  cursor: pointer;
+}
+
+.cybrez-project-action:hover {
+  transform: translateY(-2px);
+}
+
+.cybrez-project-action h3 {
+  font-size: var(--font-size-lg);
+}
+
+.cybrez-project-action p {
+  margin-top: var(--space-1);
+
+  color: var(--color-text-muted);
+
+  font-size: var(--font-size-sm);
+
+  line-height: 1.5;
+}
+
+
+/* ========================================
+   PROJECT MANAGEMENT
+   ======================================== */
+
+.cybrez-project-management {
+  overflow: hidden;
+}
+
+.cybrez-project-management-row {
+  min-height: 100px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: var(--space-6);
+
+  padding: var(--space-5);
+}
+
+.cybrez-project-management-row + .cybrez-project-management-row {
+  border-top: 1px solid var(--color-border);
+}
+
+.cybrez-project-management-row h3 {
+  font-size: var(--font-size-md);
+}
+
+.cybrez-project-management-row p {
+  max-width: 700px;
+
+  margin-top: var(--space-1);
+
+  color: var(--color-text-muted);
+
+  font-size: var(--font-size-sm);
+}
+
+
+/* ========================================
+   PROJECT DANGER ZONE
+   ======================================== */
+
+.cybrez-project-danger-zone {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: var(--space-4);
+
+  padding: var(--space-5);
+
+  border-color: rgba(239, 68, 68, 0.25);
+}
+
+.cybrez-project-danger-zone h2 {
+  font-size: var(--font-size-lg);
+}
+
+.cybrez-project-danger-zone p {
+  margin-top: var(--space-1);
+
+  color: var(--color-text-muted);
+
+  font-size: var(--font-size-sm);
+}
+
+
+/* ========================================
+   PROJECTS PAGE
+   ======================================== */
+
+.cybrez-projects-page {
+  display: grid;
+  gap: var(--space-8);
+}
+
+
+/* ========================================
+   PROJECTS CREATE
+   ======================================== */
+
+.cybrez-projects-create {
+  display: grid;
+  gap: var(--space-4);
+}
+
+
+/* ========================================
+   PROJECTS LIST
+   ======================================== */
+
+.cybrez-projects-list {
+  display: grid;
+  gap: var(--space-4);
+}
+
+
+/* ========================================
+   PROJECTS GRID
+   ======================================== */
+
+.cybrez-projects-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(auto-fill, minmax(300px, 1fr));
+
+  gap: var(--space-4);
+}
+
+
+/* ========================================
+   PROJECT CARD
+   ======================================== */
+
+.cybrez-project-card {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: var(--space-5);
+
+  padding: var(--space-5);
+
+  background: var(--gradient-surface);
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+
+  box-shadow: var(--shadow-sm);
+
+  transition:
+    transform var(--transition-normal),
+    border-color var(--transition-normal),
+    box-shadow var(--transition-normal);
+}
+
+.cybrez-project-card:hover {
+  transform: translateY(-3px);
+
+  border-color: var(--color-border-hover);
+
+  box-shadow:
+    var(--shadow-md),
+    var(--shadow-gold);
+}
+
+
+/* ========================================
+   PROJECT CARD HEADER
+   ======================================== */
+
+.cybrez-project-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: var(--space-4);
+}
+
+.cybrez-project-card-header h3 {
+  font-size: var(--font-size-lg);
+}
+
+.cybrez-project-card-header p {
+  margin-top: var(--space-1);
+
+  color: var(--color-text-muted);
+
+  font-size: var(--font-size-sm);
+}
+
+
+/* ========================================
+   PROJECT CARD DESCRIPTION
+   ======================================== */
+
+.cybrez-project-card-description {
+  min-height: 48px;
+
+  color: var(--color-text-muted);
+
+  font-size: var(--font-size-sm);
+
+  line-height: 1.6;
+}
+
+
+/* ========================================
+   PROJECT CARD ID
+   ======================================== */
+
+.cybrez-project-card-id {
+  display: grid;
+
+  gap: var(--space-1);
+
+  padding-top: var(--space-3);
+
+  border-top: 1px solid var(--color-border);
+}
+
+.cybrez-project-card-id span {
+  color: var(--color-text-subtle);
+
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.cybrez-project-card-id code {
+  display: block;
+
+  overflow: hidden;
+
+  color: var(--color-primary);
+
+  font-family:
+    ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    Monaco,
+    Consolas,
+    monospace;
+
+  font-size: var(--font-size-xs);
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+/* ========================================
+   PROJECT CARD ACTIONS
+   ======================================== */
+
+.cybrez-project-card-actions {
+  display: flex;
+  flex-wrap: wrap;
+
+  gap: var(--space-2);
+
+  margin-top: auto;
+}
+
+.cybrez-project-card-actions .cybrez-button {
+  flex: 1;
+
+  min-width: 100px;
+}
+
+
+/* ========================================
+   PROJECT STATUS
+   ======================================== */
+
+.cybrez-project-status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 4px 10px;
+
+  border-radius: var(--radius-full);
+
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+}
+
+.cybrez-project-status-active {
+  color: var(--color-success);
+
+  background: var(--color-success-soft);
+
+  border: 1px solid rgb(34 197 94 / 0.25);
+}
+
+.cybrez-project-status-archived {
+  color: var(--color-warning);
+
+  background: var(--color-warning-soft);
+
+  border: 1px solid rgb(245 158 11 / 0.25);
+}
+
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+
+@media (max-width: 700px) {
+  .cybrez-projects-page {
+    gap: var(--space-6);
+  }
+
+  .cybrez-projects-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cybrez-project-card-actions {
+    display: grid;
+
+    grid-template-columns: 1fr;
+  }
+
+  .cybrez-project-card-actions .cybrez-button {
+    width: 100%;
   }
 }

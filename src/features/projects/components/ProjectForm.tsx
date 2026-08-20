@@ -47,39 +47,50 @@ export default function ProjectForm({
   return (
     <form
       onSubmit={handleSubmit}
-      style={{
-        display: "grid",
-        gap: "0.75rem",
-        maxWidth: "500px",
-      }}
+      className="cybrez-project-form"
     >
-      <input
-        type="text"
-        placeholder="Project name"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        required
-      />
+      <div className="cybrez-form-fields">
+        <div className="cybrez-form-field">
+          <span>Project Name</span>
 
-      <textarea
-        placeholder="Description"
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-        rows={5}
-      />
+          <input
+            className="cybrez-input"
+            type="text"
+            placeholder="Project name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
+        </div>
 
-      <button
-        type="submit"
-        disabled={loading || !name.trim()}
-      >
-        {loading
-          ? initialData
-            ? "Updating..."
-            : "Creating..."
-          : initialData
-            ? "Update"
-            : "Create"}
-      </button>
+        <div className="cybrez-form-field">
+          <span>Description</span>
+
+          <textarea
+            className="cybrez-textarea"
+            placeholder="Description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            rows={5}
+          />
+        </div>
+      </div>
+
+      <div className="cybrez-form-actions">
+        <button
+          type="submit"
+          className="cybrez-button cybrez-button-primary"
+          disabled={loading || !name.trim()}
+        >
+          {loading
+            ? initialData
+              ? "Updating..."
+              : "Creating..."
+            : initialData
+              ? "Update"
+              : "Create"}
+        </button>
+      </div>
     </form>
   );
 }

@@ -118,58 +118,6 @@ export default function OrganizationsPage() {
 
         {/* PAGE HEADER */}
 
-        <header className="cybrez-page-header">
-          <div>
-            <span className="cybrez-badge">
-              Workspace management
-            </span>
-
-            <h1>Organizations</h1>
-
-            <p>
-              Create and manage the organizations
-              connected to your account.
-            </p>
-          </div>
-
-          <div className="cybrez-page-header-stat">
-            <span>Total organizations</span>
-
-            <strong>
-              {data?.length ?? 0}
-            </strong>
-          </div>
-        </header>
-
-        {/* CREATE / EDIT FORM */}
-
-        <section>
-          <OrganizationForm
-            initialData={editingOrganization}
-            loading={isSaving}
-            onSubmit={handleSubmit}
-          />
-
-          {editingOrganization && (
-            <div
-              style={{
-                marginTop: "0.75rem",
-              }}
-            >
-              <button
-                type="button"
-                className="cybrez-button cybrez-button-ghost"
-                onClick={cancelEdit}
-                disabled={isSaving}
-              >
-                Cancel editing
-              </button>
-            </div>
-          )}
-        </section>
-
-        {/* ORGANIZATION LIST */}
-
         <section className="cybrez-organizations-section">
           <div className="cybrez-section-header">
             <div>
@@ -272,6 +220,60 @@ export default function OrganizationsPage() {
             </div>
           )}
         </section>
+
+        <header className="cybrez-page-header">
+          <div>
+            <span className="cybrez-badge">
+              Workspace management
+            </span>
+
+            <h1>Organizations</h1>
+
+            <p>
+              Create and manage the organizations
+              connected to your account.
+            </p>
+          </div>
+
+          <div className="cybrez-page-header-stat">
+            <span>Total organizations</span>
+
+            <strong>
+              {data?.length ?? 0}
+            </strong>
+          </div>
+        </header>
+
+        {/* CREATE / EDIT FORM */}
+
+        <section>
+          <OrganizationForm
+            initialData={editingOrganization}
+            loading={isSaving}
+            onSubmit={handleSubmit}
+          />
+
+          {editingOrganization && (
+            <div
+              style={{
+                marginTop: "0.75rem",
+              }}
+            >
+              <button
+                type="button"
+                className="cybrez-button cybrez-button-ghost"
+                onClick={cancelEdit}
+                disabled={isSaving}
+              >
+                Cancel editing
+              </button>
+            </div>
+          )}
+        </section>
+
+        {/* ORGANIZATION LIST */}
+
+        
       </div>
     </div>
   );

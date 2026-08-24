@@ -41,7 +41,7 @@ export default function CommentsPage() {
     <PageState
       loading={isLoading}
       error={isError ? error : undefined}
-      empty={false}
+      empty={!isLoading && !isError && (data?.length ?? 0) === 0}
       loadingMessage="Loading comments..."
       emptyMessage="No comments yet."
     >

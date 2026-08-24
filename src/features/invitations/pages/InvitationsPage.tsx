@@ -1,16 +1,57 @@
 import { useParams } from "react-router-dom";
+import { useState } from "react";
+
+import PageState from "@/components/PageState";
 
 import InvitationForm from "../components/InvitationForm";
 
 import {
   useCreateInvitation,
+  useDeleteInvitation,
+  useResendInvitation,
 } from "../hooks";
+import { useInvitations } from "../hooks/useInvitations";
+
+import type { Invitation } from "../types/invitation";
+
+function inviteStatus(invitation: Invitation) {
+  if (invitation.accepted) {
+    return "Accepted";
+  }
+
+  if (new Date(invitation.expires_at) < new Date()) {
+    return "Expired";
+  }
+
+  return "Pending";
+}
 
 export default function InvitationsPage() {
   const { organizationId } = useParams();
 
-  const createInvitation =
-    useCreateInvitation();
+  const createInvitation = useCreateInvitation();
+  const deleteInvitation = useDeleteInvitation();
+  const resendInvitation = useResendInvitation();
+
+  const {
+    data,
+    isLoading,
+    isError,
+    error,
+    refetch,
+  } = useInvitations(organizationId ?? "");
+
+  const [copiedId, setCopiedId] = useState<string | null>(null);
+
+  function copyInviteLink(invitation: Invitation) {
+    const link = `${window.location.origin}/invitations/accept/${invitation.token}`;
+
+    navigator.clipboard.writeText(link);
+
+    setCopiedId(invitation.public_id);
+
+    setTimeout(() => setCopiedId(null), 2000);
+  }
 
   return (
     <div className="cybrez-page">
@@ -28,23 +69,132 @@ export default function InvitationsPage() {
         <section>
           <InvitationForm
             loading={createInvitation.isPending}
-            onSubmit={async (data) => {
+            onSubmit={async (formData) => {
               await createInvitation.mutateAsync({
                 organizationId: organizationId!,
-                data,
+                data: formData,
               });
+
+              refetch();
             }}
           />
         </section>
 
-        {/* INVITATION INFO / NOTICE */}
-        <section className="cybrez-card" style={{ padding: "var(--space-5)" }}>
-          <h3 style={{ fontSize: "var(--font-size-md)", marginBottom: "var(--space-2)" }}>
-            About Organization Invitations
-          </h3>
-          <p style={{ color: "var(--color-text-muted)", fontSize: "var(--font-size-sm)", lineHeight: 1.6 }}>
-            Invited users will receive a link to join this workspace. Only organization owners and administrators can invite new members. Once accepted, new members can view and collaborate on organization projects according to their assigned role.
-          </p>
+        {/* PENDING / SENT INVITATIONS */}
+        <section>
+          <div className="cybrez-section-header">
+            <div>
+              <h2>Sent invitations</h2>
+              <p>
+                There's no email delivery yet, so copy the link and share
+                it directly with the person you're inviting.
+              </p>
+            </div>
+          </div>
+
+          <PageState
+            loading={isLoading}
+            error={isError ? error : undefined}
+            empty={!isLoading && !isError && (data?.length ?? 0) === 0}
+            loadingMessage="Loading invitations..."
+            emptyMessage="No invitations sent yet."
+          >
+            <div style={{ display: "grid", gap: "var(--space-3)" }}>
+              {data?.map((invitation) => {
+                const status = inviteStatus(invitation);
+
+                return (
+                  <div
+                    key={invitation.public_id}
+                    className="cybrez-card"
+                    style={{
+                      padding: "var(--space-4)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      flexWrap: "wrap",
+                      gap: "var(--space-3)",
+                    }}
+                  >
+                    <div>
+                      <strong>{invitation.email}</strong>
+
+                      <div
+                        style={{
+                          display: "flex",
+                          gap: "var(--space-2)",
+                          marginTop: "4px",
+                          fontSize: "var(--font-size-xs)",
+                          color: "var(--color-text-muted)",
+                        }}
+                      >
+                        <span>{invitation.role}</span>
+                        <span>•</span>
+                        <span>{status}</span>
+                      </div>
+                    </div>
+
+                    <div
+                      style={{
+                        display: "flex",
+                        gap: "var(--space-2)",
+                        flexWrap: "wrap",
+                      }}
+                    >
+                      {status === "Pending" && (
+                        <button
+                          className="cybrez-button cybrez-button-secondary"
+                          onClick={() => copyInviteLink(invitation)}
+                        >
+                          {copiedId === invitation.public_id
+                            ? "Copied!"
+                            : "Copy Link"}
+                        </button>
+                      )}
+
+                      {status !== "Accepted" && (
+                        <button
+                          className="cybrez-button cybrez-button-secondary"
+                          disabled={resendInvitation.isPending}
+                          onClick={async () => {
+                            await resendInvitation.mutateAsync(
+                              invitation.public_id
+                            );
+                            refetch();
+                          }}
+                        >
+                          {resendInvitation.isPending
+                            ? "Resending..."
+                            : "Resend"}
+                        </button>
+                      )}
+
+                      <button
+                        className="cybrez-button cybrez-button-danger"
+                        disabled={deleteInvitation.isPending}
+                        onClick={async () => {
+                          if (
+                            window.confirm(
+                              `Cancel the invitation for ${invitation.email}?`
+                            )
+                          ) {
+                            await deleteInvitation.mutateAsync(
+                              invitation.public_id
+                            );
+                            refetch();
+                          }
+                        }}
+                      >
+                        {deleteInvitation.isPending
+                          ? "Cancelling..."
+                          : "Cancel"}
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </PageState>
         </section>
       </div>
     </div>

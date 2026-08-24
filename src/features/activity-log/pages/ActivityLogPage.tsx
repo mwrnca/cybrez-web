@@ -1,14 +1,10 @@
 import { useParams } from "react-router-dom";
-
 import { ActivityLogList } from "../components";
 import { useActivityLogs } from "../hooks";
+import PageState from "@/components/PageState";
 
 export default function ActivityLogPage() {
- 
-
-const { organizationId } = useParams();
-
-console.log("ActivityLogPage organizationId:", organizationId);
+  const { organizationId } = useParams();
 
   const {
     data,
@@ -19,21 +15,19 @@ console.log("ActivityLogPage organizationId:", organizationId);
     organizationId!
   );
 
-  if (isLoading) {
-    return <h2>Loading...</h2>;
-  }
-
-  if (isError) {
-    return <pre>{String(error)}</pre>;
-  }
-
   return (
-    <div style={{ padding: "2rem" }}>
-      <h1>Activity Log</h1>
-
-      <ActivityLogList
-        logs={data ?? []}
-      />
-    </div>
+    <PageState
+      loading={isLoading}
+      error={isError ? error : undefined}
+      empty={!isLoading && !isError && (data?.length ?? 0) === 0}
+      emptyMessage="No activity yet."
+    >
+      <div style={{ padding: "2rem" }}>
+        <h1>Activity Log</h1>
+        <ActivityLogList
+          logs={data ?? []}
+        />
+      </div>
+    </PageState>
   );
 }

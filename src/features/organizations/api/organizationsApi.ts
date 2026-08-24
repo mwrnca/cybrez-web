@@ -8,8 +8,6 @@ import type {
 } from "@/types/organization";
 
 export async function getOrganizations() {
-  console.log("GET", ENDPOINTS.organizations.list);
-
   const response = await api.get(
     ENDPOINTS.organizations.list
   );
@@ -39,14 +37,10 @@ export async function getOrganization(id: string) {
 export async function createOrganization(
   data: CreateOrganizationRequest
 ) {
-  console.log("CREATE", data);
-
   const response = await api.post<Organization>(
     ENDPOINTS.organizations.create,
     data
   );
-
-  console.log("CREATE RESPONSE", response);
 
   return response.data;
 }
@@ -55,14 +49,10 @@ export async function updateOrganization(
   id: string,
   data: UpdateOrganizationRequest
 ) {
-  console.log("UPDATE", id, data);
-
   const response = await api.put<Organization>(
     ENDPOINTS.organizations.update(id),
     data
   );
-
-  console.log("UPDATE RESPONSE", response);
 
   return response.data;
 }

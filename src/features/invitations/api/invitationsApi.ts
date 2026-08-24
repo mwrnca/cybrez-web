@@ -6,6 +6,18 @@ import type {
   CreateInvitationRequest,
 } from "../types/invitation";
 
+export async function getInvitations(
+  organizationId: string
+) {
+  const response = await api.get<Invitation[]>(
+    ENDPOINTS.invitations.list(
+      organizationId
+    )
+  );
+
+  return response.data;
+}
+
 export async function createInvitation(
   organizationId: string,
   data: CreateInvitationRequest

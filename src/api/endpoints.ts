@@ -73,6 +73,9 @@ const ENDPOINTS = {
   },
 
   invitations: {
+    list: (organizationId: string) =>
+      `/invitations/${organizationId}`,
+
     create: (organizationId: string) =>
       `/invitations/${organizationId}/invite`,
 

@@ -88,10 +88,10 @@ export default function TaskPage() {
 
             {/* TASK DETAILS INFO */}
             <section className="cybrez-organization-info cybrez-card">
-              <div>
+              {/* <div>
                 <span className="cybrez-info-label">Task Public ID</span>
                 <code className="cybrez-info-value">{task.public_id}</code>
-              </div>
+              </div> */}
 
               <div>
                 <span className="cybrez-info-label">Status & Priority</span>

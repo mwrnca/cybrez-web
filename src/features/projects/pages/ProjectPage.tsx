@@ -132,7 +132,7 @@ export default function ProjectPage() {
                 </p>
               </div>
 
-              <div>
+              {/* <div>
                 <span className="cybrez-info-label">
                   Public ID
                 </span>
@@ -140,9 +140,9 @@ export default function ProjectPage() {
                 <code className="cybrez-project-id">
                   {project.public_id}
                 </code>
-              </div>
+              </div> */}
 
-              <div>
+              {/* <div>
                 <span className="cybrez-info-label">
                   Organization ID
                 </span>
@@ -150,7 +150,7 @@ export default function ProjectPage() {
                 <code className="cybrez-project-id">
                   {project.organization_public_id}
                 </code>
-              </div>
+              </div> */}
             </div>
           </section>
 

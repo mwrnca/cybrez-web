@@ -83,9 +83,9 @@ export default function ActivityLogList({
                   </span>
                 </div>
 
-                <div style={{ marginTop: "4px", fontSize: "var(--font-size-xs)", color: "var(--color-text-muted)" }}>
+                {/* <div style={{ marginTop: "4px", fontSize: "var(--font-size-xs)", color: "var(--color-text-muted)" }}>
                   ID: <code style={{ color: "var(--color-primary)" }}>{log.public_id}</code>
-                </div>
+                </div> */}
               </div>
             </div>
 

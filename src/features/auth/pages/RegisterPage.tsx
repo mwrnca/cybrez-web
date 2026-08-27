@@ -1,10 +1,12 @@
 import { useState } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useSearchParams } from "react-router-dom";
 
 import { useAuth } from "@/contexts/useAuth";
 
 export default function RegisterPage() {
   const { register, authenticated } = useAuth();
+  const [searchParams] = useSearchParams();
+  const redirectTo = searchParams.get("redirect") || "/dashboard";
 
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
@@ -13,7 +15,7 @@ export default function RegisterPage() {
   const [loading, setLoading] = useState(false);
 
   if (authenticated) {
-    return <Navigate to="/dashboard" replace />;
+    return <Navigate to={redirectTo} replace />;
   }
 
   const [error, setError] = useState("");
@@ -143,7 +145,14 @@ export default function RegisterPage() {
 
           <p style={{ textAlign: "center", fontSize: "var(--font-size-sm)", color: "var(--color-text-muted)", marginTop: "var(--space-2)" }}>
             Already have an account?{" "}
-            <Link to="/login" style={{ color: "var(--color-primary)", textDecoration: "none", fontWeight: 600 }}>
+            <Link
+              to={
+                searchParams.get("redirect")
+                  ? `/login?redirect=${encodeURIComponent(searchParams.get("redirect")!)}`
+                  : "/login"
+              }
+              style={{ color: "var(--color-primary)", textDecoration: "none", fontWeight: 600 }}
+            >
               Sign In
             </Link>
           </p>

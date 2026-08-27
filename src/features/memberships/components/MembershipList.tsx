@@ -49,7 +49,7 @@ export default function MembershipList({
 
               <p>
                 Member ID:{" "}
-                {member.public_id}
+                {member.public_id} 
               </p>
             </div>
           </div>

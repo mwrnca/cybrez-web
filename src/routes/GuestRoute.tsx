@@ -1,6 +1,5 @@
 import type { ReactNode } from "react";
-import { Navigate } from "react-router-dom";
-
+import { Navigate, useSearchParams } from "react-router-dom";
 import { useAuth } from "@/contexts/useAuth";
 
 type Props = {
@@ -11,6 +10,7 @@ export default function GuestRoute({
   children,
 }: Props) {
   const { authenticated, loading } = useAuth();
+  const [searchParams] = useSearchParams();
 
   if (loading) {
     return (
@@ -29,7 +29,8 @@ export default function GuestRoute({
   }
 
   if (authenticated) {
-    return <Navigate to="/dashboard" replace />;
+    const redirectTo = searchParams.get("redirect") || "/dashboard";
+    return <Navigate to={redirectTo} replace />;
   }
 
   return <>{children}</>;

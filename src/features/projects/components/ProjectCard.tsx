@@ -38,11 +38,11 @@ export default function ProjectCard({
         {project.description ?? "No description."}
       </p>
 
-      <div className="cybrez-project-card-id">
+      {/* <div className="cybrez-project-card-id">
         <span>Project ID</span>
 
         <code>{project.public_id}</code>
-      </div>
+      </div> */}
 
       <div className="cybrez-project-card-actions">
         <button

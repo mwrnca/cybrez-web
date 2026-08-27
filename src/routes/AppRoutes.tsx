@@ -29,7 +29,7 @@ import NotificationsPage from "@/features/notifications/pages";
 export default function AppRoutes() {
   return (
     <Routes>
-      <Route path="/" element={<Navigate to="/dashboard" replace />} />
+      <Route path="/" element={<Navigate to="/login" replace />} />
       <Route
         path="/login"
         element={
@@ -149,13 +149,15 @@ export default function AppRoutes() {
         }
       />
 
+      {/*
+        Deliberately NOT wrapped in GuestRoute or ProtectedRoute --
+        this page must work for both logged-in and logged-out visitors.
+        It handles both states internally (auto-accept if authenticated,
+        register/login CTAs carrying the token forward if not).
+      */}
       <Route
         path="/invitations/accept/:token"
-        element={
-          <GuestRoute>
-            <AcceptInvitationPage />
-          </GuestRoute>
-        }
+        element={<AcceptInvitationPage />}
       />
 
       <Route

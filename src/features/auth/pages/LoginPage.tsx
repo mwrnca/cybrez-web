@@ -1,10 +1,12 @@
 import { useState } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useSearchParams } from "react-router-dom";
 
 import { useAuth } from "@/contexts/useAuth";
 
 export default function LoginPage() {
   const { login, authenticated } = useAuth();
+  const [searchParams] = useSearchParams();
+  const redirectTo = searchParams.get("redirect") || "/dashboard";
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -12,7 +14,7 @@ export default function LoginPage() {
   const [error, setError] = useState("");
 
   if (authenticated) {
-    return <Navigate to="/dashboard" replace />;
+    return <Navigate to={redirectTo} replace />;
   }
 
   async function handleSubmit(
@@ -121,7 +123,14 @@ export default function LoginPage() {
 
           <p style={{ textAlign: "center", fontSize: "var(--font-size-sm)", color: "var(--color-text-muted)", marginTop: "var(--space-2)" }}>
             Don't have an account?{" "}
-            <Link to="/register" style={{ color: "var(--color-primary)", textDecoration: "none", fontWeight: 600 }}>
+            <Link
+              to={
+                searchParams.get("redirect")
+                  ? `/register?redirect=${encodeURIComponent(searchParams.get("redirect")!)}`
+                  : "/register"
+              }
+              style={{ color: "var(--color-primary)", textDecoration: "none", fontWeight: 600 }}
+            >
               Create Account
             </Link>
           </p>

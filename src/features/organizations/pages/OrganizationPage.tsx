@@ -54,10 +54,10 @@ export default function OrganizationPage() {
               {organization?.name}
             </h1>
 
-            <p>
+            {/* <p>
               {organization?.description ||
                 "No description provided."}
-            </p>
+            </p> */}
           </div>
 
           <button
@@ -73,7 +73,7 @@ export default function OrganizationPage() {
         {/* ORGANIZATION INFORMATION */}
 
         <section className="cybrez-organization-info cybrez-card">
-          <div>
+          {/* <div>
             <span className="cybrez-info-label">
               Organization ID
             </span>
@@ -81,7 +81,7 @@ export default function OrganizationPage() {
             <code className="cybrez-info-value">
               {organization?.public_id}
             </code>
-          </div>
+          </div> */}
 
           <div>
             <span className="cybrez-info-label">

@@ -161,13 +161,13 @@ export default function OrganizationsPage() {
                       "No description provided."}
                   </p>
 
-                  <div className="cybrez-organization-card-id">
+                  {/* <div className="cybrez-organization-card-id">
                     <span>Public ID</span>
 
                     <code>
                       {organization.public_id}
                     </code>
-                  </div>
+                  </div> */}
 
                   <div className="cybrez-organization-card-actions">
                     <button

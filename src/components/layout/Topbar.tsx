@@ -4,6 +4,8 @@ import { useAuth } from "@/contexts/useAuth";
 import { useOrganization } from "@/hooks/useOrganization";
 import { ROUTES } from "@/routes/routes";
 
+import BackBtn from "../common/backBtn";
+
 export default function Topbar() {
   const { user } = useAuth();
   const { organization } = useOrganization();
@@ -26,6 +28,8 @@ export default function Topbar() {
         <span>
           {user?.full_name ?? "User"}
         </span>
+
+        <BackBtn />
       </div>
     </header>
   );

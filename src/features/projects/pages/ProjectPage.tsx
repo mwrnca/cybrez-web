@@ -1,4 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
+import { useState } from "react";
 
 import PageState from "@/components/PageState";
 import PermissionGate from "@/components/permissions/PermissionGate";
@@ -31,6 +32,8 @@ export default function ProjectPage() {
   const archiveProject = useArchiveProject();
   const unarchiveProject = useUnarchiveProject();
   const restoreProject = useRestoreProject();
+
+  const [showEditForm, setShowEditForm] = useState(false);
 
   if (!project && !isLoading && !isError) {
     return (
@@ -96,7 +99,7 @@ export default function ProjectPage() {
                 <h2>Project information</h2>
 
                 <p>
-                  Details and identifiers for this project.
+                  Details for this project.
                 </p>
               </div>
             </div>
@@ -131,49 +134,49 @@ export default function ProjectPage() {
                   </span>
                 </p>
               </div>
-
-              {/* <div>
-                <span className="cybrez-info-label">
-                  Public ID
-                </span>
-
-                <code className="cybrez-project-id">
-                  {project.public_id}
-                </code>
-              </div> */}
-
-              {/* <div>
-                <span className="cybrez-info-label">
-                  Organization ID
-                </span>
-
-                <code className="cybrez-project-id">
-                  {project.organization_public_id}
-                </code>
-              </div> */}
             </div>
           </section>
 
           {/* EDIT PROJECT */}
           <section className="cybrez-card cybrez-project-form-card">
-            <div className="cybrez-section-header">
-              <h2>Edit project</h2>
+            <div
+              className="cybrez-section-header"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+            >
+              <div>
+                <h2>Edit project</h2>
 
-              <p>
-                Update the project's name and description.
-              </p>
+                <p>
+                  Update the project's name and description.
+                </p>
+              </div>
+
+              <button
+                className="cybrez-button cybrez-button-secondary"
+                onClick={() => setShowEditForm((v) => !v)}
+              >
+                {showEditForm ? "Close" : "Edit Project"}
+              </button>
             </div>
 
-            <ProjectForm
-              initialData={project}
-              loading={updateProject.isPending}
-              onSubmit={async (data) => {
-                await updateProject.mutateAsync({
-                  id: project.public_id,
-                  data,
-                });
-              }}
-            />
+            {showEditForm && (
+              <ProjectForm
+                initialData={project}
+                loading={updateProject.isPending}
+                onSubmit={async (data) => {
+                  await updateProject.mutateAsync({
+                    id: project.public_id,
+                    data,
+                  });
+
+                  setShowEditForm(false);
+                }}
+              />
+            )}
           </section>
 
           {/* PROJECT ACTIONS */}
@@ -369,17 +372,7 @@ export default function ProjectPage() {
             </PermissionGate>
           </section>
 
-          {/* BACK */}
-          <div className="cybrez-project-back">
-            <button
-              className="cybrez-button cybrez-button-ghost"
-              onClick={() => navigate(-1)}
-            >
-              ← Back
-            </button>
-          </div>
-
-               </div>
+        </div>
       </div>
     )}
   </PageState>

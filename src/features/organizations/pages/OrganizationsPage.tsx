@@ -40,6 +40,8 @@ export default function OrganizationsPage() {
   const [editingOrganization, setEditingOrganization] =
     useState<Organization | undefined>();
 
+  const [showForm, setShowForm] = useState(false);
+
   if (isLoading) {
     return (
       <div className="cybrez-page">
@@ -67,11 +69,13 @@ export default function OrganizationsPage() {
   ) {
     setEditingId(organization.public_id);
     setEditingOrganization(organization);
+    setShowForm(true);
   }
 
   function cancelEdit() {
     setEditingId(null);
     setEditingOrganization(undefined);
+    setShowForm(false);
   }
 
   async function handleDelete(
@@ -106,6 +110,8 @@ export default function OrganizationsPage() {
     await createOrganization.mutateAsync(
       formData
     );
+
+    setShowForm(false);
   }
 
   const isSaving =
@@ -116,7 +122,76 @@ export default function OrganizationsPage() {
     <div className="cybrez-page">
       <div className="cybrez-organizations-page">
 
-        {/* PAGE HEADER */}
+        <header className="cybrez-page-header">
+          <div>
+            <span className="cybrez-badge">
+              Workspace management
+            </span>
+
+            <h1>Organizations</h1>
+
+            <p>
+              Create and manage the organizations
+              connected to your account.
+            </p>
+          </div>
+
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "var(--space-4)",
+            }}
+          >
+            {!editingId && (
+              <button
+                className="cybrez-button cybrez-button-primary"
+                onClick={() => setShowForm((v) => !v)}
+              >
+                {showForm ? "Close Form" : "+ New Organization"}
+              </button>
+            )}
+
+            <div className="cybrez-page-header-stat">
+              <span>Total organizations</span>
+
+              <strong>
+                {data?.length ?? 0}
+              </strong>
+            </div>
+          </div>
+        </header>
+
+        {/* CREATE / EDIT FORM */}
+
+        {showForm && (
+          <section>
+            <OrganizationForm
+              initialData={editingOrganization}
+              loading={isSaving}
+              onSubmit={handleSubmit}
+            />
+
+            {editingOrganization && (
+              <div
+                style={{
+                  marginTop: "0.75rem",
+                }}
+              >
+                <button
+                  type="button"
+                  className="cybrez-button cybrez-button-ghost"
+                  onClick={cancelEdit}
+                  disabled={isSaving}
+                >
+                  Cancel editing
+                </button>
+              </div>
+            )}
+          </section>
+        )}
+
+        {/* ORGANIZATION LIST */}
 
         <section className="cybrez-organizations-section">
           <div className="cybrez-section-header">
@@ -160,14 +235,6 @@ export default function OrganizationsPage() {
                     {organization.description ||
                       "No description provided."}
                   </p>
-
-                  {/* <div className="cybrez-organization-card-id">
-                    <span>Public ID</span>
-
-                    <code>
-                      {organization.public_id}
-                    </code>
-                  </div> */}
 
                   <div className="cybrez-organization-card-actions">
                     <button
@@ -215,65 +282,11 @@ export default function OrganizationsPage() {
 
               <p>
                 Create your first organization
-                using the form above.
+                using the button above.
               </p>
             </div>
           )}
         </section>
-
-        <header className="cybrez-page-header">
-          <div>
-            <span className="cybrez-badge">
-              Workspace management
-            </span>
-
-            <h1>Organizations</h1>
-
-            <p>
-              Create and manage the organizations
-              connected to your account.
-            </p>
-          </div>
-
-          <div className="cybrez-page-header-stat">
-            <span>Total organizations</span>
-
-            <strong>
-              {data?.length ?? 0}
-            </strong>
-          </div>
-        </header>
-
-        {/* CREATE / EDIT FORM */}
-
-        <section>
-          <OrganizationForm
-            initialData={editingOrganization}
-            loading={isSaving}
-            onSubmit={handleSubmit}
-          />
-
-          {editingOrganization && (
-            <div
-              style={{
-                marginTop: "0.75rem",
-              }}
-            >
-              <button
-                type="button"
-                className="cybrez-button cybrez-button-ghost"
-                onClick={cancelEdit}
-                disabled={isSaving}
-              >
-                Cancel editing
-              </button>
-            </div>
-          )}
-        </section>
-
-        {/* ORGANIZATION LIST */}
-
-        
       </div>
     </div>
   );

@@ -8,7 +8,7 @@ type Props = {
 
 export default function NotificationsList({ notifications, onRead, onDelete }: Props) {
   if (!notifications.length) {
-    return <p>No notifications yet.</p>;
+    return <p style={{ color: "var(--color-text-muted)" }}>No notifications yet.</p>;
   }
 
   return (
@@ -16,23 +16,51 @@ export default function NotificationsList({ notifications, onRead, onDelete }: P
       {notifications.map((notification) => (
         <div
           key={notification.public_id}
+          className="cybrez-card"
           style={{
-            border: "1px solid #d1d5db",
-            borderRadius: "8px",
-            padding: "1rem",
-            background: notification.is_read ? "#f9fafb" : "#ffffff",
+            padding: "var(--space-4)",
+            opacity: notification.is_read ? 0.65 : 1,
           }}
         >
-          <div style={{ display: "flex", justifyContent: "space-between", gap: "0.75rem" }}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              gap: "0.75rem",
+              flexWrap: "wrap",
+            }}
+          >
             <strong>{notification.title}</strong>
-            <small>{new Date(notification.created_at).toLocaleString()}</small>
+            <small style={{ color: "var(--color-text-muted)" }}>
+              {new Date(notification.created_at).toLocaleString()}
+            </small>
           </div>
-          <p style={{ margin: "0.5rem 0" }}>{notification.message}</p>
+
+          <p
+            style={{
+              margin: "0.5rem 0",
+              color: "var(--color-text-muted)",
+              wordBreak: "break-word",
+            }}
+          >
+            {notification.message}
+          </p>
+
           <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
             {!notification.is_read && (
-              <button onClick={() => onRead(notification.public_id)}>Mark read</button>
+              <button
+                className="cybrez-button cybrez-button-secondary"
+                onClick={() => onRead(notification.public_id)}
+              >
+                Mark read
+              </button>
             )}
-            <button onClick={() => onDelete(notification.public_id)}>Delete</button>
+            <button
+              className="cybrez-button cybrez-button-danger"
+              onClick={() => onDelete(notification.public_id)}
+            >
+              Delete
+            </button>
           </div>
         </div>
       ))}

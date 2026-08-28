@@ -63,10 +63,10 @@ export default function TaskCard({
         {task.description || "No description provided."}
       </p>
 
-      <div className="cybrez-organization-card-id">
+      {/* <div className="cybrez-organization-card-id">
         <span>Task Public ID</span>
         <code>{task.public_id}</code>
-      </div>
+      </div> */}
 
       <div className="cybrez-organization-card-actions">
         <button

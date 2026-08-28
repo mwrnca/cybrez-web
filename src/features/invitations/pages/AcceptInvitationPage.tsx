@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { Link, useParams, useSearchParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 import { useAuth } from "@/contexts/useAuth";
 import { useAcceptInvitation } from "../hooks";
@@ -8,21 +8,33 @@ export default function AcceptInvitationPage() {
   const { token } = useParams();
   const { authenticated, loading } = useAuth();
 
-  const acceptInvitation = useAcceptInvitation();
+  const {
+    mutate: acceptInvitation,
+    isPending,
+    isSuccess,
+    isError,
+    error,
+    reset,
+  } = useAcceptInvitation();
 
   const attempted = useRef(false);
 
   useEffect(() => {
     if (
+      !loading &&
       authenticated &&
       token &&
-      !attempted.current &&
-      acceptInvitation.isIdle
+      !attempted.current
     ) {
       attempted.current = true;
-      acceptInvitation.mutate(token);
+      acceptInvitation(token);
     }
-  }, [authenticated, token, acceptInvitation]);
+  }, [
+    loading,
+    authenticated,
+    token,
+    acceptInvitation,
+  ]);
 
   const redirectParam = `?redirect=${encodeURIComponent(
     `/invitations/accept/${token}`
@@ -96,7 +108,12 @@ export default function AcceptInvitationPage() {
         </p>
 
         {!authenticated && (
-          <div style={{ display: "grid", gap: "var(--space-3)" }}>
+          <div
+            style={{
+              display: "grid",
+              gap: "var(--space-3)",
+            }}
+          >
             <Link
               to={`/register${redirectParam}`}
               className="cybrez-button cybrez-button-primary"
@@ -115,15 +132,20 @@ export default function AcceptInvitationPage() {
           </div>
         )}
 
-        {authenticated && acceptInvitation.isPending && (
+        {authenticated && isPending && (
           <div
             className="cybrez-loading-indicator"
             style={{ margin: "0 auto" }}
           />
         )}
 
-        {authenticated && acceptInvitation.isSuccess && (
-          <div style={{ display: "grid", gap: "var(--space-4)" }}>
+        {authenticated && isSuccess && (
+          <div
+            style={{
+              display: "grid",
+              gap: "var(--space-4)",
+            }}
+          >
             <div
               style={{
                 padding: "var(--space-4)",
@@ -134,7 +156,7 @@ export default function AcceptInvitationPage() {
                 fontSize: "var(--font-size-sm)",
               }}
             >
-              🎉 Invitation accepted successfully! You are now a member.
+              Invitation accepted successfully! You are now a member.
             </div>
 
             <Link
@@ -147,8 +169,13 @@ export default function AcceptInvitationPage() {
           </div>
         )}
 
-        {authenticated && acceptInvitation.isError && (
-          <div style={{ display: "grid", gap: "var(--space-4)" }}>
+        {authenticated && isError && (
+          <div
+            style={{
+              display: "grid",
+              gap: "var(--space-4)",
+            }}
+          >
             <div
               style={{
                 padding: "var(--space-3)",
@@ -160,8 +187,14 @@ export default function AcceptInvitationPage() {
               }}
             >
               {(() => {
-                const err = acceptInvitation.error as
-                  | { response?: { data?: { detail?: string } } }
+                const err = error as
+                  | {
+                      response?: {
+                        data?: {
+                          detail?: string;
+                        };
+                      };
+                    }
                   | undefined;
 
                 return (
@@ -175,7 +208,7 @@ export default function AcceptInvitationPage() {
               className="cybrez-button cybrez-button-secondary"
               onClick={() => {
                 attempted.current = false;
-                acceptInvitation.reset();
+                reset();
               }}
             >
               Try Again
@@ -188,7 +221,10 @@ export default function AcceptInvitationPage() {
                 marginTop: "var(--space-2)",
               }}
             >
-              <Link to="/login" style={{ color: "var(--color-primary)" }}>
+              <Link
+                to="/login"
+                style={{ color: "var(--color-primary)" }}
+              >
                 Sign in with a different account
               </Link>
             </p>

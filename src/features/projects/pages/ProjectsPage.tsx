@@ -1,4 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
+import { useState } from "react";
 
 import ProjectForm from "../components/ProjectForm";
 import ProjectCard from "../components/ProjectCard";
@@ -25,6 +26,8 @@ export default function ProjectsPage() {
 
   const createProject = useCreateProject();
   const deleteProject = useDeleteProject();
+
+  const [showCreate, setShowCreate] = useState(false);
 
   if (!organizationId) {
     return (
@@ -63,34 +66,54 @@ export default function ProjectsPage() {
           </p>
         </div>
 
-        <div className="cybrez-page-header-stat">
-          <span>Total Projects</span>
-          <strong>{data?.length ?? 0}</strong>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "var(--space-4)",
+          }}
+        >
+          <PermissionGate minimumRole={PERMISSIONS.manageProjects}>
+            <button
+              className="cybrez-button cybrez-button-primary"
+              onClick={() => setShowCreate((v) => !v)}
+            >
+              {showCreate ? "Close Form" : "+ Create Project"}
+            </button>
+          </PermissionGate>
+
+          <div className="cybrez-page-header-stat">
+            <span>Total Projects</span>
+            <strong>{data?.length ?? 0}</strong>
+          </div>
         </div>
       </header>
 
-      <PermissionGate minimumRole={PERMISSIONS.manageProjects}>
-        <section className="cybrez-card cybrez-project-form-card">
-          <div className="cybrez-section-header">
-            <h2>Create Project</h2>
-            <p>
-              Add a new project to this organization.
-            </p>
-          </div>
+      {showCreate && (
+        <PermissionGate minimumRole={PERMISSIONS.manageProjects}>
+          <section className="cybrez-card cybrez-project-form-card">
+            <div className="cybrez-section-header">
+              <h2>Create Project</h2>
+              <p>
+                Add a new project to this organization.
+              </p>
+            </div>
 
-          <ProjectForm
-            loading={createProject.isPending}
-            onSubmit={async (data) => {
-              const project = await createProject.mutateAsync({
-                organizationId,
-                data,
-              });
+            <ProjectForm
+              loading={createProject.isPending}
+              onSubmit={async (data) => {
+                const project = await createProject.mutateAsync({
+                  organizationId,
+                  data,
+                });
 
-              navigate(`/projects/${project.public_id}`);
-            }}
-          />
-        </section>
-      </PermissionGate>
+                setShowCreate(false);
+                navigate(`/projects/${project.public_id}`);
+              }}
+            />
+          </section>
+        </PermissionGate>
+      )}
 
       <section>
         <div className="cybrez-section-header">

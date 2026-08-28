@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, Navigate, useSearchParams } from "react-router-dom";
-
+import axios from "axios";
 import { useAuth } from "@/contexts/useAuth";
 
 export default function RegisterPage() {
@@ -34,15 +34,26 @@ export default function RegisterPage() {
         email,
         password,
       });
-    } catch (err) {
-      setError(
-        typeof err === "object" && err !== null && "response" in err
-          ? String((err as { response?: { data?: { detail?: string } } }).response?.data?.detail ?? "Registration failed.")
-          : "Registration failed."
-      );
-    } finally {
-      setLoading(false);
-    }
+      } catch (err) {
+  console.error("REGISTRATION FAILED:", err);
+
+  if (axios.isAxiosError(err)) {
+    console.error("STATUS:", err.response?.status);
+    console.error("RESPONSE:", err.response?.data);
+    console.error("URL:", err.config?.url);
+  }
+
+  setError("Registration failed. Check the console.");
+}
+    // } catch (err) {
+    //   setError(
+    //     typeof err === "object" && err !== null && "response" in err
+    //       ? String((err as { response?: { data?: { detail?: string } } }).response?.data?.detail ?? "Registration failed.")
+    //       : "Registration failed."
+    //   );
+    // } finally {
+    //   setLoading(false);
+    // }
   }
 
   return (

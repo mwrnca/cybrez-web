@@ -42,6 +42,7 @@ export default function InvitationsPage() {
   } = useInvitations(organizationId ?? "");
 
   const [copiedId, setCopiedId] = useState<string | null>(null);
+  const [showForm, setShowForm] = useState(false);
 
   function copyInviteLink(invitation: Invitation) {
     const link = `${window.location.origin}/invitations/accept/${invitation.token}`;
@@ -63,22 +64,32 @@ export default function InvitationsPage() {
             <h1>Invitations</h1>
             <p>Invite new members and collaborators to this organization.</p>
           </div>
+
+          <button
+            className="cybrez-button cybrez-button-primary"
+            onClick={() => setShowForm((v) => !v)}
+          >
+            {showForm ? "Close Form" : "+ Invite Member"}
+          </button>
         </header>
 
         {/* INVITATION FORM */}
-        <section>
-          <InvitationForm
-            loading={createInvitation.isPending}
-            onSubmit={async (formData) => {
-              await createInvitation.mutateAsync({
-                organizationId: organizationId!,
-                data: formData,
-              });
+        {showForm && (
+          <section>
+            <InvitationForm
+              loading={createInvitation.isPending}
+              onSubmit={async (formData) => {
+                await createInvitation.mutateAsync({
+                  organizationId: organizationId!,
+                  data: formData,
+                });
 
-              refetch();
-            }}
-          />
-        </section>
+                setShowForm(false);
+                refetch();
+              }}
+            />
+          </section>
+        )}
 
         {/* PENDING / SENT INVITATIONS */}
         <section>

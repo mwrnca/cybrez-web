@@ -1,4 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
+import { useState } from "react";
 
 import PageState from "@/components/PageState";
 
@@ -24,6 +25,8 @@ export default function CommentsPage() {
     error,
   } = useComments(taskId ?? "");
 
+  const [showForm, setShowForm] = useState(false);
+
   if (!taskId) {
     return (
       <PageState
@@ -41,9 +44,7 @@ export default function CommentsPage() {
     <PageState
       loading={isLoading}
       error={isError ? error : undefined}
-      empty={!isLoading && !isError && (data?.length ?? 0) === 0}
       loadingMessage="Loading comments..."
-      emptyMessage="No comments yet."
     >
       <div
         style={{
@@ -52,94 +53,117 @@ export default function CommentsPage() {
           padding: "2rem",
         }}
       >
-        <div>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            flexWrap: "wrap",
+            gap: "1rem",
+          }}
+        >
+          <div>
+            <button
+              onClick={() =>
+                navigate(`/tasks/${taskId}`)
+              }
+            >
+              Back to Task
+            </button>
+
+            <h1>Comments</h1>
+
+            <p
+              style={{
+                color: "#6b7280",
+              }}
+            >
+              Task discussion
+            </p>
+          </div>
+
           <button
-            onClick={() =>
-              navigate(`/tasks/${taskId}`)
-            }
+            className="cybrez-button cybrez-button-primary"
+            onClick={() => setShowForm((v) => !v)}
           >
-            Back to Task
+            {showForm ? "Close Form" : "+ Add Comment"}
           </button>
-
-          <h1>Comments</h1>
-
-          <p
-            style={{
-              color: "#6b7280",
-            }}
-          >
-            Task discussion
-          </p>
         </div>
 
-        <CommentForm
-          loading={createComment.isPending}
-          onSubmit={async (formData) => {
-            await createComment.mutateAsync({
-              taskId,
-              data: formData,
-            });
-          }}
-        />
+        {showForm && (
+          <CommentForm
+            loading={createComment.isPending}
+            onSubmit={async (formData) => {
+              await createComment.mutateAsync({
+                taskId,
+                data: formData,
+              });
+
+              setShowForm(false);
+            }}
+          />
+        )}
 
         <div>
           <h2>
             Total: {data?.length ?? 0}
           </h2>
 
-          {data?.map((comment) => (
-            <div
-              key={comment.public_id}
-              style={{
-                border:
-                  "1px solid #d1d5db",
-                padding: "1rem",
-                marginBottom: "1rem",
-                borderRadius: "8px",
-              }}
-            >
-              <p>{comment.content}</p>
-
-              <small>
-                {comment.public_id}
-              </small>
-
+          {(data?.length ?? 0) === 0 ? (
+            <p style={{ color: "#6b7280" }}>
+              No comments yet. Be the first to comment.
+            </p>
+          ) : (
+            data?.map((comment) => (
               <div
+                key={comment.public_id}
                 style={{
-                  display: "flex",
-                  gap: "0.5rem",
-                  marginTop: "1rem",
+                  border:
+                    "1px solid #d1d5db",
+                  padding: "1rem",
+                  marginBottom: "1rem",
+                  borderRadius: "8px",
                 }}
               >
-                <button
-                  onClick={() =>
-                    navigate(
-                      `/comments/${comment.public_id}`
-                    )
-                  }
-                >
-                  View
-                </button>
+                <p>{comment.content}</p>
 
-                <button
-                  onClick={() => {
-                    if (
-                      window.confirm(
-                        "Delete this comment?"
-                      )
-                    ) {
-                      deleteComment.mutate({
-                        commentId:
-                          comment.public_id,
-                      });
-                    }
+                <div
+                  style={{
+                    display: "flex",
+                    gap: "0.5rem",
+                    marginTop: "1rem",
                   }}
                 >
-                  Delete
-                </button>
+                  <button
+                    onClick={() =>
+                      navigate(
+                        `/comments/${comment.public_id}`
+                      )
+                    }
+                  >
+                    View
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      if (
+                        window.confirm(
+                          "Delete this comment?"
+                        )
+                      ) {
+                        deleteComment.mutate({
+                          commentId:
+                            comment.public_id,
+                        });
+                      }
+                    }}
+                  >
+                    Delete
+                  </button>
+                </div>
               </div>
-            </div>
-          ))}
+            ))
+          )}
         </div>
       </div>
     </PageState>

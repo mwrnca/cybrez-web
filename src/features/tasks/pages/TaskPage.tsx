@@ -1,4 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
+import { useState } from "react";
 
 import PageState from "@/components/PageState";
 import PermissionGate from "@/components/permissions/PermissionGate";
@@ -29,6 +30,8 @@ export default function TaskPage() {
   const archiveTask = useArchiveTask();
   const unarchiveTask = useUnarchiveTask();
   const restoreTask = useRestoreTask();
+
+  const [showEditForm, setShowEditForm] = useState(false);
 
   const statusColor =
     task?.status === "done"
@@ -88,13 +91,8 @@ export default function TaskPage() {
 
             {/* TASK DETAILS INFO */}
             <section className="cybrez-organization-info cybrez-card">
-              {/* <div>
-                <span className="cybrez-info-label">Task Public ID</span>
-                <code className="cybrez-info-value">{task.public_id}</code>
-              </div> */}
-
               <div>
-                <span className="cybrez-info-label">Status & Priority</span>
+                <span className="cybrez-info-label">Status &amp; Priority</span>
                 <p className="cybrez-info-value" style={{ textTransform: "capitalize" }}>
                   {task.status.replace("_", " ")} • {task.priority} Priority
                 </p>
@@ -102,17 +100,44 @@ export default function TaskPage() {
             </section>
 
             {/* EDIT TASK FORM */}
-            <section>
-              <TaskForm
-                initialData={task}
-                loading={updateTask.isPending}
-                onSubmit={async (data) => {
-                  await updateTask.mutateAsync({
-                    taskId: task.public_id,
-                    data,
-                  });
+            <section className="cybrez-card" style={{ padding: "var(--space-5)" }}>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  marginBottom: showEditForm ? "var(--space-4)" : 0,
                 }}
-              />
+              >
+                <div>
+                  <h3 style={{ fontSize: "var(--font-size-md)", margin: 0 }}>Edit task</h3>
+                  <p style={{ color: "var(--color-text-muted)", fontSize: "var(--font-size-xs)", margin: "4px 0 0" }}>
+                    Update the task's details.
+                  </p>
+                </div>
+
+                <button
+                  className="cybrez-button cybrez-button-secondary"
+                  onClick={() => setShowEditForm((v) => !v)}
+                >
+                  {showEditForm ? "Close" : "Edit Task"}
+                </button>
+              </div>
+
+              {showEditForm && (
+                <TaskForm
+                  initialData={task}
+                  loading={updateTask.isPending}
+                  onSubmit={async (data) => {
+                    await updateTask.mutateAsync({
+                      taskId: task.public_id,
+                      data,
+                    });
+
+                    setShowEditForm(false);
+                  }}
+                />
+              )}
             </section>
 
             {/* ACTIONS BAR */}

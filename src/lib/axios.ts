@@ -1,4 +1,6 @@
-import axios, { type InternalAxiosRequestConfig } from "axios";
+import axios, {
+  type InternalAxiosRequestConfig,
+} from "axios";
 
 import {
   clearTokens,
@@ -25,30 +27,58 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-let isRefreshing = false;
-let refreshSubscribers: Array<(token: string) => void> = [];
+let refreshPromise: Promise<string> | null = null;
 
-function subscribeTokenRefresh(cb: (token: string) => void) {
-  refreshSubscribers.push(cb);
-}
+async function refreshAccessToken(): Promise<string> {
+  const refreshToken = getRefreshToken();
 
-function onRefreshed(token: string) {
-  refreshSubscribers.forEach((cb) => cb(token));
-  refreshSubscribers = [];
+  if (!refreshToken) {
+    throw new Error("No refresh token available");
+  }
+
+  const baseURL = import.meta.env.VITE_API_URL || "";
+
+  const response = await axios.post(
+    `${baseURL}/auth/refresh`,
+    {
+      refresh_token: refreshToken,
+    }
+  );
+
+  const {
+    access_token,
+    refresh_token: newRefreshToken,
+  } = response.data;
+
+  setToken(access_token);
+
+  if (newRefreshToken) {
+    setRefreshToken(newRefreshToken);
+  }
+
+  return access_token;
 }
 
 api.interceptors.response.use(
   (response) => response,
+
   async (error) => {
     const originalRequest = error.config as
-      | (InternalAxiosRequestConfig & { _retry?: boolean })
+      | (InternalAxiosRequestConfig & {
+          _retry?: boolean;
+        })
       | undefined;
 
-    if (!error.response || error.response.status !== 401 || !originalRequest) {
+    if (
+      !error.response ||
+      error.response.status !== 401 ||
+      !originalRequest
+    ) {
       return Promise.reject(error);
     }
 
     const requestUrl = originalRequest.url ?? "";
+
     if (
       requestUrl.includes("/auth/login") ||
       requestUrl.includes("/auth/refresh") ||
@@ -61,55 +91,29 @@ api.interceptors.response.use(
       return Promise.reject(error);
     }
 
-    if (isRefreshing) {
-      return new Promise((resolve, reject) => {
-        subscribeTokenRefresh((token: string) => {
-          try {
-            originalRequest.headers.Authorization = `Bearer ${token}`;
-            resolve(api(originalRequest));
-          } catch (err) {
-            reject(err);
-          }
-        });
-      });
-    }
-
     originalRequest._retry = true;
-    isRefreshing = true;
-
-    const currentRefreshToken = getRefreshToken();
-
-    if (!currentRefreshToken) {
-      isRefreshing = false;
-      clearTokens();
-      window.dispatchEvent(new CustomEvent("cybrez:auth-session-expired"));
-      return Promise.reject(error);
-    }
 
     try {
-      const baseURL = import.meta.env.VITE_API_URL || "";
-      const response = await axios.post(`${baseURL}/auth/refresh`, {
-        refresh_token: currentRefreshToken,
-      });
-
-      const { access_token, refresh_token: newRefreshToken } = response.data;
-
-      setToken(access_token);
-      if (newRefreshToken) {
-        setRefreshToken(newRefreshToken);
+      if (!refreshPromise) {
+        refreshPromise = refreshAccessToken().finally(() => {
+          refreshPromise = null;
+        });
       }
 
-      originalRequest.headers.Authorization = `Bearer ${access_token}`;
-      onRefreshed(access_token);
+      const accessToken = await refreshPromise;
+
+      originalRequest.headers.Authorization =
+        `Bearer ${accessToken}`;
 
       return api(originalRequest);
     } catch (refreshError) {
       clearTokens();
-      refreshSubscribers = [];
-      window.dispatchEvent(new CustomEvent("cybrez:auth-session-expired"));
+
+      window.dispatchEvent(
+        new CustomEvent("cybrez:auth-session-expired")
+      );
+
       return Promise.reject(refreshError);
-    } finally {
-      isRefreshing = false;
     }
   }
 );

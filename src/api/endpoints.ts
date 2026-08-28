@@ -12,62 +12,37 @@ const ENDPOINTS = {
     detail: (id: string) => `/organizations/${id}`,
     update: (id: string) => `/organizations/${id}`,
     delete: (id: string) => `/organizations/${id}`,
-
-    overview: (id: string) =>
-      `/organizations/${id}/overview`,
+    overview: (id: string) => `/organizations/${id}/overview`,
   },
 
   projects: {
     list: (organizationId: string) =>
       `/projects/organization/${organizationId}`,
-
     create: (organizationId: string) =>
       `/projects/${organizationId}`,
-
-    detail: (id: string) =>
-      `/projects/${id}`,
-
-    update: (id: string) =>
-      `/projects/${id}`,
-
-    delete: (id: string) =>
-      `/projects/${id}`,
-
-    restore: (id: string) =>
-      `/projects/${id}/restore`,
-
-    archive: (id: string) =>
-      `/projects/${id}/archive`,
-
-    unarchive: (id: string) =>
-      `/projects/${id}/unarchive`,
+    detail: (id: string) => `/projects/${id}`,
+    update: (id: string) => `/projects/${id}`,
+    delete: (id: string) => `/projects/${id}`,
+    restore: (id: string) => `/projects/${id}/restore`,
+    archive: (id: string) => `/projects/${id}/archive`,
+    unarchive: (id: string) => `/projects/${id}/unarchive`,
   },
 
   tasks: {
     list: (projectId: string) =>
       `/projects/${projectId}/tasks`,
-
     create: (projectId: string) =>
       `/projects/${projectId}/tasks`,
-
     detail: (taskId: string) =>
       `/projects/tasks/${taskId}`,
-
     update: (taskId: string) =>
       `/projects/tasks/${taskId}`,
-
-    delete: (
-      projectId: string,
-      taskId: string
-    ) =>
+    delete: (projectId: string, taskId: string) =>
       `/projects/${projectId}/tasks/${taskId}`,
-
     restore: (taskId: string) =>
       `/projects/tasks/${taskId}/restore`,
-
     archive: (taskId: string) =>
       `/projects/tasks/${taskId}/archive`,
-
     unarchive: (taskId: string) =>
       `/projects/tasks/${taskId}/unarchive`,
   },
@@ -75,16 +50,12 @@ const ENDPOINTS = {
   invitations: {
     list: (organizationId: string) =>
       `/invitations/${organizationId}`,
-
     create: (organizationId: string) =>
       `/invitations/${organizationId}/invite`,
-
     accept: (token: string) =>
       `/invitations/accept/${token}`,
-
     delete: (id: string) =>
       `/invitations/${id}`,
-
     resend: (id: string) =>
       `/invitations/${id}/resend`,
   },
@@ -92,45 +63,40 @@ const ENDPOINTS = {
   memberships: {
     list: (organizationId: string) =>
       `/organizations/${organizationId}/members`,
-
     create: (organizationId: string) =>
       `/organizations/${organizationId}/members`,
-
     update: (
       organizationId: string,
       userId: string
     ) =>
       `/organizations/${organizationId}/members/${userId}`,
-
     delete: (
       organizationId: string,
       userId: string
     ) =>
       `/organizations/${organizationId}/members/${userId}`,
-
     leave: (organizationId: string) =>
       `/organizations/${organizationId}/leave`,
   },
 
   dashboard: {
     stats: "/dashboard/stats",
-
-    tasksByStatus:
-      "/dashboard/tasks-by-status",
-
-    projectCounts:
-      "/dashboard/project-counts",
-
-    tasksPerMonth:
-      "/dashboard/tasks-per-month",
+    tasksByStatus: "/dashboard/tasks-by-status",
+    projectCounts: "/dashboard/project-counts",
+    tasksPerMonth: "/dashboard/tasks-per-month",
   },
 
   comments: {
-    list: (taskId: string) => `/comments/task/${taskId}`,
-    create: (taskId: string) => `/comments/task/${taskId}`,
-    update: (commentId: string) => `/comments/${commentId}`,
-    delete: (commentId: string) => `/comments/${commentId}`,
-    restore: (commentId: string) => `/comments/${commentId}/restore`,
+    list: (taskId: string) =>
+      `/comments/task/${taskId}`,
+    create: (taskId: string) =>
+      `/comments/task/${taskId}`,
+    update: (commentId: string) =>
+      `/comments/${commentId}`,
+    delete: (commentId: string) =>
+      `/comments/${commentId}`,
+    restore: (commentId: string) =>
+      `/comments/${commentId}/restore`,
     detail: (commentId: string) =>
       `/comments/${commentId}`,
   },
@@ -144,9 +110,11 @@ const ENDPOINTS = {
 
   notifications: {
     list: "/notifications",
-    read: (notificationId: string) => `/notifications/${notificationId}/read`,
+    read: (notificationId: string) =>
+      `/notifications/${notificationId}/read`,
     readAll: "/notifications/read-all",
-    delete: (notificationId: string) => `/notifications/${notificationId}`,
+    delete: (notificationId: string) =>
+      `/notifications/${notificationId}`,
   },
 
   activityLogs: {

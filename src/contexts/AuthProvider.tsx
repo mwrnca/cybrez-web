@@ -40,29 +40,18 @@ export function AuthProvider({
   const [loading, setLoading] = useState(true);
 
   async function loadUser() {
-  console.log("AUTH: loadUser START");
+    setLoading(true);
 
-  setLoading(true);
-
-  try {
-    console.log("AUTH: calling getCurrentUser");
-
-    const me = await getCurrentUser();
-
-    console.log("AUTH: getCurrentUser SUCCESS", me);
-
-    setUser(me);
-  } catch (error) {
-    console.error("AUTH: getCurrentUser FAILED", error);
-
-    clearTokens();
-    setUser(null);
-  } finally {
-    console.log("AUTH: loadUser FINISHED");
-
-    setLoading(false);
+    try {
+      const me = await getCurrentUser();
+      setUser(me);
+    } catch {
+      clearTokens();
+      setUser(null);
+    } finally {
+      setLoading(false);
+    }
   }
-}
 
   async function login(
     credentials: LoginRequest

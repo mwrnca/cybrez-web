@@ -4,12 +4,14 @@ type Props = {
   members: Membership[];
   onRemove: (userId: string) => void;
   removing?: boolean;
+  canRemove?: boolean;
 };
 
 export default function MembershipList({
   members,
   onRemove,
   removing,
+  canRemove = false,
 }: Props) {
   if (members.length === 0) {
     return (
@@ -37,20 +39,12 @@ export default function MembershipList({
         >
           <div className="cybrez-member-info">
             <div className="cybrez-member-avatar">
-              {member.user_id
-                .charAt(0)
-                .toUpperCase()}
+              {member.user_full_name?.charAt(0)?.toUpperCase() ?? "?"}
             </div>
 
             <div>
-              <h3>
-                User {member.user_id}
-              </h3>
-
-              <p>
-                Member ID:{" "}
-                {member.public_id} 
-              </p>
+              <h3>{member.user_full_name ?? "Unknown User"}</h3>
+              <p>{member.user_email}</p>
             </div>
           </div>
 
@@ -62,17 +56,19 @@ export default function MembershipList({
             </strong>
           </div>
 
-          <button
-            className="cybrez-button cybrez-button-danger"
-            onClick={() =>
-              onRemove(member.user_id)
-            }
-            disabled={removing}
-          >
-            {removing
-              ? "Removing..."
-              : "Remove"}
-          </button>
+          {canRemove && member.role !== "owner" && (
+            <button
+              className="cybrez-button cybrez-button-danger"
+              onClick={() =>
+                onRemove(member.user_id)
+              }
+              disabled={removing}
+            >
+              {removing
+                ? "Removing..."
+                : "Remove"}
+            </button>
+          )}
         </article>
       ))}
     </div>

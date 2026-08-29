@@ -1,4 +1,7 @@
 import { useParams } from "react-router-dom";
+import { useState } from "react";
+
+import { useAuth } from "@/contexts/useAuth";
 
 import MembershipList from "../components/MembershipList";
 
@@ -8,8 +11,19 @@ import {
   useLeaveOrganization,
 } from "../hooks";
 
+function getErrorDetail(err: unknown, fallback: string) {
+  const detail =
+    typeof err === "object" && err !== null && "response" in err
+      ? (err as { response?: { data?: { detail?: string } } }).response
+          ?.data?.detail
+      : undefined;
+
+  return detail ?? fallback;
+}
+
 export default function MembershipsPage() {
   const { organizationId } = useParams();
+  const { user } = useAuth();
 
   const {
     data,
@@ -23,6 +37,8 @@ export default function MembershipsPage() {
 
   const leaveOrganization =
     useLeaveOrganization();
+
+  const [actionError, setActionError] = useState<string | null>(null);
 
   if (isLoading) {
     return (
@@ -46,6 +62,11 @@ export default function MembershipsPage() {
     );
   }
 
+  const myMembership = data?.find(
+    (member) => member.user_id === user?.public_id
+  );
+  const isOwner = myMembership?.role === "owner";
+
   async function handleRemove(
     userId: string
   ) {
@@ -57,10 +78,21 @@ export default function MembershipsPage() {
       return;
     }
 
-    await removeMember.mutateAsync({
-      organizationId: organizationId!,
-      userId,
-    });
+    setActionError(null);
+
+    try {
+      await removeMember.mutateAsync({
+        organizationId: organizationId!,
+        userId,
+      });
+    } catch (err) {
+      setActionError(
+        getErrorDetail(
+          err,
+          "You don't have permission to remove this member. Only the organization owner can do that."
+        )
+      );
+    }
   }
 
   async function handleLeave() {
@@ -72,9 +104,20 @@ export default function MembershipsPage() {
       return;
     }
 
-    await leaveOrganization.mutateAsync(
-      organizationId!
-    );
+    setActionError(null);
+
+    try {
+      await leaveOrganization.mutateAsync(
+        organizationId!
+      );
+    } catch (err) {
+      setActionError(
+        getErrorDetail(
+          err,
+          "Unable to leave the organization."
+        )
+      );
+    }
   }
 
   return (
@@ -106,6 +149,21 @@ export default function MembershipsPage() {
           </div>
         </header>
 
+        {actionError && (
+          <div
+            style={{
+              padding: "0.75rem 1rem",
+              background: "var(--color-danger-soft)",
+              color: "var(--color-danger)",
+              border: "1px solid rgba(239, 68, 68, 0.3)",
+              borderRadius: "var(--radius-md)",
+              fontSize: "0.875rem",
+            }}
+          >
+            {actionError}
+          </div>
+        )}
+
         {/* MEMBER LIST */}
 
         <section>
@@ -126,33 +184,36 @@ export default function MembershipsPage() {
             removing={
               removeMember.isPending
             }
+            canRemove={isOwner}
           />
         </section>
 
         {/* LEAVE ORGANIZATION */}
 
-        <section className="cybrez-members-danger-zone cybrez-card">
-          <div>
-            <h2>Leave organization</h2>
+        {!isOwner && (
+          <section className="cybrez-members-danger-zone cybrez-card">
+            <div>
+              <h2>Leave organization</h2>
 
-            <p>
-              Remove yourself from this
-              organization.
-            </p>
-          </div>
+              <p>
+                Remove yourself from this
+                organization.
+              </p>
+            </div>
 
-          <button
-            className="cybrez-button cybrez-button-danger"
-            onClick={handleLeave}
-            disabled={
-              leaveOrganization.isPending
-            }
-          >
-            {leaveOrganization.isPending
-              ? "Leaving..."
-              : "Leave Organization"}
-          </button>
-        </section>
+            <button
+              className="cybrez-button cybrez-button-danger"
+              onClick={handleLeave}
+              disabled={
+                leaveOrganization.isPending
+              }
+            >
+              {leaveOrganization.isPending
+                ? "Leaving..."
+                : "Leave Organization"}
+            </button>
+          </section>
+        )}
       </div>
     </div>
   );

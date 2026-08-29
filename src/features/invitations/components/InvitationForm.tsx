@@ -16,7 +16,7 @@ export default function InvitationForm({
 }: Props) {
   const [email, setEmail] = useState("");
 
-  const [role, setRole] = useState("member");
+  const [role, setRole] = useState("viewer");
 
   const [success, setSuccess] = useState(false);
 
@@ -32,7 +32,7 @@ export default function InvitationForm({
     });
 
     setEmail("");
-    setRole("member");
+    setRole("viewer");
     setSuccess(true);
     setTimeout(() => setSuccess(false), 4000);
   }

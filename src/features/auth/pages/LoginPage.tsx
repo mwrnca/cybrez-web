@@ -26,9 +26,6 @@ export default function LoginPage() {
     setError("");
 
     try {
-      console.log("EMAIL:", email);
-console.log("PASSWORD:", password);
-
       await login({
         email,
         password,

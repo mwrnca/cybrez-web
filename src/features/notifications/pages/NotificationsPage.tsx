@@ -8,9 +8,13 @@ import {
   useNotifications,
 } from "../hooks";
 import { useAcceptInvitation } from "@/features/invitations/hooks";
+import {
+  formatUserFacingError,
+  getNotificationErrorMessage,
+} from "@/utils/errorUtils";
 
 export default function NotificationsPage() {
-  const { data, isLoading, isError, error } = useNotifications();
+  const { data, isLoading, isError, error, refetch } = useNotifications();
   const markRead = useMarkNotificationRead();
   const markAllRead = useMarkAllNotificationsRead();
   const deleteNotification = useDeleteNotification();
@@ -30,13 +34,9 @@ export default function NotificationsPage() {
       setAcceptedTokens((prev) => [...prev, token]);
       markRead.mutate(notificationId);
     } catch (err) {
-      const detail =
-        typeof err === "object" && err !== null && "response" in err
-          ? (err as { response?: { data?: { detail?: string } } })
-              .response?.data?.detail
-          : undefined;
-
-      setAcceptError(detail ?? "Failed to accept the invitation.");
+      setAcceptError(
+        formatUserFacingError(err, "Failed to accept the invitation.")
+      );
     }
   }
 
@@ -46,7 +46,11 @@ export default function NotificationsPage() {
       error={isError ? error : undefined}
       empty={!data || data.length === 0}
       loadingMessage="Loading notifications..."
-      emptyMessage="No notifications yet."
+      emptyTitle="You’re all caught up."
+      emptyMessage="No new notifications right now."
+      errorTitle="Unable to load notifications."
+      errorMessage={getNotificationErrorMessage(error)}
+      onRetry={() => refetch()}
     >
       <div style={{ display: "grid", gap: "1rem" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "1rem", flexWrap: "wrap" }}>

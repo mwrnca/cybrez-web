@@ -7,3 +7,12 @@ export interface Membership {
   role: string;
   created_at: string;
 }
+
+export interface CreateMembershipRequest {
+  user_id: string;
+  role: string;
+}
+
+export interface UpdateMembershipRoleRequest {
+  role: string;
+}

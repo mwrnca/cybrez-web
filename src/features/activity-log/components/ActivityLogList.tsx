@@ -4,6 +4,13 @@ type Props = {
   logs: ActivityLog[];
 };
 
+function formatActionName(action: string): string {
+  if (!action) return "";
+  const spaced = action.replace(/_/g, " ").trim();
+  if (spaced.length === 0) return "";
+  return spaced.charAt(0).toUpperCase() + spaced.slice(1).toLowerCase();
+}
+
 export default function ActivityLogList({
   logs,
 }: Props) {
@@ -20,9 +27,9 @@ export default function ActivityLogList({
   return (
     <div style={{ display: "grid", gap: "var(--space-3)" }}>
       {logs.map((log) => {
-        const actionLabel = log.action.replace(/_/g, " ");
-        const isDelete = log.action.includes("delete");
-        const isCreate = log.action.includes("create");
+        const actionLabel = formatActionName(log.action);
+        const isDelete = log.action.includes("delete") || log.action.includes("cancel");
+        const isCreate = log.action.includes("create") || log.action.includes("add");
         const isArchive = log.action.includes("archive");
 
         const badgeColor = isDelete
@@ -73,19 +80,15 @@ export default function ActivityLogList({
 
                   <span
                     className="cybrez-badge"
-                    style={{ borderColor: badgeColor, color: badgeColor, textTransform: "capitalize" }}
+                    style={{ borderColor: badgeColor, color: badgeColor }}
                   >
                     {actionLabel}
                   </span>
 
-                  <span className="cybrez-badge" style={{ color: "var(--color-text-subtle)" }}>
+                  <span className="cybrez-badge" style={{ color: "var(--color-text-subtle)", textTransform: "capitalize" }}>
                     {log.target_type}
                   </span>
                 </div>
-
-                {/* <div style={{ marginTop: "4px", fontSize: "var(--font-size-xs)", color: "var(--color-text-muted)" }}>
-                  ID: <code style={{ color: "var(--color-primary)" }}>{log.public_id}</code>
-                </div> */}
               </div>
             </div>
 

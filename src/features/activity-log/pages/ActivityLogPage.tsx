@@ -11,6 +11,7 @@ export default function ActivityLogPage() {
     isLoading,
     isError,
     error,
+    refetch,
   } = useActivityLogs(
     organizationId!
   );
@@ -20,7 +21,11 @@ export default function ActivityLogPage() {
       loading={isLoading}
       error={isError ? error : undefined}
       empty={!isLoading && !isError && (data?.length ?? 0) === 0}
-      emptyMessage="No activity yet."
+      loadingMessage="Loading activity log..."
+      emptyTitle="No activity recorded"
+      emptyMessage="Actions performed in this workspace will appear here chronologically."
+      errorTitle="Unable to load activity log"
+      onRetry={() => refetch()}
     >
       <div style={{ padding: "2rem" }}>
         <h1>Activity Log</h1>

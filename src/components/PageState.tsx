@@ -1,9 +1,15 @@
+import { formatUserFacingError } from "@/utils/errorUtils";
+
 type Props = {
   loading?: boolean;
   error?: unknown;
   empty?: boolean;
   loadingMessage?: string;
+  emptyTitle?: string;
   emptyMessage?: string;
+  errorTitle?: string;
+  errorMessage?: string;
+  onRetry?: () => void;
   children: React.ReactNode;
 };
 
@@ -12,7 +18,11 @@ export default function PageState({
   error,
   empty,
   loadingMessage = "Loading...",
+  emptyTitle = "No records found",
   emptyMessage = "No data available.",
+  errorTitle = "Something went wrong",
+  errorMessage,
+  onRetry,
   children,
 }: Props) {
   if (loading) {
@@ -27,15 +37,22 @@ export default function PageState({
   }
 
   if (error) {
+    const displayMessage = errorMessage ?? formatUserFacingError(error);
+
     return (
       <div className="cybrez-page">
         <div className="cybrez-page-state cybrez-page-state-error">
-          <h2>Something went wrong</h2>
-          <p>
-            {typeof error === "object" && error !== null && "message" in error
-              ? String((error as { message: string }).message)
-              : String(error)}
-          </p>
+          <h2>{errorTitle}</h2>
+          <p>{displayMessage}</p>
+          {onRetry && (
+            <button
+              className="cybrez-button cybrez-button-secondary"
+              style={{ marginTop: "var(--space-3)" }}
+              onClick={onRetry}
+            >
+              Try Again
+            </button>
+          )}
         </div>
       </div>
     );
@@ -46,7 +63,7 @@ export default function PageState({
       <div className="cybrez-page">
         <div className="cybrez-empty-state cybrez-card">
           <div className="cybrez-empty-state-icon">Ø</div>
-          <h3>No records found</h3>
+          <h3>{emptyTitle}</h3>
           <p>{emptyMessage}</p>
         </div>
       </div>
@@ -55,3 +72,4 @@ export default function PageState({
 
   return <>{children}</>;
 }
+

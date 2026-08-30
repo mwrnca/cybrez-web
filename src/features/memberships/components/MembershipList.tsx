@@ -7,6 +7,26 @@ type Props = {
   canRemove?: boolean;
 };
 
+function getAvatarInitial(name?: string | null, email?: string | null): string {
+  if (typeof name === "string" && name.trim().length > 0) {
+    return name.trim().charAt(0).toUpperCase();
+  }
+  if (typeof email === "string" && email.trim().length > 0) {
+    return email.trim().charAt(0).toUpperCase();
+  }
+  return "?";
+}
+
+function getDisplayName(name?: string | null, email?: string | null): string {
+  if (typeof name === "string" && name.trim().length > 0) {
+    return name.trim();
+  }
+  if (typeof email === "string" && email.trim().length > 0) {
+    return email.trim();
+  }
+  return "Team Member";
+}
+
 export default function MembershipList({
   members,
   onRemove,
@@ -32,45 +52,54 @@ export default function MembershipList({
 
   return (
     <div className="cybrez-members-list">
-      {members.map((member) => (
-        <article
-          key={member.public_id}
-          className="cybrez-member-card cybrez-card"
-        >
-          <div className="cybrez-member-info">
-            <div className="cybrez-member-avatar">
-              {member.user_full_name?.charAt(0)?.toUpperCase() ?? "?"}
+      {members.map((member) => {
+        const initial = getAvatarInitial(
+          member.user_full_name,
+          member.user_email
+        );
+        const displayName = getDisplayName(
+          member.user_full_name,
+          member.user_email
+        );
+
+        return (
+          <article
+            key={member.public_id}
+            className="cybrez-member-card cybrez-card"
+          >
+            <div className="cybrez-member-info">
+              <div className="cybrez-member-avatar">{initial}</div>
+
+              <div>
+                <h3>{displayName}</h3>
+                <p>{member.user_email || "No email available"}</p>
+              </div>
             </div>
 
-            <div>
-              <h3>{member.user_full_name ?? "Unknown User"}</h3>
-              <p>{member.user_email}</p>
+            <div className="cybrez-member-role">
+              <span>Role</span>
+
+              <strong>
+                {member.role}
+              </strong>
             </div>
-          </div>
 
-          <div className="cybrez-member-role">
-            <span>Role</span>
-
-            <strong>
-              {member.role}
-            </strong>
-          </div>
-
-          {canRemove && member.role !== "owner" && (
-            <button
-              className="cybrez-button cybrez-button-danger"
-              onClick={() =>
-                onRemove(member.user_id)
-              }
-              disabled={removing}
-            >
-              {removing
-                ? "Removing..."
-                : "Remove"}
-            </button>
-          )}
-        </article>
-      ))}
+            {canRemove && member.role !== "owner" && (
+              <button
+                className="cybrez-button cybrez-button-danger"
+                onClick={() =>
+                  onRemove(member.user_id)
+                }
+                disabled={removing}
+              >
+                {removing
+                  ? "Removing..."
+                  : "Remove"}
+              </button>
+            )}
+          </article>
+        );
+      })}
     </div>
   );
 }

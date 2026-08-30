@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { useState } from "react";
 
 import { useAuth } from "@/contexts/useAuth";
-
+import PageState from "@/components/PageState";
 import MembershipList from "../components/MembershipList";
 
 import {
@@ -10,16 +10,7 @@ import {
   useRemoveMember,
   useLeaveOrganization,
 } from "../hooks";
-
-function getErrorDetail(err: unknown, fallback: string) {
-  const detail =
-    typeof err === "object" && err !== null && "response" in err
-      ? (err as { response?: { data?: { detail?: string } } }).response
-          ?.data?.detail
-      : undefined;
-
-  return detail ?? fallback;
-}
+import { formatUserFacingError } from "@/utils/errorUtils";
 
 export default function MembershipsPage() {
   const { organizationId } = useParams();
@@ -30,6 +21,7 @@ export default function MembershipsPage() {
     isLoading,
     isError,
     error,
+    refetch,
   } = useMembers(organizationId!);
 
   const removeMember =
@@ -40,25 +32,21 @@ export default function MembershipsPage() {
 
   const [actionError, setActionError] = useState<string | null>(null);
 
-  if (isLoading) {
+  if (isLoading || isError) {
     return (
-      <div className="cybrez-page">
-        <div className="cybrez-page-state">
-          <div className="cybrez-loading-indicator" />
-          <p>Loading members...</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (isError) {
-    return (
-      <div className="cybrez-page">
-        <div className="cybrez-page-state cybrez-page-state-error">
-          <h2>Unable to load members</h2>
-          <p>{String(error)}</p>
-        </div>
-      </div>
+      <PageState
+        loading={isLoading}
+        error={isError ? error : undefined}
+        loadingMessage="Loading members..."
+        errorTitle="Unable to load members"
+        errorMessage={formatUserFacingError(
+          error,
+          "Unable to load organization members. Please try again."
+        )}
+        onRetry={() => refetch()}
+      >
+        <div />
+      </PageState>
     );
   }
 
@@ -87,7 +75,7 @@ export default function MembershipsPage() {
       });
     } catch (err) {
       setActionError(
-        getErrorDetail(
+        formatUserFacingError(
           err,
           "You don't have permission to remove this member. Only the organization owner can do that."
         )
@@ -112,7 +100,7 @@ export default function MembershipsPage() {
       );
     } catch (err) {
       setActionError(
-        getErrorDetail(
+        formatUserFacingError(
           err,
           "Unable to leave the organization."
         )

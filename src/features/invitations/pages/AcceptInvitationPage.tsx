@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 
 import { useAuth } from "@/contexts/useAuth";
 import { useAcceptInvitation } from "../hooks";
+import { formatUserFacingError } from "@/utils/errorUtils";
 
 export default function AcceptInvitationPage() {
   const { token } = useParams();
@@ -186,22 +187,10 @@ export default function AcceptInvitationPage() {
                 fontSize: "var(--font-size-sm)",
               }}
             >
-              {(() => {
-                const err = error as
-                  | {
-                      response?: {
-                        data?: {
-                          detail?: string;
-                        };
-                      };
-                    }
-                  | undefined;
-
-                return (
-                  err?.response?.data?.detail ??
-                  "Failed to accept invitation. The invitation link may have expired or is invalid."
-                );
-              })()}
+              {formatUserFacingError(
+                error,
+                "Failed to accept invitation. The invitation link may have expired or is invalid."
+              )}
             </div>
 
             <button

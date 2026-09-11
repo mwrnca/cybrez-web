@@ -42,6 +42,13 @@ export async function acceptInvitation(
   return response.data;
 }
 
+export async function getInvitationLink(invitationId: string) {
+  const response = await api.get<{ acceptance_url: string }>(
+    ENDPOINTS.invitations.link(invitationId)
+  );
+  return response.data;
+}
+
 export async function deleteInvitation(
   invitationId: string
 ) {

@@ -6,7 +6,7 @@ type Props = {
   notifications: Notification[];
   onRead: (id: string) => void;
   onDelete: (id: string) => void;
-  onAcceptInvitation?: (token: string, notificationId: string) => void;
+  onAcceptInvitation?: (invitationId: string, notificationId: string) => void;
   acceptingToken?: string;
   acceptedTokens?: string[];
 };
@@ -67,9 +67,9 @@ export default function NotificationsList({
       {notifications.map((notification) => {
         const isInvitation =
           notification.type === "invitation" && !!notification.reference_id;
-        const token = notification.reference_id ?? "";
-        const alreadyAccepted = acceptedTokens.includes(token);
-        const isAccepting = acceptingToken === token;
+        const invitationId = notification.reference_id ?? "";
+        const alreadyAccepted = acceptedTokens.includes(invitationId);
+        const isAccepting = acceptingToken === invitationId;
 
         const icon = TYPE_ICONS[notification.type ?? ""] ?? DEFAULT_ICON;
 
@@ -162,7 +162,7 @@ export default function NotificationsList({
                   className="cybrez-button cybrez-button-primary"
                   disabled={alreadyAccepted || isAccepting}
                   onClick={() =>
-                    onAcceptInvitation(token, notification.public_id)
+                    onAcceptInvitation(invitationId, notification.public_id)
                   }
                 >
                   {alreadyAccepted

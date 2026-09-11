@@ -4,6 +4,7 @@ const ENDPOINTS = {
     register: "/auth/register",
     me: "/auth/me",
     refresh: "/auth/refresh",
+    logout: "/auth/logout",
   },
 
   organizations: {
@@ -54,6 +55,8 @@ const ENDPOINTS = {
       `/invitations/${organizationId}/invite`,
     accept: (token: string) =>
       `/invitations/accept/${token}`,
+    link: (id: string) =>
+      `/invitations/${id}/link`,
     delete: (id: string) =>
       `/invitations/${id}`,
     resend: (id: string) =>

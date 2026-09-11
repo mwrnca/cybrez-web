@@ -21,7 +21,7 @@ html {
 body {
   margin: 0;
 
-  background: var(--gradient-background);
+  background: var(--color-sidebar);
   background-attachment: fixed;
 
   color: var(--color-text);

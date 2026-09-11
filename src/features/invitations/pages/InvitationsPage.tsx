@@ -7,6 +7,7 @@ import InvitationForm from "../components/InvitationForm";
 import {
   useCreateInvitation,
   useDeleteInvitation,
+  useGetInvitationLink,
   useResendInvitation,
 } from "../hooks";
 import { useInvitations } from "../hooks/useInvitations";
@@ -68,6 +69,7 @@ export default function InvitationsPage() {
 
   const createInvitation = useCreateInvitation();
   const deleteInvitation = useDeleteInvitation();
+  const getInvitationLink = useGetInvitationLink();
   const resendInvitation = useResendInvitation();
 
   const {
@@ -86,8 +88,10 @@ export default function InvitationsPage() {
   const [actionSuccess, setActionSuccess] = useState<string | null>(null);
 
   async function copyInviteLink(invitation: Invitation) {
-    const link = `${window.location.origin}/invitations/accept/${invitation.token}`;
     try {
+      const { acceptance_url: link } = await getInvitationLink.mutateAsync(
+        invitation.public_id
+      );
       await navigator.clipboard.writeText(link);
       setCopiedId(invitation.public_id);
       setActionSuccess("Invitation link copied to clipboard.");
@@ -353,4 +357,4 @@ export default function InvitationsPage() {
       </div>
     </div>
   );
-}
+}

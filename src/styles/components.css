@@ -246,7 +246,7 @@
 
   display: flex;
 
-  background: var(--gradient-background);
+  background: var(--color-sidebar);
   color: var(--color-text);
 }
 
@@ -263,6 +263,8 @@
   bottom: 0;
 
   width: var(--sidebar-width);
+
+  transition: width var(--transition-slow);
 
   display: flex;
   flex-direction: column;
@@ -290,6 +292,9 @@
    ======================================== */
 
 .cybrez-sidebar-brand {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   margin-bottom: var(--space-8);
 }
 
@@ -312,6 +317,28 @@
 .cybrez-sidebar-brand a:hover {
   color: var(--color-primary);
   transform: translateX(2px);
+}
+
+.cybrez-brand-mark {
+  display: none;
+}
+
+.cybrez-sidebar-toggle {
+  width: 32px;
+  height: 32px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  color: var(--color-text-muted);
+  background: transparent;
+  border: 1px solid var(--color-border);
+}
+
+.cybrez-sidebar-toggle .cybrez-nav-icon {
+  width: 16px;
+  height: 16px;
 }
 
 
@@ -359,6 +386,17 @@
   border-color: rgba(212, 175, 55, 0.15);
 
   transform: translateX(2px);
+}
+
+.cybrez-nav-icon {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
+}
+
+.cybrez-nav-label {
+  margin-left: var(--space-3);
+  white-space: nowrap;
 }
 
 .cybrez-nav-item.active {
@@ -446,6 +484,75 @@
   padding-left: var(--space-4);
 
   font-size: var(--font-size-sm);
+}
+
+.cybrez-sidebar.is-collapsed {
+  width: var(--sidebar-collapsed-width);
+  padding-left: var(--space-2);
+  padding-right: var(--space-2);
+}
+
+.cybrez-sidebar.is-collapsed .cybrez-sidebar-brand {
+  justify-content: center;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.cybrez-sidebar.is-collapsed .cybrez-brand-full,
+.cybrez-sidebar.is-collapsed .cybrez-nav-label,
+.cybrez-sidebar.is-collapsed .cybrez-sidebar-section,
+.cybrez-sidebar.is-collapsed .cybrez-user,
+.cybrez-sidebar.is-collapsed .cybrez-logout-label {
+  display: none;
+}
+
+.cybrez-sidebar.is-collapsed .cybrez-brand-mark {
+  display: inline;
+}
+
+.cybrez-sidebar.is-collapsed .cybrez-nav-item {
+  justify-content: center;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.cybrez-sidebar.is-collapsed .cybrez-nav-item-nested {
+  margin-left: 0;
+  padding-left: 0;
+}
+
+.cybrez-sidebar.is-collapsed .cybrez-nav-item[data-tooltip]::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  left: calc(100% + var(--space-2));
+  top: 50%;
+  z-index: 200;
+  transform: translateY(-50%);
+  padding: var(--space-2) var(--space-3);
+  color: var(--color-text);
+  background: var(--color-surface-secondary);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-md);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  opacity: 0;
+  pointer-events: none;
+  white-space: nowrap;
+  transition: opacity var(--transition-fast);
+}
+
+.cybrez-sidebar.is-collapsed .cybrez-nav-item[data-tooltip]:hover::after,
+.cybrez-sidebar.is-collapsed .cybrez-nav-item[data-tooltip]:focus-visible::after {
+  opacity: 1;
+}
+
+.cybrez-sidebar.is-collapsed .cybrez-logout-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: 0;
+  padding-right: 0;
 }
 
 
@@ -547,6 +654,15 @@
 
   display: flex;
   flex-direction: column;
+
+  transition:
+    width var(--transition-slow),
+    margin-left var(--transition-slow);
+}
+
+.cybrez-sidebar.is-collapsed ~ .cybrez-main {
+  width: calc(100% - var(--sidebar-collapsed-width));
+  margin-left: var(--sidebar-collapsed-width);
 }
 
 
@@ -574,11 +690,12 @@
     ),
     rgba(7, 9, 16, 0.88);
 
-  border-bottom: 1px solid var(--color-border);
+  border-bottom: 1px dashed var(--color-border);
 
   backdrop-filter: blur(14px);
 
   z-index: 50;
+  
 }
 
 .cybrez-topbar-context {
@@ -613,6 +730,23 @@
 
 .cybrez-topbar-divider {
   color: var(--color-primary);
+}
+
+.cybrez-density-control {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.cybrez-density-label {
+  color: var(--color-text-subtle);
+  font-size: var(--font-size-xs);
+}
+
+.cybrez-density-control select {
+  width: auto;
+  padding: var(--space-1) var(--space-2);
+  font-size: var(--font-size-xs);
 }
 
 

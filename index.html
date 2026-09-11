@@ -5,6 +5,12 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>cybrez-web</title>
+    <script>
+      const density = localStorage.getItem("cybrez-density");
+      if (["compact", "default", "comfortable", "spacious"].includes(density)) {
+        document.documentElement.dataset.density = density;
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>

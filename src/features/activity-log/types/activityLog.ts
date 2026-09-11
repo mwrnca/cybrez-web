@@ -9,7 +9,7 @@ export interface ActivityLog {
 
   target_type: string;
 
-  target_id: number | null;
+  target_public_id: string | null;
 
   description: string;
 

@@ -7,8 +7,6 @@ export interface Invitation {
 
   role: string;
 
-  token: string;
-
   accepted: boolean;
 
   expires_at: string;

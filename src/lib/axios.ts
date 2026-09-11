@@ -4,14 +4,13 @@ import axios, {
 
 import {
   clearTokens,
-  getRefreshToken,
   getToken,
-  setRefreshToken,
   setToken,
 } from "@/services/storage";
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
+  withCredentials: true,
   headers: {
     "Content-Type": "application/json",
   },
@@ -30,31 +29,17 @@ api.interceptors.request.use((config) => {
 let refreshPromise: Promise<string> | null = null;
 
 async function refreshAccessToken(): Promise<string> {
-  const refreshToken = getRefreshToken();
-
-  if (!refreshToken) {
-    throw new Error("No refresh token available");
-  }
-
   const baseURL = import.meta.env.VITE_API_URL || "";
 
   const response = await axios.post(
     `${baseURL}/auth/refresh`,
-    {
-      refresh_token: refreshToken,
-    }
+    undefined,
+    { withCredentials: true }
   );
 
-  const {
-    access_token,
-    refresh_token: newRefreshToken,
-  } = response.data;
+  const { access_token } = response.data;
 
   setToken(access_token);
-
-  if (newRefreshToken) {
-    setRefreshToken(newRefreshToken);
-  }
 
   return access_token;
 }
@@ -82,7 +67,8 @@ api.interceptors.response.use(
     if (
       requestUrl.includes("/auth/login") ||
       requestUrl.includes("/auth/refresh") ||
-      requestUrl.includes("/auth/register")
+      requestUrl.includes("/auth/register") ||
+      requestUrl.includes("/auth/logout")
     ) {
       return Promise.reject(error);
     }

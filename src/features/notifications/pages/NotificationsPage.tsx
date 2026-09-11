@@ -8,6 +8,7 @@ import {
   useNotifications,
 } from "../hooks";
 import { useAcceptInvitation } from "@/features/invitations/hooks";
+import { getInvitationLink } from "@/features/invitations/api/invitationsApi";
 import {
   formatUserFacingError,
   getNotificationErrorMessage,
@@ -21,22 +22,31 @@ export default function NotificationsPage() {
   const acceptInvitation = useAcceptInvitation();
 
   const [acceptedTokens, setAcceptedTokens] = useState<string[]>([]);
+  const [acceptingInvitationId, setAcceptingInvitationId] = useState<string>();
   const [acceptError, setAcceptError] = useState<string | null>(null);
 
   async function handleAcceptInvitation(
-    token: string,
+    invitationId: string,
     notificationId: string
   ) {
     setAcceptError(null);
+    setAcceptingInvitationId(invitationId);
 
     try {
+      const { acceptance_url } = await getInvitationLink(invitationId);
+      const token = new URL(acceptance_url).pathname.split("/").pop();
+      if (!token) {
+        throw new Error("Invitation link is invalid.");
+      }
       await acceptInvitation.mutateAsync(token);
-      setAcceptedTokens((prev) => [...prev, token]);
+      setAcceptedTokens((prev) => [...prev, invitationId]);
       markRead.mutate(notificationId);
     } catch (err) {
       setAcceptError(
         formatUserFacingError(err, "Failed to accept the invitation.")
       );
+    } finally {
+      setAcceptingInvitationId(undefined);
     }
   }
 
@@ -81,11 +91,7 @@ export default function NotificationsPage() {
           onRead={(id) => markRead.mutate(id)}
           onDelete={(id) => deleteNotification.mutate(id)}
           onAcceptInvitation={handleAcceptInvitation}
-          acceptingToken={
-            acceptInvitation.isPending
-              ? (acceptInvitation.variables as string | undefined)
-              : undefined
-          }
+          acceptingToken={acceptingInvitationId}
           acceptedTokens={acceptedTokens}
         />
       </div>

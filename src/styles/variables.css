@@ -128,6 +128,7 @@
      ======================================== */
 
   --sidebar-width: 250px;
+  --sidebar-collapsed-width: 72px;
   --topbar-height: 64px;
   --content-max-width: 1440px;
 
@@ -145,6 +146,8 @@
   --space-10: 40px;
   --space-12: 48px;
   --space-16: 64px;
+
+  --density-scale: 1;
 
   /* ========================================
      BORDER RADIUS
@@ -275,6 +278,39 @@
 
   --shadow-gold:
     0 4px 20px rgb(212 175 55 / 0.12);
+}
+
+[data-density="compact"] {
+  --density-scale: 0.88;
+}
+
+[data-density="comfortable"] {
+  --density-scale: 1.08;
+}
+
+[data-density="spacious"] {
+  --density-scale: 1.18;
+}
+
+[data-density] {
+  --space-1: calc(4px * var(--density-scale));
+  --space-2: calc(8px * var(--density-scale));
+  --space-3: calc(12px * var(--density-scale));
+  --space-4: calc(16px * var(--density-scale));
+  --space-5: calc(20px * var(--density-scale));
+  --space-6: calc(24px * var(--density-scale));
+  --space-8: calc(32px * var(--density-scale));
+  --space-10: calc(40px * var(--density-scale));
+  --space-12: calc(48px * var(--density-scale));
+  --space-16: calc(64px * var(--density-scale));
+  --font-size-xs: calc(0.75rem * var(--density-scale));
+  --font-size-sm: calc(0.875rem * var(--density-scale));
+  --font-size-md: calc(1rem * var(--density-scale));
+  --font-size-lg: calc(1.125rem * var(--density-scale));
+  --font-size-xl: calc(1.25rem * var(--density-scale));
+  --font-size-2xl: calc(1.5rem * var(--density-scale));
+  --font-size-3xl: calc(1.875rem * var(--density-scale));
+  --font-size-4xl: calc(2.25rem * var(--density-scale));
 }
 
   

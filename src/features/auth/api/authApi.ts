@@ -43,15 +43,8 @@ export async function getCurrentUser() {
   return response.data;
 }
 
-export async function refreshToken(
-  refresh_token: string
-) {
-  const response = await api.post(
-    ENDPOINTS.auth.refresh,
-    {
-      refresh_token,
-    }
-  );
+export async function logout() {
+  const response = await api.post(ENDPOINTS.auth.logout);
 
   return response.data;
 }

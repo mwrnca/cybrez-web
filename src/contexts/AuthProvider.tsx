@@ -10,6 +10,7 @@ import { AuthContext } from "./AuthContext";
 import {
   getCurrentUser,
   login as loginRequest,
+  logout as logoutRequest,
   register as registerRequest,
 } from "@/features/auth/api/authApi";
 
@@ -21,9 +22,7 @@ import type {
 
 import {
   clearTokens,
-  getRefreshToken,
   getToken,
-  setRefreshToken,
   setToken,
 } from "@/services/storage";
 import queryClient from "@/lib/queryClient";
@@ -59,9 +58,6 @@ export function AuthProvider({
     const data = await loginRequest(credentials);
 
     setToken(data.access_token);
-    if (data.refresh_token) {
-      setRefreshToken(data.refresh_token);
-    }
 
     await loadUser();
   }
@@ -77,11 +73,15 @@ export function AuthProvider({
     });
   }
 
-  function logout() {
-    clearTokens();
-    setUser(null);
-    useOrganizationStore.getState().clearOrganization();
-    queryClient.clear();
+  async function logout() {
+    try {
+      await logoutRequest();
+    } finally {
+      clearTokens();
+      setUser(null);
+      useOrganizationStore.getState().clearOrganization();
+      queryClient.clear();
+    }
   }
 
   async function refreshUser() {
@@ -95,7 +95,7 @@ export function AuthProvider({
 
     window.addEventListener("cybrez:auth-session-expired", handleSessionExpired);
 
-    if (getToken() || getRefreshToken()) {
+    if (getToken()) {
       loadUser();
     } else {
       setLoading(false);

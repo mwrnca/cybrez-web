@@ -5,6 +5,8 @@ import AppShell from "@/components/AppShell";
 import ProtectedRoute from "./ProtectedRoute";
 import GuestRoute from "./GuestRoute";
 
+import LandingPage from "@/features/landing/pages/LandingPage";
+
 import OrganizationsPage from "@/features/organizations/pages/OrganizationsPage";
 import OrganizationPage from "@/features/organizations/pages/OrganizationPage";
 
@@ -29,7 +31,14 @@ import NotificationsPage from "@/features/notifications/pages";
 export default function AppRoutes() {
   return (
     <Routes>
-      <Route path="/" element={<Navigate to="/login" replace />} />
+      <Route
+        path="/"
+        element={
+          <GuestRoute>
+            <LandingPage />
+          </GuestRoute>
+        }
+      />
       <Route
         path="/login"
         element={

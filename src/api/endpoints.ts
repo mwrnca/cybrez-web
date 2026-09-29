@@ -46,6 +46,8 @@ const ENDPOINTS = {
       `/projects/tasks/${taskId}/archive`,
     unarchive: (taskId: string) =>
       `/projects/tasks/${taskId}/unarchive`,
+    workspace: (taskId: string) => 
+      `/tasks/${taskId}/workspace`,
   },
 
   invitations: {
@@ -123,6 +125,22 @@ const ENDPOINTS = {
   activityLogs: {
     list: (organizationId: string) =>
       `/activity-logs/${organizationId}`,
+  },
+
+  directory: {
+    list: "/directory",
+  },
+
+  search: {
+    query: "/search/",
+  },
+
+  personas: {
+    list: "/personas/me",
+    create: "/personas",
+    detail: (id: string) => `/personas/${id}`,
+    update: (id: string) => `/personas/${id}`,
+    delete: (id: string) => `/personas/${id}`,
   },
 };
 

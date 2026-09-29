@@ -6,3 +6,4 @@ export * from "./useDeleteTask";
 export * from "./useRestoreTask";
 export * from "./useArchiveTask";
 export * from "./useUnarchiveTask";
+export { useTaskWorkspace } from "./useTaskWorkspace";

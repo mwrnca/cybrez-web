@@ -8,8 +8,11 @@ export const ROUTES = {
 
   ORGANIZATIONS: "/organizations",
 
-  PROJECTS: "/projects",
+  DIRECTORY: "/directory",
+  SEARCH: "/search",
+  PROFILE: "/profile",
 
+  PROJECTS: "/projects",
   TASKS: "/tasks",
 
   AI: "/ai",

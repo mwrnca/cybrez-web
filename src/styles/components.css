@@ -2805,3 +2805,173 @@ code.cybrez-info-value {
     width: 100%;
   }
 }
+
+.cybrez-task-context-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-5);
+}
+
+.cybrez-task-context-card {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: var(--space-4);
+  padding: var(--space-5);
+}
+
+@media (max-width: 900px) {
+  .cybrez-task-context-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ========================================
+   TASK WORKSPACE
+   ======================================== */
+
+.cybrez-task-context-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+
+  gap: var(--space-5);
+}
+
+.cybrez-task-context-card {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: var(--space-4);
+  padding: var(--space-5);
+}
+
+
+/* ========================================
+   TASK SECTIONS
+   ======================================== */
+
+.cybrez-task-section {
+  min-width: 0;
+
+  padding: var(--space-5);
+}
+
+.cybrez-task-section .cybrez-section-header {
+  margin-bottom: var(--space-5);
+}
+
+
+/* ========================================
+   TASK ITEMS
+   ======================================== */
+
+.cybrez-task-item {
+  min-width: 0;
+
+  padding: var(--space-4);
+}
+
+
+/* ========================================
+   TASK WORKSPACE RESPONSIVE
+   ======================================== */
+
+@media (max-width: 900px) {
+  .cybrez-task-context-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ========================================
+   TASK WORKSPACE SURFACE
+   ======================================== */
+
+.cybrez-task-page-header {
+  align-items: flex-start;
+}
+
+.cybrez-task-page-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.cybrez-task-workspace {
+  min-width: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: var(--space-6);
+  padding: var(--space-6);
+}
+
+.cybrez-task-workspace-main {
+  min-width: 0;
+
+  display: grid;
+  gap: var(--space-5);
+}
+
+.cybrez-task-workspace-main h2 {
+  margin: var(--space-3) 0 0;
+}
+
+.cybrez-task-workspace-main p {
+  margin: var(--space-2) 0 0;
+  color: var(--color-text-muted);
+}
+
+.cybrez-task-workspace-status {
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-border);
+}
+
+.cybrez-task-workspace-status p {
+  max-width: 680px;
+}
+
+.cybrez-task-workspace-actions {
+  flex-shrink: 0;
+}
+
+.cybrez-task-details {
+  min-width: 0;
+}
+
+
+/* ========================================
+   TASK WORKSPACE RESPONSIVE
+   ======================================== */
+
+@media (max-width: 900px) {
+  .cybrez-task-page-header {
+    grid-template-columns: 1fr;
+  }
+
+  .cybrez-task-page-actions {
+    justify-content: flex-start;
+  }
+
+  .cybrez-task-workspace {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .cybrez-task-workspace-actions {
+    width: 100%;
+  }
+
+  .cybrez-task-workspace-actions .cybrez-button {
+    width: 100%;
+  }
+}

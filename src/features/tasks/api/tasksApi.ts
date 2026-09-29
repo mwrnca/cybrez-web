@@ -1,6 +1,6 @@
 import api from "@/lib/axios";
 import ENDPOINTS from "@/api/endpoints";
-
+import type { TaskWorkspace } from "../types/taskWorkspace";
 import type {
   Task,
   CreateTaskRequest,
@@ -75,6 +75,14 @@ export async function archiveTask(taskId: string) {
 export async function unarchiveTask(taskId: string) {
   const response = await api.post<Task>(
     ENDPOINTS.tasks.unarchive(taskId)
+  );
+
+  return response.data;
+}
+
+export async function getTaskWorkspace(taskId: string) {
+  const response = await api.get<TaskWorkspace>(
+    ENDPOINTS.tasks.workspace(taskId)
   );
 
   return response.data;

@@ -13,6 +13,10 @@ import OrganizationPage from "@/features/organizations/pages/OrganizationPage";
 import { LoginPage, RegisterPage } from "@/features/auth/pages";
 import DashboardPage from "@/features/dashboard/pages/DashboardPage";
 
+import DirectoryPage from "@/features/directory/pages/DirectoryPage";
+import SearchPage from "@/features/search/pages/SearchPage";
+import ProfilePage from "@/features/profile/pages/ProfilePage";
+
 import ProjectsPage from "@/features/projects/pages/ProjectsPage";
 import ProjectPage from "@/features/projects/pages/ProjectPage";
 
@@ -39,6 +43,7 @@ export default function AppRoutes() {
           </GuestRoute>
         }
       />
+
       <Route
         path="/login"
         element={
@@ -47,6 +52,60 @@ export default function AppRoutes() {
           </GuestRoute>
         }
       />
+
+      <Route
+        path="/register"
+        element={
+          <GuestRoute>
+            <RegisterPage />
+          </GuestRoute>
+        }
+      />
+
+      <Route
+        path="/dashboard"
+        element={
+          <ProtectedRoute>
+            <AppShell>
+              <DashboardPage />
+            </AppShell>
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/directory"
+        element={
+          <ProtectedRoute>
+            <AppShell>
+              <DirectoryPage />
+            </AppShell>
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/search"
+        element={
+          <ProtectedRoute>
+            <AppShell>
+              <SearchPage />
+            </AppShell>
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/profile"
+        element={
+          <ProtectedRoute>
+            <AppShell>
+              <ProfilePage />
+            </AppShell>
+          </ProtectedRoute>
+        }
+      />
+
       <Route
         path="/organizations"
         element={
@@ -69,30 +128,21 @@ export default function AppRoutes() {
         }
       />
 
-
       <Route
-        path="/register"
-        element={
-          <GuestRoute>
-            <RegisterPage />
-          </GuestRoute>
-        }
+        path="/projects"
+        element={<Navigate to="/organizations" replace />}
       />
 
       <Route
-        path="/dashboard"
-        element={
-          <ProtectedRoute>
-            <AppShell>
-              <DashboardPage />
-            </AppShell>
-          </ProtectedRoute>
-        }
+        path="/tasks"
+        element={<Navigate to="/dashboard" replace />}
       />
 
-      <Route path="/projects" element={<Navigate to="/organizations" replace />} />
-      <Route path="/tasks" element={<Navigate to="/dashboard" replace />} />
-      <Route path="/comments" element={<Navigate to="/dashboard" replace />} />
+      <Route
+        path="/comments"
+        element={<Navigate to="/dashboard" replace />}
+      />
+
       <Route
         path="/notifications"
         element={
@@ -103,6 +153,7 @@ export default function AppRoutes() {
           </ProtectedRoute>
         }
       />
+
       <Route
         path="/organizations/:organizationId/projects"
         element={
@@ -158,12 +209,6 @@ export default function AppRoutes() {
         }
       />
 
-      {/*
-        Deliberately NOT wrapped in GuestRoute or ProtectedRoute --
-        this page must work for both logged-in and logged-out visitors.
-        It handles both states internally (auto-accept if authenticated,
-        register/login CTAs carrying the token forward if not).
-      */}
       <Route
         path="/invitations/accept/:token"
         element={<AcceptInvitationPage />}
@@ -213,7 +258,10 @@ export default function AppRoutes() {
         }
       />
 
-      <Route path="*" element={<Navigate to="/" replace />} />
+      <Route
+        path="*"
+        element={<Navigate to="/" replace />}
+      />
     </Routes>
   );
 }

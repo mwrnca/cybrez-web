@@ -158,6 +158,21 @@ export default function OrganizationPage() {
               className="cybrez-organization-action cybrez-card"
               onClick={() =>
                 navigate(
+                  `/organizations/${organization!.public_id}/units`
+                )
+              }
+            >
+              <span className="cybrez-action-icon">U</span>
+              <div>
+                <h3>Organization units</h3>
+                <p>Manage the organization structure and unit members.</p>
+              </div>
+            </button>
+
+            <button
+              className="cybrez-organization-action cybrez-card"
+              onClick={() =>
+                navigate(
                   `/organizations/${organization!.public_id}/invitations`
                 )
               }

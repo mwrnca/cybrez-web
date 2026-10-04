@@ -5,6 +5,7 @@ import type {
   Project,
   CreateProjectRequest,
   UpdateProjectRequest,
+  ProjectWorkspaceSnapshotEntry,
 } from "@/types/project";
 
 export async function getProjects(
@@ -84,6 +85,18 @@ export async function unarchiveProject(
 ) {
   const response = await api.post<Project>(
     ENDPOINTS.projects.unarchive(projectId)
+  );
+
+  return response.data;
+}
+
+export async function completeProject(
+  projectId: string,
+  workspaces: ProjectWorkspaceSnapshotEntry[],
+) {
+  const response = await api.post<Project>(
+    `/projects/${projectId}/complete`,
+    { workspaces },
   );
 
   return response.data;

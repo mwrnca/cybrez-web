@@ -9,6 +9,7 @@ import LandingPage from "@/features/landing/pages/LandingPage";
 
 import OrganizationsPage from "@/features/organizations/pages/OrganizationsPage";
 import OrganizationPage from "@/features/organizations/pages/OrganizationPage";
+import OrganizationUnitsPage from "@/features/organizations/pages/OrganizationUnitsPage";
 
 import { LoginPage, RegisterPage } from "@/features/auth/pages";
 import DashboardPage from "@/features/dashboard/pages/DashboardPage";
@@ -123,6 +124,17 @@ export default function AppRoutes() {
           <ProtectedRoute>
             <AppShell>
               <OrganizationPage />
+            </AppShell>
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/organizations/:organizationId/units"
+        element={
+          <ProtectedRoute>
+            <AppShell>
+              <OrganizationUnitsPage />
             </AppShell>
           </ProtectedRoute>
         }

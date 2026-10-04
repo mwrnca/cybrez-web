@@ -6,3 +6,4 @@ export * from "./useDeleteProject";
 export * from "./useArchiveProject";
 export * from "./useUnarchiveProject";
 export * from "./useRestoreProject";
+export * from "./useCompleteProject";

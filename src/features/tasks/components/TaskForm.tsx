@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import type {
   CreateTaskRequest,
@@ -10,6 +10,7 @@ import type {
 type TaskOrganizationUnit = {
   public_id: string;
   name: string;
+  parent_unit_id?: string | null;
 };
 
 type Props = {
@@ -35,6 +36,31 @@ export default function TaskForm({
     useState<TaskPriority>("medium");
   const [organizationUnitId, setOrganizationUnitId] =
     useState<string>("");
+
+  const organizationUnitOptions = useMemo(() => {
+    const unitsById = new Map(
+      organizationUnits.map((unit) => [unit.public_id, unit]),
+    );
+
+    return organizationUnits.map((unit) => {
+      const path: string[] = [];
+      const visited = new Set<string>();
+      let current: TaskOrganizationUnit | undefined = unit;
+
+      while (current && !visited.has(current.public_id)) {
+        visited.add(current.public_id);
+        path.unshift(current.name);
+        current = current.parent_unit_id
+          ? unitsById.get(current.parent_unit_id)
+          : undefined;
+      }
+
+      return {
+        public_id: unit.public_id,
+        label: path.join(" / "),
+      };
+    });
+  }, [organizationUnits]);
 
   useEffect(() => {
     if (!initialData) {
@@ -146,12 +172,12 @@ export default function TaskForm({
               No organizational unit
             </option>
 
-            {organizationUnits.map((unit) => (
+            {organizationUnitOptions.map((unit) => (
               <option
                 key={unit.public_id}
                 value={unit.public_id}
               >
-                {unit.name}
+                {unit.label}
               </option>
             ))}
           </select>

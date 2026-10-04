@@ -6,6 +6,9 @@ import PermissionGate from "@/components/permissions/PermissionGate";
 import { PERMISSIONS } from "@/permissions/permissions";
 
 import ProjectForm from "../components/ProjectForm";
+import { useTasks } from "@/features/tasks/hooks";
+import { loadTaskWorkspaceDraft } from "@/utils/taskWorkspaceStorage";
+import { formatUserFacingError } from "@/utils/errorUtils";
 
 import {
   useProject,
@@ -14,6 +17,7 @@ import {
   useArchiveProject,
   useUnarchiveProject,
   useRestoreProject,
+  useCompleteProject,
 } from "../hooks";
 
 export default function ProjectPage() {
@@ -32,6 +36,8 @@ export default function ProjectPage() {
   const archiveProject = useArchiveProject();
   const unarchiveProject = useUnarchiveProject();
   const restoreProject = useRestoreProject();
+  const completeProject = useCompleteProject();
+  const tasksQuery = useTasks(project?.public_id ?? "");
 
   const [showEditForm, setShowEditForm] = useState(false);
 
@@ -87,7 +93,9 @@ export default function ProjectPage() {
               >
                 {project.is_archived
                   ? "Archived"
-                  : "Active"}
+                  : project.is_completed
+                    ? "Completed"
+                    : "Active"}
               </strong>
             </div>
           </header>
@@ -249,6 +257,48 @@ export default function ProjectPage() {
             </div>
 
             <div className="cybrez-project-management cybrez-card">
+
+              <PermissionGate
+                minimumRole={PERMISSIONS.manageProjects}
+              >
+                <div className="cybrez-project-management-row">
+                  <div>
+                    <h3>{project.is_completed ? "Project completed" : "Complete project"}</h3>
+                    <p>
+                      {project.is_completed
+                        ? `Workspace snapshot saved${project.completed_at ? ` on ${new Date(project.completed_at).toLocaleDateString()}` : ""}. Tasks are read-only.`
+                        : "Save this browser's local task workspaces to the database and lock the project."}
+                    </p>
+                  </div>
+                  {!project.is_completed && (
+                    <button
+                      className="cybrez-button cybrez-button-primary"
+                      disabled={completeProject.isPending || tasksQuery.isLoading || tasksQuery.isError}
+                      onClick={async () => {
+                        const confirmed = window.confirm(
+                          "Complete this project? Task workspaces saved in this browser will be archived to the database. Drafts from other browsers are not included, and tasks will become read-only."
+                        );
+                        if (!confirmed || !tasksQuery.data) return;
+
+                        await completeProject.mutateAsync({
+                          projectId: project.public_id,
+                          workspaces: tasksQuery.data.map((task) => ({
+                            task_public_id: task.public_id,
+                            blocks: loadTaskWorkspaceDraft(task.public_id) as unknown as Record<string, unknown>[],
+                          })),
+                        });
+                      }}
+                    >
+                      {completeProject.isPending ? "Saving work..." : "Complete project"}
+                    </button>
+                  )}
+                </div>
+                {completeProject.isError && (
+                  <p className="cybrez-project-action-error" role="alert">
+                    {formatUserFacingError(completeProject.error, "Project completion failed.")}
+                  </p>
+                )}
+              </PermissionGate>
 
               {/* ARCHIVE / UNARCHIVE */}
               <PermissionGate

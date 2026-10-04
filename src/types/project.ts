@@ -9,6 +9,13 @@ export interface Project {
   updated_at: string;
 
   is_archived: boolean;
+  is_completed: boolean;
+  completed_at: string | null;
+}
+
+export interface ProjectWorkspaceSnapshotEntry {
+  task_public_id: string;
+  blocks: Record<string, unknown>[];
 }
 
 export interface CreateProjectRequest {

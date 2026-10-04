@@ -25,6 +25,17 @@ export interface WorkspacePerson {
   full_name: string;
 }
 
+export interface WorkspaceActivity {
+  public_id: string;
+  organization_public_id: string;
+  user_public_id: string | null;
+  action: string;
+  target_type: string;
+  target_public_id: string | null;
+  description: string;
+  created_at: string;
+}
+
 export interface TaskWorkspace {
   task_public_id: string;
   title: string;
@@ -35,11 +46,13 @@ export interface TaskWorkspace {
   is_archived: boolean;
   project: WorkspaceProject;
   organization: WorkspaceOrganization;
+  project_completed: boolean;
+  workspace_blocks: Record<string, unknown>[] | null;
   organization_unit: WorkspaceUnit | null;
   organization_units: WorkspaceUnit[];
   assignee: WorkspacePerson | null;
   tools: Record<string, unknown>[];
-  activity: Record<string, unknown>[];
+  activity: WorkspaceActivity[];
 }
 
 export async function getTaskWorkspace(

@@ -34,6 +34,8 @@ export interface TaskWorkspace {
 
   project: WorkspaceProject;
   organization: WorkspaceOrganization;
+  project_completed: boolean;
+  workspace_blocks: Record<string, unknown>[] | null;
 
   organization_unit: WorkspaceUnit | null;
   organization_units: WorkspaceUnit[];

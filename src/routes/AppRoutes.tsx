@@ -15,6 +15,8 @@ import { LoginPage, RegisterPage } from "@/features/auth/pages";
 import DashboardPage from "@/features/dashboard/pages/DashboardPage";
 
 import DirectoryPage from "@/features/directory/pages/DirectoryPage";
+import ServiceDetailPage from "@/features/directory/pages/ServiceDetailPage";
+import DirectoryOrganizationPage from "@/features/directory/pages/DirectoryOrganizationPage";
 import SearchPage from "@/features/search/pages/SearchPage";
 import ProfilePage from "@/features/profile/pages/ProfilePage";
 
@@ -32,6 +34,9 @@ import MembershipsPage from "@/features/memberships/pages/MembershipsPage";
 import ActivityLogPage from "@/features/activity-log/pages/ActivityLogPage";
 import { CommentsPage, CommentPage } from "@/features/comments/pages";
 import NotificationsPage from "@/features/notifications/pages";
+import PersonasPage from "@/features/personas/pages/PersonasPage";
+import MyServicesPage from "@/features/services/pages/MyServicesPage";
+import MessagesPage from "@/features/messages/pages/MessagesPage";
 
 export default function AppRoutes() {
   return (
@@ -83,6 +88,36 @@ export default function AppRoutes() {
             </AppShell>
           </ProtectedRoute>
         }
+      />
+
+      <Route
+        path="/directory/services/:serviceId"
+        element={<ProtectedRoute><AppShell><ServiceDetailPage /></AppShell></ProtectedRoute>}
+      />
+
+      <Route
+        path="/directory/organizations/:organizationId"
+        element={<ProtectedRoute><AppShell><DirectoryOrganizationPage /></AppShell></ProtectedRoute>}
+      />
+
+      <Route
+        path="/personas"
+        element={<ProtectedRoute><AppShell><PersonasPage /></AppShell></ProtectedRoute>}
+      />
+
+      <Route
+        path="/services"
+        element={<ProtectedRoute><AppShell><MyServicesPage /></AppShell></ProtectedRoute>}
+      />
+
+      <Route
+        path="/messages"
+        element={<ProtectedRoute><AppShell><MessagesPage /></AppShell></ProtectedRoute>}
+      />
+
+      <Route
+        path="/messages/:conversationId"
+        element={<ProtectedRoute><AppShell><MessagesPage /></AppShell></ProtectedRoute>}
       />
 
       <Route

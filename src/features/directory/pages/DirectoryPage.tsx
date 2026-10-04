@@ -1,77 +1,38 @@
 import { useQuery } from "@tanstack/react-query";
+import { Link } from "react-router-dom";
 
 import { getDirectory } from "../api/directoryApi";
-import type { DirectoryPerson } from "../types/directory";
+import type { DirectoryListing, DirectoryService } from "../types/directory";
 
-function PersonCard({
-  person,
+function ServiceCard({
+  service,
 }: {
-  person: DirectoryPerson;
+  service: DirectoryService;
 }) {
-  const initial = person.full_name.charAt(0).toUpperCase();
+  const initial = service.provider_name.charAt(0).toUpperCase();
 
   return (
-    <article className="cybrez-organization-card cybrez-card">
-      <div className="cybrez-organization-card-header">
+    <Link
+      to={`/directory/services/${service.public_id}`}
+      className="cybrez-directory-service-card cybrez-card"
+    >
+      <div className="cybrez-directory-service-topline">
+        <span className="cybrez-badge">{service.category}</span>
+        <span>{service.rate_description || "Contact for rates"}</span>
+      </div>
+      <div className="cybrez-directory-service-provider">
         <div className="cybrez-organization-card-icon">
           {initial}
         </div>
-
-        
-
         <div>
-          <h3>{person.full_name}</h3>
-
-          <span className="cybrez-badge">
-            Person
-          </span>
+          <strong>{service.provider_name}</strong>
+          <small>{service.provider_type}</small>
         </div>
       </div>
-
-      <div className="cybrez-organization-card-description">
-        {person.organizations.length > 0 ? (
-          <>
-            <strong>Organizations</strong>
-
-            <div style={{ marginTop: "0.5rem" }}>
-              {person.organizations.map((organization) => (
-                <div
-                  key={organization.public_id}
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    gap: "1rem",
-                    marginBottom: "0.35rem",
-                  }}
-                >
-                  {/* <span>{organization.name}</span> */}
-
-                  {/* <span
-                    style={{
-                      color: "var(--color-text-secondary)",
-                      fontSize: "var(--font-size-sm)",
-                    }}
-                  >
-                    {organization.role}
-                  </span> */}
-                </div>
-              ))}
-            </div>
-          </>
-        ) : (
-          "No organization information available."
-        )}
-      </div>
-
-      <div className="cybrez-organization-card-actions">
-        <button
-          type="button"
-          className="cybrez-button cybrez-button-primary"
-        >
-          View profile
-        </button>
-      </div>
-    </article>
+      <h3>{service.title}</h3>
+      <p>{service.summary}</p>
+      <span className="cybrez-directory-card-link">View service details →</span>
+    </Link>
   );
 }
 
@@ -108,7 +69,9 @@ export default function DirectoryPage() {
     );
   }
 
-  const people = data ?? [];
+  const listing = data as DirectoryListing | undefined;
+  const services = listing?.services ?? [];
+  const organizations = listing?.organizations ?? [];
 
   return (
     <div className="cybrez-page">
@@ -116,59 +79,77 @@ export default function DirectoryPage() {
         <header className="cybrez-page-header">
           <div>
             <span className="cybrez-badge">
-              People
+              Marketplace
             </span>
 
             <h1>Directory</h1>
 
             <p>
-              Find people and understand where they
-              work across CYBREZ.
+              Find useful services from people and organizations across CYBREZ.
             </p>
           </div>
 
           <div className="cybrez-page-header-stat">
-            <span>Total people</span>
-
-            <strong>{people.length}</strong>
+            <span>Published services</span>
+            <strong>{services.length}</strong>
           </div>
         </header>
 
         <section className="cybrez-organizations-section">
           <div className="cybrez-section-header">
             <div>
-              <h2>People</h2>
-
-              <p>
-                People connected to organizations you
-                can work with.
-              </p>
+              <h2>Services</h2>
+              <p>Explore published offers and contact providers directly.</p>
             </div>
           </div>
 
-          {people.length > 0 ? (
+          {services.length > 0 ? (
             <div className="cybrez-organizations-grid">
-              {people.map((person) => (
-                <PersonCard
-                  key={person.public_id}
-                  person={person}
+              {services.map((service) => (
+                <ServiceCard
+                  key={service.public_id}
+                  service={service}
                 />
               ))}
             </div>
           ) : (
             <div className="cybrez-empty-state cybrez-card">
               <div className="cybrez-empty-state-icon">
-                P
+                S
               </div>
 
-              <h3>No people yet</h3>
+              <h3>No published services yet</h3>
 
               <p>
-                People connected to organizations will
-                appear here.
+                Published services will appear here. You can create an offer from My Services.
               </p>
             </div>
           )}
+        </section>
+
+        <section className="cybrez-organizations-section">
+          <div className="cybrez-section-header">
+            <div>
+              <h2>Organizations</h2>
+              <p>Organizations that chose to appear in the directory.</p>
+            </div>
+          </div>
+          {organizations.length ? (
+            <div className="cybrez-organizations-grid">
+              {organizations.map((organization) => (
+                <Link
+                  key={organization.public_id}
+                  className="cybrez-directory-organization-card cybrez-card"
+                  to={`/directory/organizations/${organization.public_id}`}
+                >
+                  <span className="cybrez-badge">Organization</span>
+                  <h3>{organization.name}</h3>
+                  <p>{organization.description || "No description provided."}</p>
+                  <span className="cybrez-directory-card-link">View profile →</span>
+                </Link>
+              ))}
+            </div>
+          ) : <p className="cybrez-directory-muted">No organizations have opted into the directory yet.</p>}
         </section>
       </div>
     </div>

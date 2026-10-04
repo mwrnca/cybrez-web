@@ -131,6 +131,21 @@ const ENDPOINTS = {
     list: "/directory",
   },
 
+  services: {
+    list: "/services",
+    mine: "/services/me",
+    detail: (id: string) => `/services/${id}`,
+    create: "/services",
+    update: (id: string) => `/services/${id}`,
+    delete: (id: string) => `/services/${id}`,
+  },
+
+  messages: {
+    conversations: "/messages/conversations",
+    detail: (id: string) => `/messages/conversations/${id}`,
+    messages: (id: string) => `/messages/conversations/${id}/messages`,
+  },
+
   search: {
     query: "/search/",
   },

@@ -20,11 +20,20 @@ export default function OrganizationForm({
 }: Props) {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
+  const [logoUrl, setLogoUrl] = useState("");
+  const [directoryVisible, setDirectoryVisible] = useState(false);
 
   useEffect(() => {
     if (initialData) {
       setName(initialData.name);
       setDescription(initialData.description ?? "");
+      setLogoUrl(initialData.logo_url ?? "");
+      setDirectoryVisible(initialData.is_directory_visible);
+    } else {
+      setName("");
+      setDescription("");
+      setLogoUrl("");
+      setDirectoryVisible(false);
     }
   }, [initialData]);
 
@@ -34,11 +43,15 @@ export default function OrganizationForm({
     await onSubmit({
       name,
       description,
+      logo_url: logoUrl || null,
+      is_directory_visible: directoryVisible,
     });
 
     if (!initialData) {
       setName("");
       setDescription("");
+      setLogoUrl("");
+      setDirectoryVisible(false);
     }
   }
 
@@ -68,6 +81,32 @@ export default function OrganizationForm({
             : "Create a workspace for your team."}
         </p>
       </div>
+
+      <div>
+        <label
+          htmlFor="organization-logo-url"
+          style={{ display: "block", marginBottom: "0.4rem", fontWeight: 600 }}
+        >
+          Logo URL
+        </label>
+        <input
+          id="organization-logo-url"
+          className="cybrez-input"
+          type="url"
+          placeholder="https://example.com/logo.png"
+          value={logoUrl}
+          onChange={(event) => setLogoUrl(event.target.value)}
+        />
+      </div>
+
+      <label className="cybrez-organization-directory-toggle">
+        <input
+          type="checkbox"
+          checked={directoryVisible}
+          onChange={(event) => setDirectoryVisible(event.target.checked)}
+        />
+        <span>Show organization profile in the directory</span>
+      </label>
 
       <div>
         <label

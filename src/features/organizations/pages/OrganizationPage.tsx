@@ -1,15 +1,23 @@
 import { useEffect } from "react";
+import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import PageState from "@/components/PageState";
 import { useOrganization } from "@/hooks/useOrganization";
 
 import { getOrganization } from "../api/organizationsApi";
+import { updateOrganization } from "../api/organizationsApi";
+import OrganizationForm from "../components/OrganizationForm";
+import { useAuth } from "@/contexts/useAuth";
+import type { UpdateOrganizationRequest } from "@/types/organization";
 
 export default function OrganizationPage() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const { user } = useAuth();
+  const [editingProfile, setEditingProfile] = useState(false);
 
   const { setOrganization } = useOrganization();
 
@@ -23,6 +31,17 @@ export default function OrganizationPage() {
     queryFn: () => getOrganization(id!),
     enabled: !!id,
   });
+
+  const updateMutation = useMutation({
+    mutationFn: (data: UpdateOrganizationRequest) =>
+      updateOrganization(id!, data),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ["organization", id] });
+      setEditingProfile(false);
+    },
+  });
+
+  const isOwner = organization?.owner_id === user?.public_id;
 
   useEffect(() => {
     if (organization) {
@@ -94,6 +113,38 @@ export default function OrganizationPage() {
             </p>
           </div>
         </section>
+
+        {isOwner && (
+          <section className="cybrez-organization-profile-settings">
+            <div className="cybrez-section-header">
+              <div>
+                <h2>Public appearance</h2>
+                <p>{organization?.is_directory_visible ? "Listed in the organization directory." : "Hidden from the organization directory."}</p>
+              </div>
+              <button
+                type="button"
+                className="cybrez-button cybrez-button-secondary"
+                onClick={() => setEditingProfile((current) => !current)}
+              >
+                {editingProfile ? "Close" : "Edit profile"}
+              </button>
+            </div>
+            {editingProfile && organization && (
+              <OrganizationForm
+                initialData={organization}
+                loading={updateMutation.isPending}
+                onSubmit={async (data) => {
+                  await updateMutation.mutateAsync(data);
+                }}
+              />
+            )}
+            {updateMutation.isError && (
+              <p className="cybrez-service-error" role="alert">
+                Unable to update organization profile.
+              </p>
+            )}
+          </section>
+        )}
 
         {/* ORGANIZATION MANAGEMENT */}
 

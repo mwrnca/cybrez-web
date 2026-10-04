@@ -168,6 +168,10 @@ export default function Sidebar() {
           icon="users"
         />
 
+        <NavItem to="/services" label="My services" icon="briefcase" />
+        <NavItem to="/messages" label="Messages" icon="mail" />
+        <NavItem to="/personas" label="Public identity" icon="users" />
+
         <NavItem
           to={ROUTES.ORGANIZATIONS}
           label="Organizations"

@@ -30,6 +30,8 @@ const ENDPOINTS = {
   },
 
   tasks: {
+    me: () => "/tasks/me",
+    
     list: (projectId: string) =>
       `/projects/${projectId}/tasks`,
     create: (projectId: string) =>

@@ -87,3 +87,11 @@ export async function getTaskWorkspace(taskId: string) {
 
   return response.data;
 }
+
+export async function getMyTasks() {
+  const response = await api.get<Task[]>(
+    ENDPOINTS.tasks.me()
+  );
+
+  return response.data;
+}

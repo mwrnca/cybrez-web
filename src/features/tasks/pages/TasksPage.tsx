@@ -19,6 +19,7 @@ import { PERMISSIONS } from "@/permissions/permissions";
 export default function TasksPage() {
   const { projectId } = useParams();
   const navigate = useNavigate();
+  
 
   const [showCreate, setShowCreate] =
     useState(false);
@@ -52,6 +53,7 @@ export default function TasksPage() {
     );
   }
 
+  
   if (isError) {
     return (
       <div className="cybrez-page">
